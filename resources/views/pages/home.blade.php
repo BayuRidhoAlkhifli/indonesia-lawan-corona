@@ -46,7 +46,7 @@
                                     <div class="card-body">
                                         <div class="call-center-header">
                                             <span id="call_center_name" class="d-block main-title">{{ $data[0]->call_center_name}}</span>
-                                            <span class="d-block sub-title">Nomor Darurat</span>
+                                            <span class="d-block sub-title">Nomor Darurat ah</span>
                                         </div>
                                         <div class="call-center-body">
                                             <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
