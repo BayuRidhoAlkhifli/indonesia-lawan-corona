@@ -8,18 +8,32 @@
 @endphp
 
     <div class="" style="">
+        <picture>
+            <source media="(max-width:375px)" srcset="{{ asset ('assets/img/wave_white_375.svg') }}">
+            <source media="(min-width: 425px)" srcset="{{ asset ('assets/img/wave_white_425.svg') }}">
+            <img src="{{ asset('assets/img/wave_white_425.svg') }}" class="bg-top" alt="">
+        </picture>
         <section class="section-top-content">
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
                 <div class="row content">
-                    <div class="col-8 p-0">
+                    <div class="col-lg-8 col-sm-12 col- p-0 mt-15">
                         <div id="carouselExampleIndicators" class="carousel slide" style="width:100%; height:auto;" data-ride="carousel">
 
                             <div class="carousel-inner corousel-lg">
                                 <div class="carousel-item active">
-                                <img class="d-block w-100" src="{{ asset ('assets/img/test_masif.svg') }}" alt="First slide">
+                                    <picture>
+                                        <source media="(max-width: 988px)" srcset="{{ asset ('assets/img/test_masif-hd.svg') }}">
+                                        <source media="(min-width: 1024px)" srcset="{{ asset ('assets/img/test_masif.svg') }}">
+                                        <img class="d-block w-100" src="{{ asset ('assets/img/test_masif.svg') }}" alt="First slide">
+                                    </picture>
+                                
                                 </div>
                                 <div class="carousel-item">
-                                <img class="d-block w-100" src="{{ asset ('assets/img/relawan.svg') }}" alt="Second slide">
+                                    <picture>
+                                        <source media="(max-width: 988px)" srcset="{{ asset ('assets/img/relawan-hd.svg') }}">
+                                        <source media="(min-width: 1024px)" srcset="{{ asset ('assets/img/relawan.svg') }}">
+                                        <img class="d-block w-100" src="{{ asset ('assets/img/relawan.svg') }}" alt="Second slide">
+                                    </picture>
                                 </div>
                             </div>
 
@@ -39,10 +53,10 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-4 call-content">
-                        <div class="row h-100 row-gap">
-                            <div class="col-12">
-                                <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer">
+                    <div class="col-lg-4 col-sm-12 call-content mt-15">
+                        <div class="row h-100 grid-container">
+                            <div class="col-lg-12 card-pr-15">
+                                <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                     <div class="card-body">
                                         <div class="call-center-header">
                                             <span id="call_center_name" class="d-block main-title">{{ $data[0]->call_center_name}}</span>
@@ -55,8 +69,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer">
+                            <div class="col-lg-12 card-pl-15">
+                                <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                     <div class="card-body">
                                         <div class="call-center-header">
                                             <span id="hotline_name"  class="d-block main-title">{{ $data[0]->hotline_name}}</span>
@@ -76,20 +90,19 @@
 
             <!-- END PLACE PAGE CONTENT HERE -->
         </section>
-
-        <section style="padding-top: 60px; padding-bottom:65px;">
+        <section class="padding-x-section padding-y-section" style="padding-top: 60px; padding-bottom:65px;">
             <div class="row content">
                 <div class="col-12 p-0">
                     <h4>
                         <b>Data Pantauan</b>
                     </h4>
                     <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                        Update Terakhir: Minggu, 12 Apr 2020 15.13
+                        Update Terakhir: Minggu, 17 Mei 2020 15.13
                     </label>
                 </div>
                 <div class="col-12 p-0">
                     {{-- @dump($newData, $data) --}}
-                    <div class="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode" style="margin-top:30px;padding:0px 10px;">
+                    <div class="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode mt-30" style="padding:0px 10px;">
                         <div class="swiper-wrapper">
                             @php
                                 $val = 0;
@@ -97,9 +110,9 @@
 
                             @foreach ($data as $key)
                                 {{-- @dump($data[$val]->name) --}}
-                                <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 30px;">
+                                <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
                                     <div class="card card-location">
-                                        <div class="card-body card-body-data text-center provinceSelector">{{ $data[$val]->name }}</div>
+                                        <div class="card-province text-center provinceSelector">{{ $data[$val]->name }}</div>
                                     </div>
                                 </div>
                                 @php
@@ -116,39 +129,42 @@
                     </div>
 
                 </div>
-                <div class="col-4 p-0">
+                <div class="col-md-4 p-0">
                     <div class="card card-data card-data-left animation-element slide-bottom">
                         <div class="card-body-data wrap">
-                            <div class="call-center-header w-auto">
+                            <div class="w-auto">
                                 <img src="{{ asset('assets/img/terkonfirmasi.svg') }}" class="number-call-icon" width="auto" height="30" alt="">
                             </div>
                             <div class=" whitespace-data-left mt-0">
+                                <img src="{{ asset('assets/img/terkonfirmasi.svg') }}" class="icon-sm" width="auto" height="30" alt="">
                                 <span class="d-block main-title-md" >TERKONFIRMASI</span>
                                 <span id="txt_konfirm" class="color-orange data-angka count">0858 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 p-0">
+                <div class="col-md-4 p-0">
                     <div class="card card-data card-data-middle animation-element slide-bottom-dly-135s">
                         <div class="card-body-data wrap">
-                            <div class="call-center-header w-auto">
+                            <div class="w-auto">
                                 <img src="{{ asset('assets/img/meninggal.svg') }}" class="number-call-icon" width="auto" height="30" alt="">
                             </div>
                             <div class=" whitespace-data-left mt-0">
+                                <img src="{{ asset('assets/img/meninggal.svg') }}" class="icon-sm" width="auto" height="30" alt="">
                                 <span class="d-block main-title-md" >MENINGGAL</span>
                                 <span id="txt_meninggal" class="color-purple data-angka count">0858 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 p-0">
+                <div class="col-md-4 p-0">
                     <div class="card card-data card-data-right animation-element slide-bottom-dly-145s">
                         <div class="card-body-data wrap">
-                            <div class="call-center-header w-auto">
+                            <div class="w-auto">
                                 <img src="{{ asset('assets/img/sembuh.svg') }}" class="number-call-icon" width="auto" height="30" alt="">
                             </div>
                             <div class=" whitespace-data-left mt-0">
+                                <img src="{{ asset('assets/img/sembuh.svg') }}" class="icon-sm" width="auto" height="30" alt="">
                                 <span class="d-block main-title-md" >SEMBUH</span>
                                 <span id="txt_sembuh" class="color-green data-angka count">0858 </span>
                             </div>
@@ -165,22 +181,22 @@
     </div>
 
     <section class="section-whitespace">
-        <div class="row content">
-            <div class="col-6 p-0">
+        <div class="row content py-30">
+            <div class="col-lg-6 col-sm-12 p-0">
                 <h2>
                     <b>Resiko dari COVID-19</b>
                 </h2>
-                <p class="sub-color sub-text" style="margin-top: 30px; margin-right:50px;">
+                <p class="sub-color sub-text mt-30 mr-50">
                     COVID-19 merupakan penyakit yang disebabkan Novel Coronavirus 2019.
                     Meski bergejala mirip dengan flu biasa, COVID-19 sampai saat ini memiliki fatalitas lebih tinggi.
                     Virus ini juga menyebar dengan sangat cepat karena bisa pindah dari orang ke orang bahkan sebelum orang tersebut menunjukkan gejala.
                     Penting bagi Anda untuk menilai kondisi secara mandiri. Anda bergejala?
                 </p>
-                <a href="https://covid19.prixa.ai" class="btn btn-outline-purple animation-element fade-in" style="margin-top: 55px;" role="button" target="_blank">
+                <a href="https://covid19.prixa.ai" class="btn btn-outline-purple animation-element fade-in" role="button" target="_blank">
                     Periksa Mandiri
                 </a>
             </div>
-            <div id="scene" class="col-6 p-0">
+            <div id="scene" class="col-lg-6 col-sm-12 p-0">
                 {{-- <div>
                     <img src="{{ asset('assets/img/computer_man.svg') }}" style="position:absolute;right:0" class="float-right" width="auto" height="auto" alt="">
                 </div> --}}
@@ -227,32 +243,34 @@
 
     <section class="section-whitespace" style="padding-top:130px;">
         <div class="section-middle">
-            <img src="{{ asset('assets/img/virus.svg') }}" class="virus-floating position-relative virus-sm" width="auto" height="auto" alt="">
-            <img src="{{ asset('assets/img/virus.svg') }}" class="virus-floating-slow position-relative virus-md" width="auto" height="350px" alt="">
+            <div class="w-100 position-relative">
+                <img src="{{ asset('assets/img/virus.svg') }}" class="virus-floating position-absolute virus-sm" width="auto" height="auto" alt="">
+                <img src="{{ asset('assets/img/virus.svg') }}" class="virus-floating-slow position-absolute virus-md" width="auto" height="350px" alt="">
+            </div>
         </div>
-        <div class="row content">
+        <div class="row content py-30">
             <div class="col-12 p-0" style="margin-bottom:40px;">
                 <h2 class="text-center">
                     <b>Yang harus kamu ketahui</b>
                 </h2>
             </div>
-            <div class="col-6 p-0 wrap">
+            <div class="col-lg-6 col-sm-12 p-0 wrap">
                 <div class="animation-element fade-in">
                     <h4>
                         <b>Apa Itu COVID-19?</b>
                     </h4>
-                    <p class="sub-color sub-text" style=" margin-top: 30px; margin-right: 50px;">
+                    <p class="sub-color sub-text mt-30 mr-50">
                         Coronavirus Disease 2019 atau COVID-19 adalah penyakit baru yang dapat menyebabkan gangguan pernapasan dan radang paru.
                         Penyakit ini disebabkan oleh infeksi Severe Acute Respiratory Syndrome Coronavirus 2 (SARS-CoV-2).
                         Gejala klinis yang muncul beragam, mulai dari seperti gejala flu biasa (batuk, pilek, nyeri tenggorok,
                         nyeri otot, nyeri kepala) sampai yang berkomplikasi berat (pneumonia atau sepsis).
                     </p>
                 </div>
-                <div class="animation-element fade-in" style="margin-top:30px;">
+                <div class="animation-element fade-in mt-30">
                     <h4>
                         <b>Penularan</b>
                     </h4>
-                    <p class="sub-color sub-text" style=" margin-top: 30px; margin-right: 50px;">
+                    <p class="sub-color sub-text mt-30 mr-50">
                         Seseorang dapat terinfeksi dari penderita COVID-19.
                         Penyakit ini dapat menyebar melalui tetesan kecil (droplet) dari hidung atau mulut pada saat batuk atau bersin.
                         Droplet tersebut kemudian jatuh pada benda di sekitarnya.
@@ -262,14 +280,14 @@
                     </p>
                 </div>
             </div>
-            <div class="col-6 p-0 border-left">
+            <div class="col-lg-6 col-sm-12 p-0 border-left">
                 {{-- <img src="{{ asset('assets/img/corona_virus.svg') }}" class="float-left" width="auto" height="auto" alt=""> --}}
                 {{-- <div class="d-flex justify-content-center"> --}}
-                    <h4 style="margin-left:50px;">
+                    <h4 class="ml-50">
                         <b>Gejala</b>
                     </h4>
                 {{-- </div> --}}
-                <div style="margin-left:50px;">
+                <div class="ml-50 card-gjl grid-gjl">
                     <div class="card card-gejala">
                         <img  class="card-img-top" src="{{ asset('assets/img/batuk.svg') }}" width="auto" height="120px" alt="">
                         <div class="card-body-gejala my-auto text-center">
@@ -279,7 +297,7 @@
                     <div class="card card-gejala">
                         <img  class="card-img-top" src="{{ asset('assets/img/demam.svg') }}" width="auto" height="120px" alt="">
                         <div class="card-body-gejala my-auto text-center">
-                            <span class="sub-text">Demam suhu tinggi / Ada riwayat demam</span>
+                            <span class="sub-text">Demam suhu tinggi</span>
                         </div>
                     </div>
                     <div class="card card-gejala">
@@ -309,8 +327,8 @@
                     <b>Hal yang Harus Kamu Lakukan</b>
                 </h4>
                 <div class="row d-flex justify-content-center"">
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-left">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-1">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/dirumahaja.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -320,8 +338,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-middle">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-2">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/higiene.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -331,8 +349,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-right">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-3">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/etikabersin.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -342,8 +360,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-middle">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-4">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/masker.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -353,8 +371,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-middle">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-5">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/hidupsehat.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -366,13 +384,13 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 p-0 text-center" style="margin-top:30px;">
+            <div class="col-12 p-0 text-center mt-30">
                 <h4>
                     <b>Hal yang Gak Boleh Kamu Lakukan</b>
                 </h4>
-                <div class="row d-flex justify-content-center"">
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-left">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-1">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/keluarrumah.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -382,8 +400,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-middle">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-2">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/ramai.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -393,8 +411,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 p-0">
-                        <div class="card-no-shadow card-data-right">
+                    <div class="col-lg-4 col-md-6 p-0">
+                        <div class="card-no-shadow step-item-3">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/sentuhwajah.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -454,6 +472,24 @@
                 nextEl: '.swiper-button-next',
                 prevEl: '.swiper-button-prev',
             },
+            breakpoints: {
+                320:{
+                    slidesPerView: 1.9,
+                    spaceBetween: 15,
+                },
+                375: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 15,
+                },
+                768: {
+                    slidesPerView: 3,
+                    spaceBetween: 30,
+                },
+                1024: {
+                    slidesPerView: 4,
+                    spaceBetween: 30,
+                },
+            }
         });
 
 
@@ -533,9 +569,29 @@
                 summaryCorona = (tempSummary)
                 dataCorona = (tempArray)
 
+                // console.log(dataCorona);
+                
+
                 $.each($('.provinceSelector'), (k, v) => {
-                    if($(v).html() == "Indonesia"){
+                    vHtml = $(v).html();
+                    
+                    if(vHtml == "Indonesia"){
                         $(v).parent().addClass('card-location-active');
+                    }
+
+                    $(v).data("real", vHtml);
+                    if(vHtml == "Kepulauan Bangka Belitung"){
+                        $(v).data("real", "Kepulauan Bangka Belitung");
+                        $(v).html("Bangka Belitung");
+                    }else if(vHtml == "Daerah Istimewa Yogyakarta"){
+                        $(v).data("real", "Daerah Istimewa Yogyakarta");
+                        $(v).html("DI Yogyakarta");
+                    }else if(vHtml == "Nusa Tenggara Barat"){
+                        $(v).data("real", "Nusa Tenggara Barat");
+                        $(v).html("NTB");
+                    }else if(vHtml == "Nusa Tenggara Timur"){
+                        $(v).data("real", "Nusa Tenggara Timur");
+                        $(v).html("NTT");
                     }
                 });
 
@@ -548,37 +604,53 @@
         }
 
         $('.provinceSelector').click((e) => {
-
+            var arrayKey = $(e.target).data("real");
+            
             $('.card-location').removeClass('card-location-active');
             $(e.target.parentElement).addClass('card-location-active');
 
-            var finalResut = dataCorona[e.target.innerText];
+            var finalResult = dataCorona[arrayKey];
 
-            if(e.target.innerText == 'Indonesia'){
-                finalResut = summaryCorona;
+            if(arrayKey == 'Indonesia'){
+                finalResult = summaryCorona;
             }
 
-            console.log(e.target.innerText);
-
-
-            $("#call_center_nam").html(provinceData[e.target.innerText].call_center_name);
-            $("#hotline_name").html(provinceData[e.target.innerText].hotline_name);
-            $("#call_center_number").html(provinceData[e.target.innerText].call_center_number.replace(/\-/g, ' '));
-            $("#hot_line_number").html(provinceData[e.target.innerText].hotline_number.replace(/\-/g, ' '));
-            $("#card_call_center").attr(provinceData[e.target.innerText].call_center_number);
-            // alert($("#card_hotline").attr("href",provinceData[e.target.innerText].call_center_number))
-            $("#txt_konfirm").text(finalResut.kasusPosi);
-            $("#txt_meninggal").text(finalResut.kasusMeni);
-            $("#txt_sembuh").text(finalResut.kasusSemb);
+            $("#call_center_nam").html(provinceData[arrayKey].call_center_name);
+            $("#hotline_name").html(provinceData[arrayKey].hotline_name);
+            $("#call_center_number").html(provinceData[arrayKey].call_center_number.replace(/\-/g, ' '));
+            $("#hot_line_number").html(provinceData[arrayKey].hotline_number.replace(/\-/g, ' '));
+            $("#card_call_center").attr(provinceData[arrayKey].call_center_number);
+            // alert($("#card_hotline").attr("href",provinceData[arrayKey].call_center_number))
+            $("#txt_konfirm").text(finalResult.kasusPosi);
+            $("#txt_meninggal").text(finalResult.kasusMeni);
+            $("#txt_sembuh").text(finalResult.kasusSemb);
 
             counterAnimation();
         });
 
         $('#card_call_center').click((e) => {
-            console.log($('#call_center_number').text());
-
-            document.location.href = 'tel:'+$('call_center_number').text
+            document.location.href = 'tel:'+provinceData[$('.card-location-active').children().html()].call_center_number;
         });
+
+        $('#card_hotline').click((e) => {
+            document.location.href = 'tel:'+provinceData[$('.card-location-active').children().html()].hotline_number;
+        });
+
+        $('.card-call').popover({
+            trigger: 'hover'
+        })
+
+        // $(window).resize(function(){
+        //     if ($(window).width() < 450) {
+        //         $('.bg-top').removeClass('d-none');
+        //         alert('test');
+        //     } else {
+        //         $('.bg-top').addClass('d-none');
+        //         $('.card-gjl').addClass('grid_gjl')
+        //         alert('testa');
+        //     }
+        // });
+            
 
         function counterAnimation() {
             $('.count').each(function () {

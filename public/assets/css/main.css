@@ -43,7 +43,6 @@ nav .nav-link:hover {
     white-space: nowrap;
     width: 0%;
     overflow: hidden;
-    overflow: hidden;
     position: absolute;
     transition: .4s;
     transform: translateX(-50%);
@@ -58,6 +57,10 @@ nav .nav-link:hover {
 .nav-link {
     /* display: block; */
     padding: 1.5rem 1rem;
+}
+
+.ml-50 {
+    margin-left: 50px;
 }
 
 .link-purple{
@@ -79,6 +82,10 @@ nav .nav-link:hover {
     margin: 15px 0 0 0;
     position: inherit;
     justify-content: flex-start;
+}
+
+.bg-top {
+    display: none;
 }
 
 .carousel-indicators li{
@@ -110,16 +117,30 @@ nav .nav-link:hover {
     z-index:25;
 }
 
-.contact-top{
-    display: none;
-}
-
 .back-to-top {
     position: fixed;
     bottom: 25px;
     right: 25px;
     animation: menu_sticky 0.7s ease-in-out;
     display: none;
+}
+
+.step-item-1 {
+    padding-right:15px;
+}
+
+.step-item-2 {
+    padding-left:15px;
+    padding-right:15px;
+}
+.step-item-3 {
+    padding-left:15px;
+}
+.step-item-4 {
+    padding-right: 15px;
+}
+.step-item-5 {
+    padding-left: 15px;
 }
 
 .wrap{
@@ -155,6 +176,7 @@ nav .nav-link:hover {
     border-radius: 20px;
 }
 
+
 .main-title{
     font-size: 16px;
     font-weight: bold;
@@ -168,9 +190,21 @@ nav .nav-link:hover {
     font-weight: 700;
 }
 
+.mt-30 {
+    margin-top: 30px;
+}
+
+.mr-50 {
+    margin-right: 50px;
+}
+
 .data-angka{
     font-size: 48px;
     font-weight: 600;
+}
+
+.row {
+    margin: 0px;
 }
 
 .card-no-shadow{
@@ -193,9 +227,8 @@ nav .nav-link:hover {
 
 }
 
-.row-gap {
-    display: grid;
-    grid-row-gap: 30px;
+.icon-sm {
+    display: none;
 }
 
 .border-orange {
@@ -239,6 +272,7 @@ nav .nav-link:hover {
     padding:12px 18px;
     background-color: transparent;
     border: 1.5px solid #7350A2;
+    margin-top: 55px;
 }
 
 .btn-outline-purple:hover {
@@ -320,7 +354,20 @@ nav .nav-link:hover {
     width: 100%;
     height: 200px;
     margin-top: 30px;
-    margin-bottom: 40px;
+}
+
+.card-province {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.card-pr-15 {
+    padding: 0px;
+}
+
+.card-pl-15 {
+    padding: 0px;
 }
 
 .color-green {
@@ -349,7 +396,7 @@ nav .nav-link:hover {
 }
 
 .section-middle {
-    background: url("http://localhost/corona/public/assets/img/wave_grey.svg") no-repeat center;
+    background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_grey.svg") no-repeat center;
     background-size: cover;
     height: 1250px;
     position: absolute;
@@ -363,6 +410,10 @@ nav .nav-link:hover {
     padding-bottom: 109px;
 }
 
+.h2 {
+    font-size: 1.6rem;
+}
+
 .sub-color {
     color: #787878;
 }
@@ -373,7 +424,7 @@ nav .nav-link:hover {
 }
 
 .sub-title {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 
@@ -551,7 +602,7 @@ nav .nav-link:hover {
 
     .section-top-content {
         padding-top: 80px;
-        background:url("http://localhost/corona/public/assets/img/wave_white.svg") no-repeat center;
+        background:url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white.svg") no-repeat center;
         background-size:cover;
         height: 650px;
     }
@@ -560,14 +611,30 @@ nav .nav-link:hover {
         margin-top: 11%;
     }
 
+    .card-province {
+        padding:16px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-row-gap: 30px;
+        grid-template-columns: auto;
+    }
+
+    .grid-gjl {
+        display: grid;
+        grid-row-gap: 0px;
+        grid-template-columns: auto;
+    }
+
     .virus-sm {
         top:30px;
-        left:250px;
+        left:15%;
     }
 
     .virus-md {
         top:300px;
-        left:70%;
+        right:5%;
     }
 
 }
@@ -584,7 +651,7 @@ nav .nav-link:hover {
 
     .section-top-content {
         padding-top: 60px;
-        background:url("http://localhost/corona/public/assets/img/wave_white.svg") no-repeat center;
+        background:url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white.svg") no-repeat center;
         background-size:cover;
         height: 600px;
     }
@@ -598,44 +665,45 @@ nav .nav-link:hover {
         margin-top:11%;
     }
 
+    .card-province {
+        padding: 16px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-row-gap: 30px;
+        grid-template-columns: auto;
+    }
+
+    .grid-gjl {
+        display: grid;
+        grid-row-gap: 0px;
+        grid-template-columns: auto;
+    }
+
     .number-call-icon {
         width: auto;
         height: auto;
     }
 
-    .corousel-hd {
-        display: none;
+    .section-middle {
+        top: 1715px;
     }
 
     .virus-sm {
         top: 280px;
-        left: 80px;
+        left: 5%;
     }
 
     .virus-md {
-        top: 30px;
-        left: 850px;
+        top: 200px;
+        right: 2%;
     }
 
 
 }
 
-@media (min-width: 1280px) and (max-width: 1280px) {
-    .virus-sm {
-        top: 430px;
-        left: 300px;
-        height: 100px;
-        opacity: .5;
-    }
-
-    .virus-md {
-        top: 100px;
-        left: 800px;
-        height: 300px;
-    }
-}
-
-@media (min-width: 1024px) and (max-width: 1349px) {
+@media (min-width: 991px) and (max-width: 1349px) {
     .content {
         max-width: 1000px;
         margin-left: auto;
@@ -647,27 +715,31 @@ nav .nav-link:hover {
     .section-top-content {
         padding-top: 60px;
         background-size: cover;
-        background:url("http://localhost/corona/public/assets/img/wave_white_md.svg") no-repeat center;
+        background:url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white_md.svg") no-repeat center;
         height: 555px;
     }
 
     .call-center-body {
-        margin-top: 17%;
+        margin-top: 14%;
         font-size: 23px;
     }
 
     .card {
         border: 0;
         border-radius: 15px;
-        box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0px 6px 10px rgba(0, 0, 0, .05);
     }
 
     .card-body {
         padding: 26px;
     }
 
+    .card-province {
+        padding: 16px;
+    }
+
     .main-title {
-        font-size: 14px;
+        font-size: 16px;
     }
 
     .section-middle {
@@ -676,7 +748,19 @@ nav .nav-link:hover {
     }
 
     .sub-title {
-        font-size: 12px;
+        font-size: 14px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-row-gap: 30px;
+        grid-template-columns: auto;
+    }
+
+    .grid-gjl {
+        display: grid;
+        grid-row-gap: 0px;
+        grid-template-columns: auto;
     }
 
     .number-call-icon {
@@ -684,24 +768,22 @@ nav .nav-link:hover {
         height: auto;
     }
 
-}
-
-@media (min-width: 1024px) and (max-width: 1024px) {
     .virus-sm {
-        top: 430px;
-        left: 300px;
+        top: 540px;
+        left: 20%;
         height: 100px;
         opacity: .5;
     }
 
     .virus-md {
         top: 160px;
-        left: 610px;
+        right:2%;
         height: 300px;
     }
+
 }
 
-@media (min-width: 768px) and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 990px) {
     .nav-padding {
         padding: .5rem 30px;
     }
@@ -711,24 +793,258 @@ nav .nav-link:hover {
         height: 25px;
     }
 
+    .border-left {
+        border: 0 !important;
+        margin-top:30px;
+    }
+
+    .border-left>h4 {
+        margin-left: 0px;
+        display: flex;
+    }
+
     .card-body {
         padding: 26.5px;
     }
 
-    .call-center-body {
+    .card-province {
+        padding: 16px;
+    }
+    
+    .card-pr-15 {
+        padding-right: 15px;
+    }
 
-        font-size: 16px;
+    .card-pl-15 {
+        padding-left: 15px;
+    }
+    
+    .carousel-indicators,
+    #scene {
+        display: none;
+    }
+
+    .call-center-body {
+        margin-top: 5%;
+        font-size: 18px;
         font-weight: bold;
         color: rgba(251, 105, 74, 0.75);
     }
 
-    .section-top-content {
-        background-size: cover;
-        background: url("http://localhost/corona/public/assets/img/wave_white_md.svg") no-repeat center;
-        padding: 7rem 30px;
+    .call-content {
+        padding: 0;
+        margin-top:30px;
     }
 
+    .row{
+        margin:0px;
+    }
+
+    .padding-x-section{
+        padding: 60px 30px;
+    }
+
+    .section-top-content {
+        background-size: cover;
+        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white_md.svg") no-repeat center;
+        height: 555px;
+        padding: 2rem 30px;
+    }
+
+    .section-middle {
+        top: 1630px;
+    }
+
+    .step-item-1 {
+        padding-left: 15px;
+    }
+
+    .step-item-3 {
+        padding-right: 15px;
+    }
+
+    .step-item-4 {
+        padding-left: 15px;
+    }
+
+    .step-item-5 {
+        padding-right: 15px;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-column-gap:0px;
+        grid-template-columns: 50% 50%;
+    }
+
+    .grid-gjl {
+        display: grid;
+        grid-column-gap: 30px;
+        grid-template-columns: auto auto auto;
+    }
+
+    .ml-50 {
+        margin-left: 0px;
+    }
+    .py-30 {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .virus-sm {
+        top: 450px;
+        left: 20%;
+        height: 100px;
+        opacity: .5;
+    }
+
+    .virus-md {
+        top: 130px;
+        right: 2%;
+        height: 150px;
+    }
 }
 
+@media only screen and (min-width: 320px) and (max-width: 767px) {
+    #scene,
+    .virus-sm,
+    .virus-md,
+    .carousel-indicators,
+    .number-call-icon {
+        display: none;
+    }
 
+    .border-left {
+        border: 0 !important;
+        margin-top: 30px;
+    }
 
+    .bg-top {
+        width: 100%;
+        position: absolute;
+        top: 59px;
+        display: block;
+    }
+
+    .btn-outline-purple {
+        float: right;
+        margin-top: 25px;
+    }
+
+    .card {
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, .05);
+    }
+
+    .call-center-body {
+        margin-top: 5%;
+        font-size:16px;
+    }
+
+    .call-center-body a {
+        margin-left: 0px;
+    }
+
+    .call-content {
+        padding:0px;
+    }
+    
+    .card-body {
+        padding: 16px;
+    }
+
+    .card-body-data {
+        text-align: center;
+    }
+
+    .card-pr-15 {
+        padding-right: 8px;
+    }
+
+    .card-pl-15 {
+        padding-left: 8px;
+    }
+
+    .card-data-left,
+    .card-data-middle,
+    .card-data-right {
+        margin: 0 0 15px 0;
+    }
+
+    .content {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    .grid-container {
+        display: grid;
+        grid-column-gap: 0px;
+        grid-template-columns: 50% 50%;
+    }
+
+    .swiper-button-prev,
+    .swiper-button-next {
+        display: none;
+    }
+
+    .swiper-container {
+        margin-bottom: 20px;
+        padding-left: 0px;
+    }
+
+    .card-province {
+        padding: 12px;
+        font-size: 13px;
+    }
+
+    .icon-sm {
+        display: inline;
+    }
+
+    h4 {
+        font-size: 1.1rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .section-top-content {
+        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white_sm.png") no-repeat center;
+        /* height: 300px; */
+    }
+
+    .sub-text {
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    .sub-title,
+    .main-title {
+        font-size: 12.5px;
+    }
+
+    .main-title {
+        font-weight: 600;
+    }
+
+    .ml-50 {
+        margin-left: 0px;
+    }
+
+    .mt-15 {
+        margin-top: 15px;
+    }
+
+    .mt-30 {
+        margin-top: 15px;
+    }
+
+    .mr-50 {
+        margin-right: 0;
+    }
+
+    .whitespace-data-left{
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

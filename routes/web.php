@@ -17,5 +17,5 @@ use Illuminate\Support\Facades\Route;
 //     return view('layout.hero');
 // });
 
-Route::get('/home', 'HomeController@index');
+Route::get('', 'HomeController@index');
 // Route::get('/home', 'HomeController@getHotlineNumber')->name('getHotline');
