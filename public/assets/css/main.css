@@ -216,6 +216,7 @@ nav .nav-link:hover {
     display: flex;
     font-size: 23px;
     font-weight: bold;
+    color: rgba(115, 80, 162, 0.75);
 }
 
 .call-center-body a {
@@ -223,7 +224,6 @@ nav .nav-link:hover {
     margin-left: 10px;
     z-index: 5;
     text-decoration: none;
-    color: rgba(115, 80, 162, 0.75);
 
 }
 

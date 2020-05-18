@@ -64,7 +64,7 @@
                                         </div>
                                         <div class="call-center-body">
                                             <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
-                                            <a id="call_center_number" href="tel:{{ $data[0]->call_center_number}}">{{ str_replace("-"," ", $data[0]->call_center_number)}}</a>
+                                            <a id="call_center_number">{{ str_replace("-"," ", $data[0]->call_center_number)}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                                         </div>
                                         <div class="call-center-body">
                                             <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
-                                            <a id="hot_line_number" href="tel:{{ $data[0]->hotline_number}}">{{ str_replace("-"," ", $data[0]->hotline_number)}}</a>
+                                            <a id="hot_line_number">{{ str_replace("-"," ", $data[0]->hotline_number)}}</a>
                                         </div>
                                     </div>
                                 </div>
