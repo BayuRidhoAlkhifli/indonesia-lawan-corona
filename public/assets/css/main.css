@@ -998,7 +998,9 @@ nav .nav-link:hover {
     }
 
     .show-content-sm {
-        display: block;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
     }
 
     .show-content-lg {
