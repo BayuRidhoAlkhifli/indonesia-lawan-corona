@@ -102,7 +102,7 @@
                 </div>
                 <div class="col-12 p-0">
                     {{-- @dump($newData, $data) --}}
-                    <div class="swiper-container swiper-container-initialized swiper-container-horizontal swiper-container-free-mode mt-30" style="padding:0px 10px;">
+                    <div class="swiper-container swiper-province mt-30" style="padding:0px 10px;">
                         <div class="swiper-wrapper">
                             @php
                                 $val = 0;
@@ -122,8 +122,8 @@
                         </div>
 
                         <!-- If we need navigation buttons -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
+                        <div class="swiper-button-prev sbp-province"></div>
+                        <div class="swiper-button-next sbn-province"></div>
 
                         <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                     </div>
@@ -184,13 +184,13 @@
         <div class="row content py-30">
             <div class="col-lg-6 col-sm-12 p-0">
                 <h2>
-                    <b>Resiko dari COVID-19</b>
+                    <b>Risiko dari COVID-19</b>
                 </h2>
                 <p class="sub-color sub-text mt-30 mr-50">
                     COVID-19 merupakan penyakit yang disebabkan Novel Coronavirus 2019.
                     Meski bergejala mirip dengan flu biasa, COVID-19 sampai saat ini memiliki fatalitas lebih tinggi.
                     Virus ini juga menyebar dengan sangat cepat karena bisa pindah dari orang ke orang bahkan sebelum orang tersebut menunjukkan gejala.
-                    Penting bagi Anda untuk menilai kondisi secara mandiri. Anda bergejala?
+                    Penting bagi kamu untuk menilai kondisi secara mandiri. Kamu bergejala?
                 </p>
                 <a href="https://covid19.prixa.ai" class="btn btn-outline-purple animation-element fade-in" role="button" target="_blank">
                     Periksa Mandiri
@@ -308,10 +308,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 p-0" style="margin-top:60px;">
-
-            </div>
         </div>
     </section>
 
@@ -326,7 +322,7 @@
                 <h4>
                     <b>Hal yang Harus Kamu Lakukan</b>
                 </h4>
-                <div class="row d-flex justify-content-center"">
+                <div class="row justify-content-center show-content-lg">
                     <div class="col-lg-4 col-md-6 p-0">
                         <div class="card-no-shadow step-item-1">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/dirumahaja.svg') }}" width="auto" height="150px" alt="">
@@ -367,7 +363,7 @@
                                 <label class="d-block" style="font-weight:600;">
                                     Jangan Lupa Gunakan Masker
                                 </label>
-                                <span class="sub-color">Gunakan masker jika Anda harus beraktivitas di luar rumah dan ganti secara berkala</span>
+                                <span class="sub-color">Gunakan masker jika Kamu harus beraktivitas di luar rumah dan ganti secara berkala</span>
                             </div>
                         </div>
                     </div>
@@ -383,12 +379,73 @@
                         </div>
                     </div>
                 </div>
+                <div class="swiper-container swiper-1 show-content-sm">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow py-15">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/dirumahaja.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Dirumah Aja
+                                    </label>
+                                    <span class="sub-color">Usahakan tetap di rumah, bekerja dari rumah, belajar dari rumah, dan beribadah di rumah</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow py-15">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/higiene.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Jaga Kebersihanmu
+                                    </label>
+                                    <span class="sub-color">Cuci tangan dengan sabun atau gunakan hand sanitizer berbasis alkohol minimal 60% dan bersihkanpermukaan benda yang sering kamu sentuh</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow py-15">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/etikabersin.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Terapkan Etika Batuk dan Bersin
+                                    </label>
+                                    <span class="sub-color">Tutupi mulut dan hidung saat batuk atau bersin dengan tisu atau siku bagian dalam</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow py-15">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/masker.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Jangan Lupa Gunakan Masker
+                                    </label>
+                                    <span class="sub-color">Gunakan masker jika Kamu harus beraktivitas di luar rumah dan ganti secara berkala</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow py-15">
+                            <img  class="card-img-top-rounded" src="{{ asset('assets/img/hidupsehat.svg') }}" width="auto" height="150px" alt="">
+                            <div class="card-body-data my-auto text-center">
+                                <label class="d-block" style="font-weight:600;">
+                                    Melakukan Pola Hidup Sehat
+                                </label>
+                                <span class="sub-color">Terapkan pola hidup sehat dengan makanan bergizi dan olahraga</span>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next sbn-1"></div>
+                    <div class="swiper-button-prev sbp-1"></div>
+                </div>
             </div>
             <div class="col-12 p-0 text-center mt-30">
                 <h4>
                     <b>Hal yang Gak Boleh Kamu Lakukan</b>
                 </h4>
-                <div class="row d-flex justify-content-center">
+                <div class="row justify-content-center show-content-lg">
                     <div class="col-lg-4 col-md-6 p-0">
                         <div class="card-no-shadow step-item-1">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/keluarrumah.svg') }}" width="auto" height="150px" alt="">
@@ -423,6 +480,45 @@
                         </div>
                     </div>
 
+                </div>
+                <div class="swiper-container swiper-2 show-content-sm">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow step-item-1">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/keluarrumah.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Keluar Rumah
+                                    </label>
+                                    <span class="sub-color">Jangan bepergian ke luar rumah untuk hal yang gak terlalu penting</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow step-item-2">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/ramai.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Berada Ditempat yang Ramai
+                                    </label>
+                                    <span class="sub-color">Jangan berada ditempat ramai, Kamu gak tau siapa disana yang sedang terjangkit virus</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="card-no-shadow step-item-3">
+                                <img  class="card-img-top-rounded" src="{{ asset('assets/img/sentuhwajah.svg') }}" width="auto" height="150px" alt="">
+                                <div class="card-body-data my-auto text-center">
+                                    <label class="d-block" style="font-weight:600;">
+                                        Menyentuh Wajahmu
+                                    </label>
+                                    <span class="sub-color">Hindari menyentuh wajahmu terutama pada bagian mata, hidung dan mulut</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next sbn-2"></div>
+                    <div class="swiper-button-prev sbp-2"></div>
                 </div>
             </div>
         </div>
@@ -461,7 +557,7 @@
         getDataSpread();
 
 
-        var swiper = new Swiper('.swiper-container', {
+        var swiper = new Swiper('.swiper-province', {
             slidesPerView: 4,
             spaceBetween: 30,
             freeMode: true,
@@ -469,8 +565,8 @@
                 invert: true,
             },
             navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                nextEl: '.sbn-province',
+                prevEl: '.sbp-province',
             },
             breakpoints: {
                 320:{
@@ -492,6 +588,31 @@
             }
         });
 
+        var swiper1 = new Swiper('.swiper-1', {
+            spaceBetween:30,
+            centeredSlides: true,
+            navigation: {
+                nextEl: '.sbn-1',
+                prevEl: '.sbp-1',
+            },
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+        });
+
+        var swiper2 = new Swiper('.swiper-2', {
+            spaceBetween:30,
+            centeredSlides: true,
+            navigation: {
+                nextEl: '.sbn-2',
+                prevEl: '.sbp-2',
+            },
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+        });
 
         function check_if_in_view() {
             var window_height = $window.height();
