@@ -97,7 +97,7 @@
                         <b>Data Pantauan</b>
                     </h4>
                     <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                        Update Terakhir: Minggu, 17 Mei 2020 15.13
+                        Update Terakhir: Rabu, 20 Mei 2020 19.44
                     </label>
                 </div>
                 <div class="col-12 p-0">
