@@ -15,7 +15,7 @@
     <section class="section-top-content">
         <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row content content-sm">
-                <div class="col-lg-8 col-sm-12 col- p-0 mt-15">
+                <div class="col-lg-8 col-md-12 col- p-0 mt-15">
                     <div id="carouselExampleIndicators" class="carousel slide" style="width:100%; height:auto;" data-ride="carousel">
 
                         <div class="carousel-inner corousel-lg">
@@ -52,7 +52,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-sm-12 call-content mt-15">
+                <div class="col-lg-4 col-md-12 call-content mt-15">
                     <div class="row h-100 grid-container">
                         <div class="col-lg-12 card-pr-15">
                             <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
@@ -92,7 +92,7 @@
 
     <section class="padding-x-section padding-y-section" style="padding-top: 60px; padding-bottom:65px;">
         <div class="row content">
-            <div class="col-lg-6 col-sm-12 p-0 content-sm">
+            <div class="col-lg-6 col-md-12 p-0 content-sm">
                 <h4>
                     <b>Data Pantauan</b>
                 </h4>
@@ -100,7 +100,7 @@
                     Update Terakhir: Jumat, 22 Mei 2020 23:44
                 </label>
             </div>
-            <div class="col-lg-6 col-sm-12 p-0 input-bg border-radius-10 content-sm">
+            <div class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
                 <div class="input-group my-15">
                     <div class="input-group-prepend show-content-sm">
                         <span class="input-group-text">
@@ -115,7 +115,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 p-0">
+            <div class="col-md-12 p-0">
                 {{-- @dump($newData, $data) --}}
                 <div class="swiper-container swiper-province swiper-p">
                     <div class="swiper-wrapper">
@@ -186,7 +186,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-12 p-0 text-right content-sm">
+            <div class="col-md-12 p-0 text-right content-sm">
                 <a href="#" class="link-purple">
                     Lihat Lebih Lengkap >
                 </a>
@@ -196,7 +196,7 @@
 
     <section class="section-whitespace">
         <div class="row content py-30">
-            <div class="col-lg-6 col-sm-12 p-0 content-sm">
+            <div class="col-lg-6 col-md-12 p-0 content-sm">
                 <h2>
                     <b>Risiko dari COVID-19</b>
                 </h2>
@@ -210,7 +210,7 @@
                     Periksa Mandiri
                 </a>
             </div>
-            <div id="scene" class="col-lg-6 col-sm-12 p-0">
+            <div id="scene" class="col-lg-6 col-md-12 p-0">
                 {{-- <div>
                     <img src="{{ asset('assets/img/computer_man.svg') }}" style="position:absolute;right:0" class="float-right" width="auto" height="auto" alt="">
                 </div> --}}
@@ -268,7 +268,7 @@
                     <b>Yang harus kamu ketahui</b>
                 </h2>
             </div>
-            <div class="col-lg-6 col-sm-12 p-0 wrap content-sm">
+            <div class="col-lg-6 col-md-12 p-0 wrap content-sm">
                 <div class="animation-element fade-in">
                     <h4>
                         <b>Apa Itu COVID-19?</b>
@@ -294,7 +294,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-6 col-sm-12 p-0 border-left">
+            <div class="col-lg-6 col-md-12 p-0 border-left">
                 {{-- <img src="{{ asset('assets/img/corona_virus.svg') }}" class="float-left" width="auto" height="auto" alt=""> --}}
                 <div class="content-sm">
                     <h4 class="ml-50 content-sm">
@@ -355,12 +355,12 @@
 
     <section class="section-whitespace">
         <div class="row content">
-            <div class="col-sm-12 p-0 text-center content-sm">
+            <div class="col-md-12 p-0 text-center content-sm">
                 <h2>
                     <b>Lindungi Diri Kamu dan  Orang Lain</b>
                 </h2>
             </div>
-            <div class="col-sm-12 p-0 text-center">
+            <div class="col-md-12 p-0 text-center">
                 <h4>
                     <b>Hal yang Harus Kamu Lakukan</b>
                 </h4>
@@ -483,7 +483,7 @@
                     <div class="swiper-button-prev sbp-1"></div>
                 </div>
             </div>
-            <div class="col-sm-12 p-0 text-center mt-30">
+            <div class="col-md-12 p-0 text-center mt-30">
                 <h4>
                     <b>Hal yang Gak Boleh Kamu Lakukan</b>
                 </h4>
