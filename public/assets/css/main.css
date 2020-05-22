@@ -14,6 +14,38 @@ body{
 nav .nav-link:hover {
     color: rgba(0, 0, 0, .7);
 } */
+::placeholder {
+    color: rgba(120, 120, 120, .5) !important;
+}
+:-ms-input-placeholder {
+    color: rgba(120, 120, 120, .5) !important;
+}
+
+::-ms-input-placeholder {
+    color: rgba(120, 120, 120, .5) !important;
+}
+
+.input-bg {
+    background-color: rgb(239, 240, 249);
+}
+
+.border-radius-10 {
+    border-radius: 10px;
+}
+
+.search-input:focus {
+    color: #495057;
+    background-color: #EFF0F9;
+    border-color: #EFF0F9;
+    outline: 0;
+    box-shadow: none;
+}
+
+.my-15 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 .navbar-light .navbar-nav .active>.nav-link {
     pointer-events: none;
 }
@@ -63,6 +95,14 @@ nav .nav-link:hover {
     margin-left: 50px;
 }
 
+.btm-nav-active {
+    color: rgba(115, 80, 162, 1) !important;
+}
+
+.btm-nav-color {
+    color: rgb(120, 120, 120, 0.75);
+}
+
 .link-purple{
     font-weight: 300;
     color: #592E91;
@@ -95,6 +135,12 @@ nav .nav-link:hover {
     background-color: #c4c4c4;
 }
 
+.input-group>.custom-select:not(:first-child),
+.input-group>.form-control:not(:first-child) {
+    border-top-left-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
 .grad-toptobtm{
     background: linear-gradient(180deg, #FFE8DB 0%, rgba(255, 232, 219, 0) 100%);
 }
@@ -119,11 +165,15 @@ nav .nav-link:hover {
 
 .back-to-top {
     position: fixed;
-    bottom: 25px;
-    right: 25px;
+    bottom: 90px;
+    right: 2.5vw;
     animation: menu_sticky 0.7s ease-in-out;
     display: none;
     z-index: 99;
+}
+
+.swiper-province {
+    margin-top: 30px;
 }
 
 .step-item-1 {
@@ -232,6 +282,18 @@ nav .nav-link:hover {
     display: none;
 }
 
+.input-group-text {
+    border: none;
+}
+
+.input-group-text {
+    background-color: rgb(239, 240, 249);
+}
+
+.form-control {
+    border: 1px solid #EFF0F9;
+}
+
 .border-orange {
     border: 1px solid rgb(248, 97, 90, .2);
 }
@@ -274,6 +336,10 @@ nav .nav-link:hover {
     background-color: transparent;
     border: 1.5px solid #7350A2;
     margin-top: 55px;
+}
+
+.swiper-p {
+    padding: 0px 10px;
 }
 
 .btn-outline-purple:hover {
@@ -320,7 +386,8 @@ nav .nav-link:hover {
     border: 1px solid rgba(115, 80, 162, 0.1);
 }
 
-.card-data-middle {
+.card-data-middle,
+.py-15 {
     margin-left: 15px;
     margin-right: 15px;
 }
@@ -384,11 +451,6 @@ nav .nav-link:hover {
 .color-orange {
     color: #f8615a;
     opacity: 0.75;
-}
-
-.py-15 {
-    padding-left: 15px;
-    padding-right: 15px;
 }
 
 .fixed-header {
@@ -842,6 +904,25 @@ nav .nav-link:hover {
 }
 
 @media (min-width: 768px) and (max-width: 990px) {
+
+    .fixed-btm-navbar {
+        bottom: 10px;
+        position: fixed;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, 1);
+        box-shadow: 0px 2px 25px rgba(115, 80, 162, 0.2);
+        width: 95vw;
+        margin-left: 2.5vw;
+        z-index: 99;
+    }
+
+    .btm-nav-item {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        padding: .5rem 20px;
+    }
+
     .nav-padding {
         padding: .5rem 30px;
     }
@@ -971,6 +1052,24 @@ nav .nav-link:hover {
         display: none;
     }
 
+    .fixed-btm-navbar {
+        bottom: 10px;
+        position: fixed;
+        border-radius: 20px;
+        background-color: rgba(255, 255, 255, 1);
+        box-shadow: 0px 2px 25px rgba(115, 80, 162, 0.2);
+        width: 95vw;
+        margin-left: 2.5vw;
+        z-index: 99;
+    }
+
+    .btm-nav-item {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        width: 100%;
+        padding: .5rem 20px;
+    }
+
     .border-left {
         border: 0 !important;
         margin-top: 30px;
@@ -1038,8 +1137,29 @@ nav .nav-link:hover {
     }
 
     .content {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .card-body-data {
+        padding: 20px;
+    }
+    
+    .content-sm {
         margin-left: 20px;
         margin-right: 20px;
+    }
+
+    .input-group>.custom-select:not(:first-child),
+    .input-group>.form-control:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    
+    .input-group>.custom-select:not(:last-child),
+    .input-group>.form-control:not(:last-child) {
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
     }
     
     .grid-container {
@@ -1062,9 +1182,12 @@ nav .nav-link:hover {
         outline: none;
     }
 
+    .swiper-p {
+        padding: 0px 20px;
+    }
+
     .swiper-container {
-        margin-bottom: 20px;
-        padding-left: 0px;
+        margin-bottom: 15px;
     }
 
     .swiper-gjl {
@@ -1122,6 +1245,11 @@ nav .nav-link:hover {
 
     .mr-50 {
         margin-right: 0;
+    }
+
+    .swiper-province {
+        margin-top:30px;
+        height: 65px;
     }
 
     .whitespace-data-left{
