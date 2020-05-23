@@ -388,8 +388,8 @@ nav .nav-link:hover {
 
 .card-data-middle,
 .py-15 {
-    margin-left: 15px;
-    margin-right: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .card-data-left {

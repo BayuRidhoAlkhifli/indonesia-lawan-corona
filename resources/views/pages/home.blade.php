@@ -413,7 +413,7 @@
                 <div class="swiper-container swiper-1 show-content-sm">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <div class="card-no-shadow py-15">
+                            <div class="card-no-shadow step-item-2">
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/dirumahaja.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
@@ -424,7 +424,7 @@
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="card-no-shadow py-15">
+                            <div class="card-no-shadow step-item-2">
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/higiene.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
@@ -435,7 +435,7 @@
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="card-no-shadow py-15">
+                            <div class="card-no-shadow step-item-2">
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/etikabersin.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
@@ -446,7 +446,7 @@
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="card-no-shadow py-15">
+                            <div class="card-no-shadow step-item-2">
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/masker.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
@@ -457,7 +457,7 @@
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="card-no-shadow py-15">
+                            <div class="card-no-shadow step-item-2">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/hidupsehat.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
@@ -515,7 +515,7 @@
                 <div class="swiper-container swiper-2 show-content-sm">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <div class="card-no-shadow step-item-1">
+                            <div class="card-no-shadow step-item-2">
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/keluarrumah.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
@@ -537,7 +537,7 @@
                             </div>
                         </div>
                         <div class="swiper-slide">
-                            <div class="card-no-shadow step-item-3">
+                            <div class="card-no-shadow step-item-2">
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/sentuhwajah.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
