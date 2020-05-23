@@ -97,7 +97,7 @@
                     <b>Data Pantauan</b>
                 </h4>
                 <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                    Update Terakhir: Sabtu, 23 Mei 2020 18:44
+                    Pembaharuan Terakhir: Sabtu, 23 Mei 2020 18:44
                 </label>
             </div>
             <div class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
@@ -252,7 +252,7 @@
             </div>
         </div>
         <div class="row content py-30">
-            <div class="col-12 p-0" style="margin-bottom:40px; content-sm">
+            <div class="col-md-12 p-0 content-sm mt-custm">
                 <h2 class="text-center">
                     <b>Yang harus kamu ketahui</b>
                 </h2>
@@ -315,7 +315,7 @@
                         <div class="swiper-slide">
                             <div class="card card-gejala">
                                 <img  class="card-img-top position-absolute" src="{{ asset('assets/img/batuk-sm.svg') }}" width="auto" height="275px" alt="">
-                                <div class="position-relative text-center" style="margin-top:10vw;">
+                                <div class="position-relative text-center space-txt-gjl">
                                     <span class="sub-text">Batuk dan Nyeri Tenggorokan</span>
                                 </div>
                             </div>
@@ -323,7 +323,7 @@
                         <div class="swiper-slide">
                             <div class="card card-gejala">
                                 <img  class="card-img-top position-absolute" src="{{ asset('assets/img/demam-sm.svg') }}" width="auto" height="275px" alt="">
-                                <div class="position-relative text-center" style="margin-top:10vw;">
+                                <div class="position-relative text-center space-txt-gjl">
                                     <span class="sub-text">Demam suhu tinggi</span>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@
                         <div class="swiper-slide">
                             <div class="card card-gejala">
                                 <img  class="card-img-top position-absolute" src="{{ asset('assets/img/sesak-sm.svg') }}" width="auto" height="275px" alt="">
-                                <div class="position-relative text-center" style="margin-top:10vw;">
+                                <div class="position-relative text-center space-txt-gjl">
                                     <span class="sub-text">Sesak Napas</span>
                                 </div>
                             </div>
@@ -344,7 +344,7 @@
 
     <section class="section-whitespace">
         <div class="row content">
-            <div class="col-md-12 p-0 text-center content-sm">
+            <div class="col-md-12 p-0 text-center content-sm mt-custm">
                 <h2>
                     <b>Lindungi Diri Kamu dan  Orang Lain</b>
                 </h2>

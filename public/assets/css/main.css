@@ -95,6 +95,10 @@ nav .nav-link:hover {
     margin-left: 50px;
 }
 
+.mt-custm {
+    margin-bottom: 40px;
+}
+
 .btm-nav-active {
     color: rgba(115, 80, 162, 1) !important;
 }
@@ -416,6 +420,11 @@ nav .nav-link:hover {
     background: linear-gradient(222.6deg, #949BDC 0%, #6E77C9 100%);
 }
 
+.space-txt-gjl {
+    margin-top: 10vw;
+    margin-left: 15px;
+    margin-right: 15px;
+}
 
 .card-gejala{
     background-color: rgb(255, 255, 255);
@@ -711,9 +720,9 @@ nav .nav-link:hover {
     .section-middle {
         background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_grey_lg.svg") no-repeat center;
         background-size: cover;
-        height: 1200px;
+        height: 1060px;
         position: absolute;
-        top: 1780px;
+        top: 1830px;
         width: 100%;
 
     }
@@ -942,6 +951,10 @@ nav .nav-link:hover {
         display: flex;
     }
 
+    .mt-custm {
+        margin-bottom: 15px;
+    }
+
     .card-body {
         padding: 26.5px;
     }
@@ -1072,7 +1085,7 @@ nav .nav-link:hover {
 
     .border-left {
         border: 0 !important;
-        margin-top: 30px;
+        margin-top: 15px;
     }
 
     .bg-top {
@@ -1141,6 +1154,10 @@ nav .nav-link:hover {
         margin-right: 0;
     }
 
+    .mt-custm {
+        margin-bottom: 15px;
+    }
+
     .card-body-data {
         padding: 20px;
     }
@@ -1192,7 +1209,7 @@ nav .nav-link:hover {
 
     .swiper-gjl {
         height: 284px;
-        margin-top: 30px;
+        margin-top: 15px;
     }
 
     .card-province {
@@ -1205,7 +1222,7 @@ nav .nav-link:hover {
     }
 
     h4 {
-        font-size: 1.1rem;
+        font-size: 1.125rem;
     }
 
     h2 {
