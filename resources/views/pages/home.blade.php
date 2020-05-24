@@ -195,7 +195,7 @@
                     Virus ini juga menyebar dengan sangat cepat karena bisa pindah dari orang ke orang bahkan sebelum orang tersebut menunjukkan gejala.
                     Penting bagi kamu untuk menilai kondisi secara mandiri. Kamu bergejala?
                 </p>
-                <a href="https://covid19.prixa.ai" class="btn btn-outline-purple animation-element fade-in" role="button" target="_blank">
+                <a href="https://prixa.ai/corona" class="btn btn-outline-purple animation-element fade-in" role="button" target="_blank">
                     Periksa Mandiri
                 </a>
             </div>
