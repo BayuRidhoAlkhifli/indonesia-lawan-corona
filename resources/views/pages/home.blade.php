@@ -562,6 +562,10 @@
 
 @section('custom_script')
 <script>
+    
+    $('img').bind('contextmenu', function(e) {
+        return false;
+    }); 
 
     $(document).ready(function() {
         // animation when section in poinview
