@@ -363,7 +363,7 @@ nav .nav-link:hover {
 
 .card-call:after {
     content: "";
-    mix-blend-mode: screen;
+    mix-blend-mode: unset;
     position: absolute;
     width: 4rem;
     height: 4rem;
@@ -472,6 +472,9 @@ nav .nav-link:hover {
     box-shadow: 0px 6px 15px rgba(115, 80, 162, 0.05);
 }
 
+.padding-section {
+    padding: 60px 0 65px 0;
+}
 
 .section-whitespace {
     padding-top: 120px;
@@ -991,8 +994,8 @@ nav .nav-link:hover {
         margin:0px;
     }
 
-    .padding-x-section{
-        padding: 60px 30px;
+    .padding-section{
+        padding: 60px 30px 109px 30px;
     }
 
     .section-top-content {
@@ -1063,6 +1066,10 @@ nav .nav-link:hover {
     .carousel-indicators,
     .number-call-icon {
         display: none;
+    }
+
+    .padding-section {
+        padding: 60px 0px 109px 0px;
     }
 
     .fixed-btm-navbar {

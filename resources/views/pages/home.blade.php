@@ -90,7 +90,7 @@
         <!-- END PLACE PAGE CONTENT HERE -->
     </section>
 
-    <section class="padding-x-section padding-y-section" style="padding-top: 60px; padding-bottom:65px;">
+    <section class="padding-section">
         <div class="row content">
             <div class="col-lg-6 col-md-12 p-0 content-sm">
                 <h4>
