@@ -1116,6 +1116,12 @@ nav .nav-link:hover {
         font-size:16px;
     }
 
+    .card-call:after {
+        -webkit-animation: ripple 3.8s ease-out infinite;
+        -moz-animation: ripple 3.8s ease-out infinite;
+        animation: ripple 3.8s ease-out infinite;
+    }
+
     .show-content-sm {
         display: -webkit-box;
         display: -ms-flexbox;
