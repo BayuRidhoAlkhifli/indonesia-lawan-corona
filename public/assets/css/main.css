@@ -271,7 +271,7 @@ nav .nav-link:hover {
     display: flex;
     font-size: 23px;
     font-weight: bold;
-    color: rgba(115, 80, 162, 0.75);
+    color: rgba(115, 80, 162);
 }
 
 .call-center-body a {
@@ -377,7 +377,7 @@ nav .nav-link:hover {
     height: 4rem;
     left: 18px;
     bottom: 30px;
-    background: rgba(113, 139, 255, 0.63);
+    background: rgba(115, 80, 162, 0.5);
     opacity: 0;
     border-radius: 100%;
     -webkit-transform-origin: 50% 50%;
