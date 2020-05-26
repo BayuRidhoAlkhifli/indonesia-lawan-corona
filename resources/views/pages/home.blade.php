@@ -97,19 +97,19 @@
                     <b>Data Pantauan</b>
                 </h4>
                 <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                    Pembaharuan Terakhir: Sabtu, 23 Mei 2020 18:44
+                    Pembaharuan Terakhir: Selasa, 26 Mei 2020 17:14
                 </label>
             </div>
             <div class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
                 <div class="input-group my-15">
                     <div class="input-group-prepend show-content-sm">
-                        <span class="input-group-text">
+                        <span class="input-group-text icon-left-padding">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
                     <input id="province_finder" type="text" class="form-control input-bg search-input" placeholder="Cari provinsi">
                     <div class="input-group-append show-content-lg">
-                        <span class="input-group-text">
+                        <span class="input-group-text icon-right-padding">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
@@ -126,7 +126,7 @@
                         @foreach ($data as $key)
                             {{-- @dump($data[$val]->name) --}}
                             <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
-                                <div class="card card-location">
+                                <div class="card card-location" style="cursor:pointer">
                                     <div class="card-province text-center provinceSelector">{{ $data[$val]->name }}</div>
                                 </div>
                             </div>
@@ -150,6 +150,10 @@
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >TERKONFIRMASI</span>
                             <span id="txt_konfirm" class="color-orange data-angka count">0858 </span>
+                            <div>
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -161,6 +165,10 @@
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >MENINGGAL</span>
                             <span id="txt_meninggal" class="color-purple data-angka count">0858 </span>
+                            <div>
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -171,6 +179,10 @@
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >SEMBUH</span>
                             <span id="txt_sembuh" class="color-green data-angka count">0858 </span>
+                            <div>
+                                <i class="fas fa-arrow-up"></i>
+                                <span>0</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -716,6 +728,9 @@
                     tempSummary.kasusMeni+=v.kasusMeni;
                 });
 
+                console.log(tempArray);
+                
+
                 summaryCorona = (tempSummary)
                 dataCorona = (tempArray)
                 
@@ -825,7 +840,7 @@
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(17, 500);
             } else if ($('#province_finder').val() == 'NTB' || $('#province_finder').val() == 'Ntb' || $('#province_finder').val() == 'ntb') {
-                vProvince += "NTT";
+                vProvince += "NTB";
                 searchResult = dataCorona["Nusa Tenggara Barat"];
                 swiper_province.slideTo(18, 500);
             } else if ($('#province_finder').val() == 'Sumatera Selatan' || $('#province_finder').val() == 'Sumatera selatan' ||  $('#province_finder').val() == 'sumatera selatan' || $('#province_finder').val() == 'Sumsel' || $('#province_finder').val() == 'sumsel') {
@@ -878,7 +893,7 @@
                 swiper_province.slideTo(30, 500);
             } else if ($('#province_finder').val() == 'Papua' || $('#province_finder').val() == 'Papua' || $('#province_finder').val() == 'papua') {
                 vProvince += "Papua";
-                searchResult = dataCorona["Papua"];
+                searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(31, 500);
             } else if ($('#province_finder').val() == 'Sulawesi Barat' || $('#province_finder').val() == 'Sulawesi barat' ||  $('#province_finder').val() == 'sulawesi barat' || $('#province_finder').val() == 'Sulbar' || $('#province_finder').val() == 'sulbar') {
                 vProvince += "Sulawesi Barat";
@@ -901,6 +916,26 @@
                     $(v).parent().removeClass('card-location-active');       
                 }
             });
+
+            console.log(vProvince);
+            
+
+            if (vProvince == 'Bangka Belitung') {
+                vProvince = "";
+                vProvince += "Kepulauan Bangka Belitung";
+            }else if (vProvince == 'DI Yogyakarta') {
+                vProvince = "";
+                vProvince += "Daerah Istimewa Yogyakarta";
+            }else if (vProvince == 'NTT') {
+                vProvince = "";
+                vProvince += "Nusa Tenggara Timur";
+            }else if (vProvince == 'NTB') {
+                vProvince = "";
+                vProvince += "Nusa Tenggara Barat";
+            }
+
+            console.log(vProvince);
+
             $("#call_center_nam").html(provinceData[vProvince].call_center_name);
             $("#hotline_name").html(provinceData[vProvince].hotline_name);
             $("#call_center_number").html(provinceData[vProvince].call_center_number.replace(/\-/g, ' '));
