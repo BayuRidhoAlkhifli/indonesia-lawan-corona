@@ -132,6 +132,30 @@ nav .nav-link:hover {
     display: none;
 }
 
+.increase-val-1 {
+    background: #f98783;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: white;
+}
+
+.increase-val-2 {
+    background: #ca4c81;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: white;
+}
+
+.increase-val-3 {
+    background: #86bd2c;
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: white;
+}
+
 .carousel-indicators li{
     width: 10px;
     height: 10px;

@@ -149,8 +149,8 @@
                     <div class="card-body-data wrap">
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >TERKONFIRMASI</span>
-                            <span id="txt_konfirm" class="color-orange data-angka count">0858 </span>
-                            <div>
+                            <span id="txt_konfirm" class="color-orange data-angka count d-block">0858 </span>
+                            <div class="increase-val-1">
                                 <i class="fas fa-arrow-up"></i>
                                 <span>0</span>
                             </div>
@@ -164,8 +164,8 @@
 
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >MENINGGAL</span>
-                            <span id="txt_meninggal" class="color-purple data-angka count">0858 </span>
-                            <div>
+                            <span id="txt_meninggal" class="color-purple data-angka count d-block">0858 </span>
+                            <div class="increase-val-2">
                                 <i class="fas fa-arrow-up"></i>
                                 <span>0</span>
                             </div>
@@ -178,8 +178,8 @@
                     <div class="card-body-data wrap">
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >SEMBUH</span>
-                            <span id="txt_sembuh" class="color-green data-angka count">0858 </span>
-                            <div>
+                            <span id="txt_sembuh" class="color-green data-angka count d-block">0858 </span>
+                            <div class="increase-val-3">
                                 <i class="fas fa-arrow-up"></i>
                                 <span>0</span>
                             </div>
