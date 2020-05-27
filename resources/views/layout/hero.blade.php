@@ -5,7 +5,9 @@
 
     @yield('content')
 
+    @include('parts.footer')
+
     @include('parts.btm_navbar')
 </main>
 
-@include('layout.footer')
+@include('layout.foot')
