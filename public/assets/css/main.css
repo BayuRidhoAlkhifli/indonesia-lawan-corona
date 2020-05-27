@@ -193,8 +193,8 @@ nav .nav-link:hover {
 
 .back-to-top {
     position: fixed;
-    bottom: 90px;
-    right: 2.5vw;
+    bottom: 20px;
+    right: 30px;
     animation: menu_sticky 0.7s ease-in-out;
     display: none;
     z-index: 99;
@@ -418,7 +418,7 @@ nav .nav-link:hover {
 .card-data {
     margin-top: 20px;
     margin-bottom: 40px;
-    box-shadow: 0px 6px 15px rgba(115, 80, 162, 0.1);
+    box-shadow: 0px 4px 10px rgba(148, 108, 185, 0.13) !important;
     border: 1px solid rgba(115, 80, 162, 0.1);
 }
 
@@ -949,6 +949,15 @@ nav .nav-link:hover {
 
 @media (min-width: 768px) and (max-width: 990px) {
 
+    .back-to-top {
+        position: fixed;
+        bottom: 90px;
+        right: 2.5vw;
+        animation: menu_sticky 0.7s ease-in-out;
+        display: none;
+        z-index: 99;
+    }
+
     .fixed-btm-navbar {
         bottom: 10px;
         position: fixed;
@@ -1102,6 +1111,15 @@ nav .nav-link:hover {
 
     .padding-section {
         padding: 60px 0px 109px 0px;
+    }
+
+    .back-to-top {
+        position: fixed;
+        bottom: 90px;
+        right: 2.5vw;
+        animation: menu_sticky 0.7s ease-in-out;
+        display: none;
+        z-index: 99;
     }
 
     .fixed-btm-navbar {
