@@ -747,13 +747,13 @@ nav .nav-link:hover {
 
     .section-top-content {
         padding-top: 80px;
-        background:url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white.svg") no-repeat center;
+        background:url("/assets/img/wave_white.svg") no-repeat center;
         background-size:cover;
         height: 650px;
     }
 
     .section-middle {
-        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_grey_lg.svg") no-repeat center;
+        background: url("/assets/img/wave_grey_lg.svg") no-repeat center;
         background-size: cover;
         height: 1160px;
         position: absolute;
@@ -806,13 +806,13 @@ nav .nav-link:hover {
 
     .section-top-content {
         padding-top: 60px;
-        background:url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white.svg") no-repeat center;
+        background:url("/assets/img/wave_white.svg") no-repeat center;
         background-size:cover;
         height: 600px;
     }
 
     .section-middle {
-        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_grey.svg") no-repeat center;
+        background: url("/assets/img/wave_grey.svg") no-repeat center;
         background-size: cover;
         height: 1250px;
         position: absolute;
@@ -875,7 +875,7 @@ nav .nav-link:hover {
     .section-top-content {
         padding-top: 60px;
         background-size: cover;
-        background:url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white_md.svg") no-repeat center;
+        background:url("/assets/img/wave_white_md.svg") no-repeat center;
         height: 555px;
     }
 
@@ -903,7 +903,7 @@ nav .nav-link:hover {
     }
 
     .section-middle {
-        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_grey.svg") no-repeat center;
+        background: url("/assets/img/wave_grey.svg") no-repeat center;
         background-size: cover;
         position: absolute;
         width: 100%;
@@ -1041,7 +1041,7 @@ nav .nav-link:hover {
 
     .section-top-content {
         background-size: cover;
-        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white_md.svg") no-repeat center;
+        background: url("/assets/img/wave_white_md.svg") no-repeat center;
         height: 555px;
         padding: 2rem 30px;
     }
@@ -1293,7 +1293,7 @@ nav .nav-link:hover {
     }
 
     .section-top-content {
-        background: url("http://localhost/indonesia-lawan-corona/public/assets/img/wave_white_sm.png") no-repeat center;
+        background: url("/assets/img/wave_white_sm.png") no-repeat center;
         /* height: 300px; */
     }
 
