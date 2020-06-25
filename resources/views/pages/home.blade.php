@@ -733,8 +733,7 @@
 
                 summaryCorona = (tempSummary)
                 dataCorona = (tempArray)
-                
-
+                console
                 $.each($('.provinceSelector'), (k, v) => {
                     vHtml = $(v).html();
                     
@@ -977,8 +976,6 @@
         });
 
         $('#card_call_center').click((e) => {
-            alert(provinceData[$('.card-active').children().html()]);
-            
             document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].call_center_number;
         });
 
