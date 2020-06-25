@@ -55,7 +55,7 @@
                 <div class="col-lg-4 col-md-12 call-content mt-15">
                     <div class="row h-100 grid-container">
                         <div class="col-lg-12 card-pr-15">
-                            <div id="card_call_center" class="card h-100 card-call card-active" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
+                            <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
                                         <span id="call_center_name" class="d-block main-title">{{ $data[0]->call_center_name}}</span>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12 card-pl-15">
-                            <div id="card_hotline" class="card h-100 card-call card-active" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
+                            <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
                                         <span id="hotline_name"  class="d-block main-title">{{ $data[0]->hotline_name}}</span>
@@ -728,7 +728,7 @@
                     tempSummary.kasusMeni+=v.kasusMeni;
                 });
 
-                console.log(tempArray);
+                // console.log(tempArray);
                 
 
                 summaryCorona = (tempSummary)
@@ -917,7 +917,7 @@
                 }
             });
 
-            console.log(vProvince);
+            // console.log(vProvince);
             
 
             if (vProvince == 'Bangka Belitung') {
@@ -934,7 +934,7 @@
                 vProvince += "Nusa Tenggara Barat";
             }
 
-            console.log(vProvince);
+            // console.log(vProvince);
 
             $("#call_center_nam").html(provinceData[vProvince].call_center_name);
             $("#hotline_name").html(provinceData[vProvince].hotline_name);
@@ -967,8 +967,6 @@
             $("#hot_line_number").html(provinceData[arrayKey].hotline_number.replace(/\-/g, ' '));
             // $("#card_call_center").attr(provinceData[arrayKey].call_center_number);
             // alert($("#card_hotline").attr("href",provinceData[arrayKey].call_center_number))
-
-            console.log(provinceData[arrayKey]);
             
             
             $("#txt_konfirm").text(finalResult.kasusPosi);
@@ -979,6 +977,8 @@
         });
 
         $('#card_call_center').click((e) => {
+            alert(provinceData[$('.card-active').children().html()]);
+            
             document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].call_center_number;
         });
 
