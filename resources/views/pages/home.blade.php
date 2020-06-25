@@ -55,7 +55,7 @@
                 <div class="col-lg-4 col-md-12 call-content mt-15">
                     <div class="row h-100 grid-container">
                         <div class="col-lg-12 card-pr-15">
-                            <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
+                            <div id="card_call_center" class="card h-100 card-call card-active" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
                                         <span id="call_center_name" class="d-block main-title">{{ $data[0]->call_center_name}}</span>
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="col-lg-12 card-pl-15">
-                            <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
+                            <div id="card_hotline" class="card h-100 card-call card-active" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
                                         <span id="hotline_name"  class="d-block main-title">{{ $data[0]->hotline_name}}</span>
@@ -149,7 +149,7 @@
                     <div class="card-body-data wrap">
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >TERKONFIRMASI</span>
-                            <span id="txt_konfirm" class="color-orange data-angka count d-block">0858 </span>
+                            <span id="txt_konfirm" class="color-orange data-angka count d-block">-</span>
                             <div class="increase-val-1">
                                 <i class="fas fa-arrow-up"></i>
                                 <span>0</span>
@@ -163,9 +163,9 @@
                     <div class="card-body-data wrap">
 
                         <div class=" whitespace-data-left mt-0">
-                            <span class="d-block main-title-md" >MENINGGAL</span>
-                            <span id="txt_meninggal" class="color-purple data-angka count d-block">0858 </span>
-                            <div class="increase-val-2">
+                            <span class="d-block main-title-md" >SEMBUH</span>
+                            <span id="txt_sembuh" class="color-green data-angka count d-block">-</span>
+                            <div class="increase-val-3">
                                 <i class="fas fa-arrow-up"></i>
                                 <span>0</span>
                             </div>
@@ -177,9 +177,9 @@
                 <div class="card card-data card-data-right animation-element slide-bottom-dly-145s">
                     <div class="card-body-data wrap">
                         <div class=" whitespace-data-left mt-0">
-                            <span class="d-block main-title-md" >SEMBUH</span>
-                            <span id="txt_sembuh" class="color-green data-angka count d-block">0858 </span>
-                            <div class="increase-val-3">
+                            <span class="d-block main-title-md" >MENINGGAL</span>
+                            <span id="txt_meninggal" class="color-purple data-angka count d-block">-</span>
+                            <div class="increase-val-2">
                                 <i class="fas fa-arrow-up"></i>
                                 <span>0</span>
                             </div>
@@ -739,7 +739,7 @@
                     vHtml = $(v).html();
                     
                     if(vHtml == "Indonesia"){
-                        $(v).parent().addClass('card-location-active');
+                        $(v).parent().addClass('card-active');
                     }
 
                     $(v).data("real", vHtml);
@@ -911,9 +911,9 @@
 
             $.each($('.provinceSelector'), (k, v) => {
                 if ($(v).html() == vProvince || $(v).data("real") == vProvince) {
-                    $(v).parent().addClass('card-location-active');             
+                    $(v).parent().addClass('card-active');             
                 } else {
-                    $(v).parent().removeClass('card-location-active');       
+                    $(v).parent().removeClass('card-active');       
                 }
             });
 
@@ -952,8 +952,8 @@
             
             var arrayKey = $(e.target).data("real");
             
-            $('.card-location').removeClass('card-location-active');
-            $(e.target.parentElement).addClass('card-location-active');
+            $('.card-location').removeClass('card-active');
+            $(e.target.parentElement).addClass('card-active');
 
             var finalResult = dataCorona[arrayKey];
 
@@ -979,11 +979,11 @@
         });
 
         $('#card_call_center').click((e) => {
-            document.location.href = 'tel:'+provinceData[$('.card-location-active').children().html()].call_center_number;
+            document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].call_center_number;
         });
 
         $('#card_hotline').click((e) => {
-            document.location.href = 'tel:'+provinceData[$('.card-location-active').children().html()].hotline_number;
+            document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].hotline_number;
         });
 
         $('.card-call').popover({

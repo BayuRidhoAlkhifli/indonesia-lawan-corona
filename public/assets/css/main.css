@@ -50,7 +50,7 @@ nav .nav-link:hover {
     pointer-events: none;
 }
 
-.navbar-light .navbar-nav .active>.nav-link::after {
+.navbar-light .navbar-nav .active>.nav-link:::after {
     content: '';
     border-bottom: 4px solid rgba(126, 93, 169, 0.75);
     white-space: nowrap;
@@ -63,13 +63,13 @@ nav .nav-link:hover {
     position: relative;
 }
 
-.nav-link:hover::after {
+.nav-link:hover:::after {
     width: 100%;
     height: 50px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(143, 110, 185, 0.05) 55%, rgba(154, 77, 255, 0.25) 99.73%);
 }
 
-.nav-link::after {
+.nav-link:::after {
     content: '';
     border-bottom: 4px solid rgba(126, 93, 169, 0.75);
     white-space: nowrap;
@@ -295,7 +295,7 @@ nav .nav-link:hover {
     display: flex;
     font-size: 23px;
     font-weight: bold;
-    color: rgba(115, 80, 162, 0.75);
+    color: #ffebcd;
 }
 
 .call-center-body a {
@@ -393,7 +393,7 @@ nav .nav-link:hover {
     margin: 0px 30px;
 }
 
-.card-call:after {
+.card-call::after {
     content: "";
     mix-blend-mode: unset;
     position: absolute;
@@ -401,7 +401,7 @@ nav .nav-link:hover {
     height: 4rem;
     left: 18px;
     bottom: 30px;
-    background: rgba(115, 80, 162, 0.5);
+    background: rgba(235, 237, 251, 0.5);
     opacity: 0;
     border-radius: 100%;
     -webkit-transform-origin: 50% 50%;
@@ -422,18 +422,22 @@ nav .nav-link:hover {
     border: 1px solid rgba(115, 80, 162, 0.1);
 }
 
-.card-data-middle,
+.card-data-middle {
+    margin-left: 10px;
+    margin-right:10px;
+}
+
 .py-15 {
     padding-left: 15px;
     padding-right: 15px;
 }
 
 .card-data-left {
-    margin-right: 15px;
+    margin-right: 20px;
 }
 
 .card-data-right {
-    margin-left: 15px;
+    margin-left: 20px;
 }
 
 .card-img-top {
@@ -447,7 +451,7 @@ nav .nav-link:hover {
     border: 1px solid rgba(115, 80, 162, 0.1);
 }
 
-.card-location-active {
+.card-active {
     color: #EFF0F9;
     background: linear-gradient(222.6deg, #949BDC 0%, #6E77C9 100%);
 }
@@ -600,8 +604,8 @@ nav .nav-link:hover {
     border-radius: 50px;
 }
 
-.sbn-province:after, .sbn-1:after, .sbn-2:after,
-.sbp-province:after, .sbp-1:after, .sbp-2:after {
+.sbn-province::after, .sbn-1::after, .sbn-2::after,
+.sbp-province::after, .sbp-1::after, .sbp-2::after {
     font-size: 20px;
 }
 
@@ -1166,7 +1170,7 @@ nav .nav-link:hover {
         font-size:16px;
     }
 
-    .card-call:after {
+    .card-call::after {
         -webkit-animation: ripple 2.5s ease-out infinite;
         -moz-animation: ripple 2.5s ease-out infinite;
         animation: ripple 2.5s ease-out infinite;
