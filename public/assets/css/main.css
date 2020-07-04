@@ -192,10 +192,13 @@ nav .nav-link:hover {
 }
 
 .back-to-top {
+    text-align: right;
     position: fixed;
     bottom: 20px;
     right: 30px;
-    animation: menu_sticky 0.7s ease-in-out;
+    -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+    -moz-transition: -moz-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+    transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
     display: none;
     z-index: 99;
 }
@@ -896,7 +899,7 @@ nav .nav-link:hover {
     .card {
         border: 0;
         border-radius: 15px;
-        box-shadow: 0px 6px 10px rgba(0, 0, 0, .05);
+        box-shadow: 0px 6px 10px rgba(115, 80, 162, 0.05);
     }
 
     .card-body {
@@ -959,23 +962,40 @@ nav .nav-link:hover {
 @media (min-width: 768px) and (max-width: 990px) {
 
     .back-to-top {
+        opacity:.4;
+        width:100%;
         position: fixed;
-        bottom: 90px;
-        right: 2.5vw;
-        animation: menu_sticky 0.7s ease-in-out;
+        bottom: 30px;
+        right:0;
+        left:0;
+        -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        -moz-transition: -moz-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
         display: none;
         z-index: 99;
     }
 
     .fixed-btm-navbar {
         bottom: 10px;
+        left: 2.5vw;
+        right: 2.5vw;
         position: fixed;
         border-radius: 20px;
         background-color: rgba(255, 255, 255, 1);
         box-shadow: 0px 2px 25px rgba(115, 80, 162, 0.2);
         width: 95vw;
-        margin-left: 2.5vw;
         z-index: 99;
+        -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        -moz-transition: -moz-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    .fixed-btm-navbar.hidden {
+        transform: (translateY(140%));
+        -webkit-transform: translateY(140%);
+        -moz-transform: translateY(140%);
+        -ms-transform: translateY(140%);
+        -o-transform: translateY(140%);
     }
 
     .btm-nav-item {
@@ -1123,10 +1143,15 @@ nav .nav-link:hover {
     }
 
     .back-to-top {
+        opacity:.4;
+        width:100%;
         position: fixed;
-        bottom: 90px;
-        right: 2.5vw;
-        animation: menu_sticky 0.7s ease-in-out;
+        bottom: 30px;
+        right:0;
+        left:0;
+        -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        -moz-transition: -moz-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
         display: none;
         z-index: 99;
     }
@@ -1140,6 +1165,17 @@ nav .nav-link:hover {
         width: 95vw;
         margin-left: 2.5vw;
         z-index: 99;
+        -webkit-transition: -webkit-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        -moz-transition: -moz-transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+        transition: transform 0.5s cubic-bezier(0.86, 0, 0.07, 1);
+    }
+
+    .hidden {
+        transform: (translateY(170%));
+        -webkit-transform: translateY(170%);
+        -moz-transform: translateY(170%);
+        -ms-transform: translateY(170%);
+        -o-transform: translateY(170%);
     }
 
     .btm-nav-item {
@@ -1167,7 +1203,7 @@ nav .nav-link:hover {
     }
 
     .card {
-        box-shadow: 0px 5px 5px rgba(0, 0, 0, .05);
+        box-shadow: 0px 5px 5px rgba(115, 80, 162, 0.05);
     }
 
     .call-center-body {

@@ -94,10 +94,10 @@
         <div class="row content">
             <div class="col-lg-6 col-md-12 p-0 content-sm">
                 <h4>
-                    <b>Data Pantauan</b>
+                    <b>Data Kasus</b>
                 </h4>
                 <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                    Pembaharuan Terakhir: Selasa, 7 Juni 2020 17:14
+                    Pembaharuan Terakhir: Selasa, 4 Juli 2020 17:14
                 </label>
             </div>
             <div class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
@@ -322,7 +322,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="ml-50 card-gjl swiper-container swiper-gjl show-content-sm">
+                <div class="swiper-container swiper-p swiper-gjl show-content-sm">
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="card card-gejala">
@@ -404,7 +404,7 @@
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/masker.svg') }}" width="auto" height="150px" alt="">
                             <div class="card-body-data my-auto text-center">
                                 <label class="d-block" style="font-weight:600;">
-                                    Jangan Lupa Gunakan Masker
+                                    Gak Lupa Gunakan Masker
                                 </label>
                                 <span class="sub-color">Gunakan masker jika Kamu harus beraktivitas di luar rumah dan ganti secara berkala</span>
                             </div>
@@ -462,7 +462,7 @@
                                 <img  class="card-img-top-rounded" src="{{ asset('assets/img/masker.svg') }}" width="auto" height="150px" alt="">
                                 <div class="card-body-data my-auto text-center">
                                     <label class="d-block" style="font-weight:600;">
-                                        Jangan Lupa Gunakan Masker
+                                        Gak Lupa Gunakan Masker
                                     </label>
                                     <span class="sub-color">Gunakan masker jika Kamu harus beraktivitas di luar rumah dan ganti secara berkala</span>
                                 </div>
@@ -496,7 +496,7 @@
                                 <label class="d-block" style="font-weight:600;">
                                     Keluar Rumah
                                 </label>
-                                <span class="sub-color">Jangan bepergian ke luar rumah untuk hal yang gak terlalu penting</span>
+                                <span class="sub-color">Gak bepergian ke luar rumah untuk hal yang gak terlalu penting</span>
                             </div>
                         </div>
                     </div>
@@ -507,7 +507,7 @@
                                 <label class="d-block" style="font-weight:600;">
                                     Berada Ditempat yang Ramai
                                 </label>
-                                <span class="sub-color">Jangan berada ditempat ramai, Kamu gak tau siapa disana yang sedang terjangkit virus</span>
+                                <span class="sub-color">Gak berada ditempat ramai, Kamu gak tau siapa disana yang sedang terjangkit virus</span>
                             </div>
                         </div>
                     </div>
@@ -533,7 +533,7 @@
                                     <label class="d-block" style="font-weight:600;">
                                         Keluar Rumah
                                     </label>
-                                    <span class="sub-color">Jangan bepergian ke luar rumah untuk hal yang gak terlalu penting</span>
+                                    <span class="sub-color">Gak bepergian ke luar rumah untuk hal yang gak terlalu penting</span>
                                 </div>
                             </div>
                         </div>
@@ -544,7 +544,7 @@
                                     <label class="d-block" style="font-weight:600;">
                                         Berada Ditempat yang Ramai
                                     </label>
-                                    <span class="sub-color">Jangan berada ditempat ramai, Kamu gak tau siapa disana yang sedang terjangkit virus</span>
+                                    <span class="sub-color">Gak berada ditempat ramai, Kamu gak tau siapa disana yang sedang terjangkit virus</span>
                                 </div>
                             </div>
                         </div>
@@ -566,10 +566,12 @@
             </div>
         </div>
     </section>
-
-    <a id="back-to-top" href="#" class="btn btn-light btn-lg back-to-top" role="button">
-        <i class="fas fa-arrow-up"></i>
-    </a>
+    <div class="back-to-top text-center">
+        <a id="back-to-top" href="#" class="btn btn-light btn-lg" role="button">
+            <i class="fas fa-arrow-up"></i>
+        </a>
+    </div>
+    
 @endsection
 
 @section('custom_script')
@@ -586,9 +588,38 @@
 
         var $animation_elements = $('.animation-element');
         var $window = $(window);
+        var prev = 0;
+
+        $window.on('scroll resize', check_if_in_view);
+        $window.trigger('scroll');
+
+        $window.scroll(function(){
+            if ($(window).scrollTop() >= 726) {
+                $('.content_header').addClass('fixed-header');
+                $('.content_header').removeClass('bg-light');
+                
+                // $('nav div').addClass('visible-title');
+            }
+            else {
+                $('.content_header').removeClass('fixed-header');
+                $('.content_header').addClass('bg-light');
+                
+                // $('nav div').removeClass('visible-title');
+            }
+
+            if ($(window).scrollTop() >= 1400) {
+                $('.back-to-top').fadeIn();
+                // $('nav div').addClass('visible-title');
+            }
+            else {
+                $('.back-to-top').fadeOut();
+            }
+        });
+
+        // ending script animation when section in poinview
+
 
         getDataSpread();
-
 
         var swiper_province = new Swiper('.swiper-province', {
             slidesPerView: 4,
@@ -625,7 +656,7 @@
         var swiper_gjl = new Swiper('.swiper-gjl', {
             slidesPerView: 1.5,
             spaceBetween:20,
-            centeredSlides: true
+            centeredSlides: false
         });
 
         var swiper1 = new Swiper('.swiper-1', {
@@ -659,6 +690,17 @@
             var window_top_position = $window.scrollTop();
             var window_bottom_position = (window_top_position + window_height);
 
+            if(window_top_position > prev) {
+                $('.fixed-btm-navbar').addClass('hidden');
+                $('.back-to-top').removeClass('hidden');
+            } else {
+                $('.fixed-btm-navbar').removeClass('hidden');
+                $('.back-to-top').addClass('hidden');
+            }
+            prev = window_top_position;
+            console.log(prev);
+            console.log(window_top_position);
+
             $.each($animation_elements, function() {
                 var $element = $(this);
                 var element_height = $element.outerHeight();
@@ -674,31 +716,8 @@
                 // $element.removeClass('in-view');
                 // }
             });
+
         }
-
-        $window.on('scroll resize', check_if_in_view);
-        $window.trigger('scroll');
-
-        $window.scroll(function(){
-            if ($(window).scrollTop() >= 726) {
-                $('.content_header').addClass('fixed-header');
-                $('.content_header').removeClass('bg-light');
-                // $('nav div').addClass('visible-title');
-            }
-            else {
-                $('.content_header').removeClass('fixed-header');
-                $('.content_header').addClass('bg-light');
-                // $('nav div').removeClass('visible-title');
-            }
-
-            if ($(window).scrollTop() >= 1400) {
-                $('#back-to-top').fadeIn();
-                // $('nav div').addClass('visible-title');
-            }
-            else {
-                $('#back-to-top').fadeOut();
-            }
-        });
 
         $('#back-to-top').click(function () {
 			$('body,html').animate({
@@ -706,7 +725,6 @@
 			}, 400);
 			return false;
 		});
-        // ending script animation when section in poinview
 
         var dataCorona = [];
         var summaryCorona = [];
