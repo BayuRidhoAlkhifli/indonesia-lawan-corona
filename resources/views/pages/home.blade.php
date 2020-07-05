@@ -107,7 +107,7 @@
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
-                    <input id="province_finder" type="text" class="form-control input-bg search-input" placeholder="Cari provinsi">
+                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
                     <div class="input-group-append show-content-lg">
                         <span class="input-group-text icon-right-padding">
                             <i class="fas fa-search"></i>
@@ -117,7 +117,7 @@
             </div>
             <div class="col-md-12 p-0">
                 {{-- @dump($newData, $data) --}}
-                <div class="swiper-container swiper-province swiper-p">
+                <div class="swiper-container swiper-province swiper-p search-not-found">
                     <div class="swiper-wrapper">
                         @php
                             $val = 0;
@@ -142,10 +142,18 @@
 
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                 </div>
+                <div id="alert_search" role="alert">
+                    <div class="col-auto p-0" id="icon-alert-search">
+                        
+                    </div>
+                    <div id="alert-search-not-found" class="col-10">
+                        
+                    </div>
+                </div>
 
             </div>
             <div class="col-md-4 p-0 content-sm">
-                <div class="card card-data card-data-left animation-element slide-bottom">
+                <div class="card card-data card-data-left animation-element slide-bottom search-not-found">
                     <div class="card-body-data wrap">
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >TERKONFIRMASI</span>
@@ -159,7 +167,7 @@
                 </div>
             </div>
             <div class="col-md-4 p-0 content-sm">
-                <div class="card card-data card-data-middle animation-element slide-bottom-dly-135s">
+                <div class="card card-data card-data-middle animation-element slide-bottom-dly-135s search-not-found">
                     <div class="card-body-data wrap">
 
                         <div class=" whitespace-data-left mt-0">
@@ -174,7 +182,7 @@
                 </div>
             </div>
             <div class="col-md-4 p-0 content-sm">
-                <div class="card card-data card-data-right animation-element slide-bottom-dly-145s">
+                <div class="card card-data card-data-right animation-element slide-bottom-dly-145s search-not-found">
                     <div class="card-body-data wrap">
                         <div class=" whitespace-data-left mt-0">
                             <span class="d-block main-title-md" >MENINGGAL</span>
@@ -188,7 +196,7 @@
                 </div>
             </div>
             <div class="col-md-12 p-0 text-right content-sm">
-                <a href="#" class="link-purple">
+                <a href="#" class="link-purple search-not-found">
                     Lihat Lebih Lengkap >
                 </a>
             </div>
@@ -590,6 +598,10 @@
         var $window = $(window);
         var prev = 0;
 
+        var placeHolder = ['Cari provinsi', 'Papua', 'Jawa Barat', 'Jawa Tengah'];
+        var arrayPlaceHolder = 0;
+        var loopLength = placeHolder.length;
+
         $window.on('scroll resize', check_if_in_view);
         $window.trigger('scroll');
 
@@ -618,6 +630,16 @@
 
         // ending script animation when section in poinview
 
+        setInterval(() => {
+            if(arrayPlaceHolder<loopLength){
+                var newPlaceholder = placeHolder[arrayPlaceHolder];
+                arrayPlaceHolder++;
+                $('#province_finder').attr('placeholder',newPlaceholder);
+            } else {
+                $('#province_finder').attr('placeholder',placeHolder[0]);
+                arrayPlaceHolder = 0;
+            }
+        }, 4000);
 
         getDataSpread();
 
@@ -698,8 +720,6 @@
                 $('.back-to-top').addClass('hidden');
             }
             prev = window_top_position;
-            console.log(prev);
-            console.log(window_top_position);
 
             $.each($animation_elements, function() {
                 var $element = $(this);
@@ -789,141 +809,282 @@
             var vProvince = "";
 
             if ($('#province_finder').val() == 'Indonesia' || $('#province_finder').val() == 'indonesia') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Indonesia";
                 searchResult = summaryCorona;
                 swiper_province.slideTo(0, 500);
             } else if ($('#province_finder').val() == 'Aceh' || $('#province_finder').val() == 'aceh') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Aceh";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(1, 500);
             } else if ($('#province_finder').val() == 'Bali' || $('#province_finder').val() == 'bali') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Bali";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(2, 500);
             } else if ($('#province_finder').val() == 'Banten' || $('#province_finder').val() == 'banten') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Banten";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(3, 500);
             } else if ($('#province_finder').val() == 'Bangka Belitung' || $('#province_finder').val() == 'bangka belitung' || $('#province_finder').val() == 'Belitung') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Bangka Belitung";
                 searchResult = dataCorona["Kepulauan Bangka Belitung"];
                 swiper_province.slideTo(4, 500);
             } else if ($('#province_finder').val() == 'Yogyakarta' || $('#province_finder').val() == 'Yogya' || $('#province_finder').val() == 'Jogjakarta' || $('#province_finder').val() == 'Jogja' || $('#province_finder').val() == 'yogya' || $('#province_finder').val() == 'jogja') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "DI Yogyakarta";
                 searchResult = dataCorona["Daerah Istimewa Yogyakarta"];
                 swiper_province.slideTo(6, 500);
             } else if ($('#province_finder').val() == 'DKI Jakarta' || $('#province_finder').val() == 'dki jakarta' || $('#province_finder').val() == 'Jakarta' || $('#province_finder').val() == 'jakarta') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "DKI Jakarta";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(7, 500);
             } else if ($('#province_finder').val() == 'Jambi' || $('#province_finder').val() == 'jambi') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Jambi";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(8, 500);
             } else if ($('#province_finder').val() == 'Jawa Barat' || $('#province_finder').val() == 'Jabar' || $('#province_finder').val() == 'Jawa barat' || $('#province_finder').val() == 'jawa barat' || $('#province_finder').val() == 'jabar') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Jawa Barat";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(9, 500);
             } else if ($('#province_finder').val() == 'Jawa Tengah' || $('#province_finder').val() == 'Jateng' || $('#province_finder').val() == 'Jawa tengah' || $('#province_finder').val() == 'jawa tengah' || $('#province_finder').val() == 'jateng') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Jawa Tengah";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(10, 500);
             } else if ($('#province_finder').val() == 'Jawa Timur' || $('#province_finder').val() == 'Jatim' || $('#province_finder').val() == 'Jawa timur' || $('#province_finder').val() == 'jawa timur' || $('#province_finder').val() == 'jatim') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Jawa Timur";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(11, 500);
             } else if ($('#province_finder').val() == 'Kalimantan Barat' || $('#province_finder').val() == 'Kalbar' || $('#province_finder').val() == 'Kalimantan barat' || $('#province_finder').val() == 'kalimantan barat' || $('#province_finder').val() == 'kalbar') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Kalimantan Barat";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(12, 500);
-            } else if ($('#province_finder').val() == 'Kalimantan Timur' || $('#province_finder').val() == 'Kaltim' || $('#province_finder').val() == 'Kalimantan timur' || $('#province_finder').val() == 'kalimantan timur' || $('#province_finder').val() == 'kaltim') {   
+            } else if ($('#province_finder').val() == 'Kalimantan Timur' || $('#province_finder').val() == 'Kaltim' || $('#province_finder').val() == 'Kalimantan timur' || $('#province_finder').val() == 'kalimantan timur' || $('#province_finder').val() == 'kaltim') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');   
                 vProvince += "Kalimantan Timur";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(13, 500);
             } else if ($('#province_finder').val() == 'Kalimantan Tengah' || $('#province_finder').val() == 'Kalteng' || $('#province_finder').val() == 'Kalimantan tengah' || $('#province_finder').val() == 'kalimantan tengah' || $('#province_finder').val() == 'kalteng') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Kalimantan Tengah";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(14, 500);
             } else if ($('#province_finder').val() == 'Kalimantan Selatan' || $('#province_finder').val() == 'Kalimantan selatan' || $('#province_finder').val() == 'kalimantan selatan' || $('#province_finder').val() == 'Kalsel' || $('#province_finder').val() == 'kalsel') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Kalimantan Selatan";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(15, 500);
             } else if ($('#province_finder').val() == 'Kalimantan Utara' || $('#province_finder').val() == 'Kalimantan utara' || $('#province_finder').val() == 'kalimantan utara' || $('#province_finder').val() == 'Kalut' || $('#province_finder').val() == 'kalut') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Kalimantan Utara";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(16, 500);
             } else if ($('#province_finder').val() == 'Kepulauan Riau' || $('#province_finder').val() == 'Kepulauan riau' || $('#province_finder').val() == 'kepulauan riau' || $('#province_finder').val() == 'Riau' || $('#province_finder').val() == 'riau') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Kepulauan Riau";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(17, 500);
             } else if ($('#province_finder').val() == 'NTB' || $('#province_finder').val() == 'Ntb' || $('#province_finder').val() == 'ntb') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "NTB";
                 searchResult = dataCorona["Nusa Tenggara Barat"];
                 swiper_province.slideTo(18, 500);
             } else if ($('#province_finder').val() == 'Sumatera Selatan' || $('#province_finder').val() == 'Sumatera selatan' ||  $('#province_finder').val() == 'sumatera selatan' || $('#province_finder').val() == 'Sumsel' || $('#province_finder').val() == 'sumsel') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sumatera Selatan";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(19, 500);
             } else if ($('#province_finder').val() == 'Sumatera Barat' || $('#province_finder').val() == 'Sumatera barat' ||  $('#province_finder').val() == 'sumatera barat' || $('#province_finder').val() == 'Sumbar' || $('#province_finder').val() == 'sumbar') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sumatera Barat";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(20, 500);
             } else if ($('#province_finder').val() == 'Sumatera Utara' || $('#province_finder').val() == 'Sumatera utara' ||  $('#province_finder').val() == 'sumatera utara' || $('#province_finder').val() == 'Sumut' || $('#province_finder').val() == 'sumut') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sumatera Utara";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(21, 500);
             } else if ($('#province_finder').val() == 'Sulawesi Utara' || $('#province_finder').val() == 'Sulawesi utara' ||  $('#province_finder').val() == 'sulawesi utara' || $('#province_finder').val() == 'Sulut' || $('#province_finder').val() == 'sulut') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sulawesi Utara";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(22, 500);
             } else if ($('#province_finder').val() == 'Sulawesi Tenggara' || $('#province_finder').val() == 'Sulawesi tenggara' ||  $('#province_finder').val() == 'sulawesi tenggara' || $('#province_finder').val() == 'Sultra' || $('#province_finder').val() == 'sultra') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sulawesi Tenggara";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(23, 500);
             } else if ($('#province_finder').val() == 'Sulawesi Selatan' || $('#province_finder').val() == 'Sulawesi selatan' ||  $('#province_finder').val() == 'sulawesi selatan' || $('#province_finder').val() == 'Sulsel' || $('#province_finder').val() == 'sulsel') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sulawesi Selatan";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(24, 500);
             } else if ($('#province_finder').val() == 'Sulawesi Tengah' || $('#province_finder').val() == 'Sulawesi tengah' ||  $('#province_finder').val() == 'sulawesi tengah' || $('#province_finder').val() == 'Sulteng' || $('#province_finder').val() == 'sulteng') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sulawesi Tengah";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(25, 500);
             } else if ($('#province_finder').val() == 'Lampung' || $('#province_finder').val() == 'lampung') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Lampung";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(26, 500);
             } else if ($('#province_finder').val() == 'Riau' || $('#province_finder').val() == 'riau') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Riau";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(27, 500);
             } else if ($('#province_finder').val() == 'Maluku Utara' || $('#province_finder').val() == 'Maluku utara' || $('#province_finder').val() == 'maluku utara' || $('#province_finder').val() == 'Malut' || $('#province_finder').val() == 'malut') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Maluku Utara";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(28, 500);
             } else if ($('#province_finder').val() == 'Maluku' || $('#province_finder').val() == 'Maluku' || $('#province_finder').val() == 'maluku') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Maluku";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(29, 500);
             } else if ($('#province_finder').val() == 'Papua Barat' || $('#province_finder').val() == 'Papua barat' || $('#province_finder').val() == 'papua barat') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Papua Barat";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(30, 500);
             } else if ($('#province_finder').val() == 'Papua' || $('#province_finder').val() == 'Papua' || $('#province_finder').val() == 'papua') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Papua";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(31, 500);
             } else if ($('#province_finder').val() == 'Sulawesi Barat' || $('#province_finder').val() == 'Sulawesi barat' ||  $('#province_finder').val() == 'sulawesi barat' || $('#province_finder').val() == 'Sulbar' || $('#province_finder').val() == 'sulbar') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Sulawesi Barat";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(32, 500);
             } else if ($('#province_finder').val() == 'NTT' || $('#province_finder').val() == 'Ntt' || $('#province_finder').val() == 'ntt') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "NTT";
                 searchResult = dataCorona["Nusa Tenggara Timur"];
                 swiper_province.slideTo(33, 500);
             } else if ($('#province_finder').val() == 'Gorontalo' || $('#province_finder').val() == 'gorontalo') {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
                 vProvince += "Gorontalo";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(34, 500);
+            } else {
+                $('.search-not-found').addClass('d-none');
+                $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
+                $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>')
+                $('#alert-search-not-found').html('Provinsi gak ditemukan. Coba cari lagi deh.')
             }
 
             $.each($('.provinceSelector'), (k, v) => {
