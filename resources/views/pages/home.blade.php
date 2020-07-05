@@ -97,7 +97,7 @@
                     <b>Data Kasus</b>
                 </h4>
                 <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                    Pembaharuan Terakhir: Selasa, 4 Juli 2020 17:14
+                    Pembaharuan Terakhir: Minggu, 5 Juli 2020 17:14
                 </label>
             </div>
             <div class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
