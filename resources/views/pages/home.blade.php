@@ -97,7 +97,7 @@
                     <b>Data Kasus</b>
                 </h4>
                 <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                    Pembaharuan Terakhir: Senin, 6 Juli 2020 17:14
+                    Pembaharuan Terakhir: Selasa, 7 Juli 2020 01:51
                 </label>
             </div>
             <div id="input_search" class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
@@ -601,7 +601,6 @@
         var placeHolder = ['Cari provinsi', 'Papua', 'Jawa Barat', 'Jawa Tengah'];
         var arrayPlaceHolder = 0;
         var loopLength = placeHolder.length;
-        var last_province_select =""
 
         $window.on('scroll resize', check_if_in_view);
         $window.trigger('scroll');
@@ -770,9 +769,9 @@
                 // console.log(tempArray);
                 
 
-                summaryCorona = (tempSummary)
-                dataCorona = (tempArray)
-                console
+                summaryCorona = (tempSummary);
+                dataCorona = (tempArray);
+                
                 $.each($('.provinceSelector'), (k, v) => {
                     vHtml = $(v).html();
                     
@@ -825,8 +824,13 @@
 
             var searchResult = "";
             var vProvince = "";
-
-            if ($('#province_finder').val() == 'Indonesia' || $('#province_finder').val() == 'indonesia') {
+            
+            if($('#province_finder').val() == "") {
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
+            } else if ($('#province_finder').val() == 'Indonesia' || $('#province_finder').val() == 'indonesia') {
                 $('.alert').removeAttr('class');
                 $('#icon-alert-search').html('');
                 $('#alert-search-not-found').html('');
@@ -858,7 +862,7 @@
                 vProvince += "Banten";
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(3, 500);
-            } else if ($('#province_finder').val() == 'Bangka Belitung' || $('#province_finder').val() == 'bangka belitung' || $('#province_finder').val() == 'Belitung') {
+            } else if ($('#province_finder').val() == 'Bangka Belitung' || $('#province_finder').val() == 'bangka belitung' || $('#province_finder').val() == 'Belitung'  || $('#province_finder').val() == 'belitung') {
                 $('.alert').removeAttr('class');
                 $('#icon-alert-search').html('');
                 $('#alert-search-not-found').html('');
@@ -1156,8 +1160,8 @@
             
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
-            console.log(e)
-            last_province_select += "e.target.parentElement";
+            console.log($(e.target.outerHTML));
+
             if(arrayKey == 'Indonesia'){
                 finalResult = summaryCorona;
             };
@@ -1176,8 +1180,6 @@
 
             counterAnimation();
         });
-
-        console.log(last_province_select)
 
         $('#card_call_center').click((e) => {
             document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].call_center_number;
