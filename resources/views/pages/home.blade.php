@@ -97,10 +97,10 @@
                     <b>Data Kasus</b>
                 </h4>
                 <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                    Pembaharuan Terakhir: Minggu, 5 Juli 2020 17:14
+                    Pembaharuan Terakhir: Senin, 6 Juli 2020 17:14
                 </label>
             </div>
-            <div class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
+            <div id="input_search" class="col-lg-6 col-md-12 p-0 input-bg border-radius-10 content-sm">
                 <div class="input-group my-15">
                     <div class="input-group-prepend show-content-sm">
                         <span class="input-group-text icon-left-padding">
@@ -264,8 +264,8 @@
         </div>
     </section>
 
-    <section class="section-whitespace" style="padding-top:130px;">
-        <div class="section-middle">
+    <section class="section-whitespace section-middle" style="padding-top:130px;">
+        <div class="">
             <div class="w-100 position-relative">
                 <img src="{{ asset('assets/img/virus.svg') }}" class="virus-floating position-absolute virus-sm" width="auto" height="auto" alt="">
                 <img src="{{ asset('assets/img/virus.svg') }}" class="virus-floating-slow position-absolute virus-md" width="auto" height="350px" alt="">
@@ -601,6 +601,7 @@
         var placeHolder = ['Cari provinsi', 'Papua', 'Jawa Barat', 'Jawa Tengah'];
         var arrayPlaceHolder = 0;
         var loopLength = placeHolder.length;
+        var last_province_select =""
 
         $window.on('scroll resize', check_if_in_view);
         $window.trigger('scroll');
@@ -801,7 +802,24 @@
 
                 counterAnimation();
             });
-        }
+        };
+
+        $('#province_finder').on('focus', function() {
+            $('.alert').removeAttr('class');
+            $('#icon-alert-search').html('');
+            $('#alert-search-not-found').html('');
+            $('.search-not-found').removeClass('d-none');
+            $('#province_finder').val() == '';
+        });
+
+        $('#province_finder').on('input', function() {
+            if ($('#province_finder').val() == ''){
+                $('.alert').removeAttr('class');
+                $('#icon-alert-search').html('');
+                $('#alert-search-not-found').html('');
+                $('.search-not-found').removeClass('d-none');
+            }
+        });
 
         $('#province_finder').change((e) => {
 
@@ -1081,10 +1099,15 @@
                 searchResult = dataCorona[vProvince];
                 swiper_province.slideTo(34, 500);
             } else {
+                $( "#input_search" )
+                    .animate({ "left": "+=10px" }, 70 )
+                    .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
+                    .animate({ "left": "-=10px" }, 70 );
                 $('.search-not-found').addClass('d-none');
                 $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
                 $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>')
-                $('#alert-search-not-found').html('Provinsi gak ditemukan. Coba cari lagi deh.')
+                $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.')
+                
             }
 
             $.each($('.provinceSelector'), (k, v) => {
@@ -1129,15 +1152,15 @@
         $('.provinceSelector').click((e) => {
             
             var arrayKey = $(e.target).data("real");
+            var finalResult = dataCorona[arrayKey];
             
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
-
-            var finalResult = dataCorona[arrayKey];
-
+            console.log(e)
+            last_province_select += "e.target.parentElement";
             if(arrayKey == 'Indonesia'){
                 finalResult = summaryCorona;
-            }
+            };
 
             $("#call_center_nam").html(provinceData[arrayKey].call_center_name);
             $("#hotline_name").html(provinceData[arrayKey].hotline_name);
@@ -1153,6 +1176,8 @@
 
             counterAnimation();
         });
+
+        console.log(last_province_select)
 
         $('#card_call_center').click((e) => {
             document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].call_center_number;
@@ -1178,7 +1203,7 @@
                     }
                 });
             });
-        }
+        };
 
     });
 

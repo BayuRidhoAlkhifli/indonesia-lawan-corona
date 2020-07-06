@@ -768,8 +768,6 @@ nav .nav-link:hover {
         background: url("/assets/img/wave_grey_lg.svg") no-repeat center;
         background-size: cover;
         height: 1160px;
-        position: absolute;
-        top: 1830px;
         width: 100%;
 
     }
@@ -827,8 +825,6 @@ nav .nav-link:hover {
         background: url("/assets/img/wave_grey.svg") no-repeat center;
         background-size: cover;
         height: 1250px;
-        position: absolute;
-        top: 1715px;
         width: 100%;
     }
 
@@ -917,9 +913,7 @@ nav .nav-link:hover {
     .section-middle {
         background: url("/assets/img/wave_grey.svg") no-repeat center;
         background-size: cover;
-        position: absolute;
         width: 100%;
-        top: 1700px;
         height: 1190px;
     }
 
@@ -1075,9 +1069,6 @@ nav .nav-link:hover {
         padding: 2rem 30px;
     }
 
-    .section-middle {
-        top: 1630px;
-    }
 
     .step-item-1 {
         padding-left: 15px;
