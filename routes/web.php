@@ -18,4 +18,10 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('', 'HomeController@index');
+
+Route::get('/kon', function(){
+    $test = \DB::table('json_data')->get();
+    dd($test);
+});
+
 // Route::get('/home', 'HomeController@getHotlineNumber')->name('getHotline');
