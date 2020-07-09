@@ -108,7 +108,6 @@
                 </div>
             </div>
             <div class="col-md-12 p-0">
-                {{-- @dump($newData, $data) --}}
                 <div class="swiper-container swiper-province swiper-p search-not-found">
                     <div class="swiper-wrapper">
                         @php
@@ -116,7 +115,6 @@
                         @endphp
 
                         @foreach ($data as $key)
-                            {{-- @dump($data[$val]->name) --}}
                             <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
                                 <div class="card card-location" style="cursor:pointer">
                                     <div class="card-province text-center provinceSelector">{{ $data[$val]->name }}</div>
@@ -159,7 +157,7 @@
                 <div class="row slider slider-for search-not-found">
                     <div id="data_kasus" class="col-md-12 p-0 content-sm mt-20 search-not-found">
                         <label class="sub-color animation-element fade-in" style="font-weight: 300;">
-                            Pembaharuan Terakhir: Selasa, 7 Juli 2020 01:51
+                            Pembaharuan Terakhir: <span id="updated_at"></span>
                         </label>
                         <div class="row">
                             <div class="col-md-4 p-0 ">
@@ -424,6 +422,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-4 col-md-6 p-0">
                         <div class="card-no-shadow step-item-4">
                             <img  class="card-img-top-rounded" src="{{ asset('assets/img/masker.svg') }}" width="auto" height="150px" alt="">
@@ -606,20 +605,27 @@
         return false;
     }); 
 
+    var draggable = null;
+    var last_selected = $(".provinceSelector:contains('Indonesia')");
+
+    var swiper_province = {};
+    var swiper_gjl = {};
+    var swiper1 = {};
+    var swiper2 = {};
+
+    var scene = document.getElementById('scene');
+    var parallaxInstance = new Parallax(scene);
+
+    var $animation_elements = $('.animation-element');
+    var $window = $(window);
+    var prev = 0;
+
+    var placeHolder = ['Cari provinsi', 'Misal Papua, Jawa Timur, dll'];
+    var arrayPlaceHolder = 0;
+    var loopLength = placeHolder.length;
+
     $(document).ready(function() {
         // animation when section in poinview
-        var scene = document.getElementById('scene');
-        var parallaxInstance = new Parallax(scene);
-
-        var $animation_elements = $('.animation-element');
-        var $window = $(window);
-        var prev = 0;
-
-        var placeHolder = ['Cari provinsi', 'Papua', 'Jawa Barat', 'Jawa Tengah'];
-        var arrayPlaceHolder = 0;
-        var loopLength = placeHolder.length;
-
-        var draggable = false;
 
         $window.on('scroll resize', check_if_in_view);
         $window.trigger('scroll');
@@ -662,7 +668,7 @@
 
         getDataSpread();
 
-        var swiper_province = new Swiper('.swiper-province', {
+        swiper_province = new Swiper('.swiper-province', {
             slidesPerView: 4,
             spaceBetween: 30,
             freeMode: true,
@@ -694,13 +700,13 @@
             }
         });
 
-        var swiper_gjl = new Swiper('.swiper-gjl', {
+        swiper_gjl = new Swiper('.swiper-gjl', {
             slidesPerView: 1.5,
             spaceBetween:20,
             centeredSlides: false
         });
 
-        var swiper1 = new Swiper('.swiper-1', {
+        swiper1 = new Swiper('.swiper-1', {
             spaceBetween:30,
             centeredSlides: true,
             navigation: {
@@ -713,7 +719,7 @@
             },
         });
 
-        var swiper2 = new Swiper('.swiper-2', {
+        swiper2 = new Swiper('.swiper-2', {
             spaceBetween:30,
             centeredSlides: true,
             navigation: {
@@ -725,38 +731,6 @@
                 disableOnInteraction: false,
             },
         });
-
-        function check_if_in_view(){
-            var window_height = $window.height();
-            var window_top_position = $window.scrollTop();
-            var window_bottom_position = (window_top_position + window_height);
-
-            if(window_top_position > prev) {
-                $('.fixed-btm-navbar').addClass('hidden');
-                $('.back-to-top').removeClass('hidden');
-            } else {
-                $('.fixed-btm-navbar').removeClass('hidden');
-                $('.back-to-top').addClass('hidden');
-            }
-            prev = window_top_position;
-
-            $.each($animation_elements, function() {
-                var $element = $(this);
-                var element_height = $element.outerHeight();
-                var element_top_position = $element.offset().top;
-                var element_bottom_position = (element_top_position + element_height);
-
-                //check to see if this current container is within viewport
-                if ((element_bottom_position >= window_top_position) &&
-                    (element_top_position <= window_bottom_position)) {
-                $element.addClass('in-view');
-                }
-                // else {
-                // $element.removeClass('in-view');
-                // }
-            });
-
-        }
 
         $('#back-to-top').click(function () {
 			$('body,html').animate({
@@ -770,37 +744,22 @@
         var provinceData = JSON.parse('{!! json_encode($newData) !!}');
         
         function getDataSpread(){
-            axios.get('https://indonesia-covid-19.mathdro.id/api/provinsi').then((res) =>{
-                console.log(res);
-                
+            axios.get('{{ route("get.dataSpread") }}').then((res) =>{
+                moment.locale("id");
                 var tempArray = [];
-                var tempSummary = {
-                    'kasusPosi':0,
-                    'kasusSemb':0,
-                    'kasusMeni':0
-                };
-                
-                $.each(res.data.data, (k, v) => {
-                    tempArray[v.provinsi] = v;
-                    tempSummary.kasusPosi+=v.kasusPosi;
-                    tempSummary.kasusSemb+=v.kasusSemb;
-                    tempSummary.kasusMeni+=v.kasusMeni;
+
+                $.each(res.data, (k, v) => {
+                    tempArray[v.name] = v;
                 });
-
-                // console.log(tempArray);
                 
-
-                summaryCorona = (tempSummary);
                 dataCorona = (tempArray);
-                
+
                 $.each($('.provinceSelector'), (k, v) => {
                     vHtml = $(v).html();
                     
                     if(vHtml == "Indonesia"){
                         $(v).parent().addClass('card-active');
                         $('.rs-rujukan').addClass('d-none');
-                    } else {
-
                     }
 
                     $(v).data("real", vHtml);
@@ -818,22 +777,29 @@
                         $(v).html("NTT");
                     }
                 });
-
-                $("#txt_konfirm").html(summaryCorona.kasusPosi);
-                $("#txt_meninggal").html(summaryCorona.kasusMeni);
-                $("#txt_sembuh").html(summaryCorona.kasusSemb);
+                
+                $("#updated_at").html(moment(dataCorona["Indonesia"].updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
+                $("#txt_konfirm").html(dataCorona["Indonesia"].positive);
+                $("#txt_meninggal").html(dataCorona["Indonesia"].death);
+                $("#txt_sembuh").html(dataCorona["Indonesia"].cured);
 
                 counterAnimation();
             });
         };
 
-        $('#province_finder').on('focus', function() {
-            $('.alert').removeAttr('class');
-            $('#icon-alert-search').html('');
-            $('#alert-search-not-found').html('');
-            $('.search-not-found').removeClass('d-none');
-            $('#province_finder').val() == '';
-        });
+        // $('#province_finder').on('focus', function() {
+        //     $('.alert').removeAttr('class');
+        //     $('#icon-alert-search').html('');
+        //     $('#alert-search-not-found').html('');
+        //     $('.search-not-found').removeClass('d-none');
+        //     $('#province_finder').val() == '';
+        // });
+
+        
+
+        $('#province_finder').keypress((e) => {
+            provinceFinder(e);
+        })
 
         $('#province_finder').on('input', function() {
             if ($('#province_finder').val() == ''){
@@ -842,435 +808,37 @@
                 $('#alert-search-not-found').html('');
                 $('.search-not-found').removeClass('d-none');
             }
+
+            $(last_selected).parent().addClass('card-active'); 
+            
         });
-
-        $('#province_finder').change((e) => {
-
-            var searchResult = "";
-            var vProvince = "";
-            
-            if($('#province_finder').val() == "") {
-                $('.rs-rujukan').addClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-            } else if ($('#province_finder').val() == 'Indonesia' || $('#province_finder').val() == 'indonesia') {
-                $('.rs-rujukan').addClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Indonesia";
-                searchResult = summaryCorona;
-                swiper_province.slideTo(0, 500);
-            } else if ($('#province_finder').val() == 'Aceh' || $('#province_finder').val() == 'aceh') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Aceh";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(1, 500);
-            } else if ($('#province_finder').val() == 'Bali' || $('#province_finder').val() == 'bali') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Bali";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(2, 500);
-            } else if ($('#province_finder').val() == 'Banten' || $('#province_finder').val() == 'banten') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Banten";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(3, 500);
-            } else if ($('#province_finder').val() == 'Bangka Belitung' || $('#province_finder').val() == 'bangka belitung' || $('#province_finder').val() == 'Belitung'  || $('#province_finder').val() == 'belitung') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Bangka Belitung";
-                searchResult = dataCorona["Kepulauan Bangka Belitung"];
-                swiper_province.slideTo(4, 500);
-            } else if ($('#province_finder').val() == 'Yogyakarta' || $('#province_finder').val() == 'Yogya' || $('#province_finder').val() == 'Jogjakarta' || $('#province_finder').val() == 'Jogja' || $('#province_finder').val() == 'yogya' || $('#province_finder').val() == 'jogja') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "DI Yogyakarta";
-                searchResult = dataCorona["Daerah Istimewa Yogyakarta"];
-                swiper_province.slideTo(6, 500);
-            } else if ($('#province_finder').val() == 'DKI Jakarta' || $('#province_finder').val() == 'dki jakarta' || $('#province_finder').val() == 'Jakarta' || $('#province_finder').val() == 'jakarta') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "DKI Jakarta";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(7, 500);
-            } else if ($('#province_finder').val() == 'Jambi' || $('#province_finder').val() == 'jambi') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Jambi";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(8, 500);
-            } else if ($('#province_finder').val() == 'Jawa Barat' || $('#province_finder').val() == 'Jabar' || $('#province_finder').val() == 'Jawa barat' || $('#province_finder').val() == 'jawa barat' || $('#province_finder').val() == 'jabar') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Jawa Barat";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(9, 500);
-            } else if ($('#province_finder').val() == 'Jawa Tengah' || $('#province_finder').val() == 'Jateng' || $('#province_finder').val() == 'Jawa tengah' || $('#province_finder').val() == 'jawa tengah' || $('#province_finder').val() == 'jateng') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Jawa Tengah";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(10, 500);
-            } else if ($('#province_finder').val() == 'Jawa Timur' || $('#province_finder').val() == 'Jatim' || $('#province_finder').val() == 'Jawa timur' || $('#province_finder').val() == 'jawa timur' || $('#province_finder').val() == 'jatim') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Jawa Timur";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(11, 500);
-            } else if ($('#province_finder').val() == 'Kalimantan Barat' || $('#province_finder').val() == 'Kalbar' || $('#province_finder').val() == 'Kalimantan barat' || $('#province_finder').val() == 'kalimantan barat' || $('#province_finder').val() == 'kalbar') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Kalimantan Barat";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(12, 500);
-            } else if ($('#province_finder').val() == 'Kalimantan Timur' || $('#province_finder').val() == 'Kaltim' || $('#province_finder').val() == 'Kalimantan timur' || $('#province_finder').val() == 'kalimantan timur' || $('#province_finder').val() == 'kaltim') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');   
-                vProvince += "Kalimantan Timur";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(13, 500);
-            } else if ($('#province_finder').val() == 'Kalimantan Tengah' || $('#province_finder').val() == 'Kalteng' || $('#province_finder').val() == 'Kalimantan tengah' || $('#province_finder').val() == 'kalimantan tengah' || $('#province_finder').val() == 'kalteng') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Kalimantan Tengah";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(14, 500);
-            } else if ($('#province_finder').val() == 'Kalimantan Selatan' || $('#province_finder').val() == 'Kalimantan selatan' || $('#province_finder').val() == 'kalimantan selatan' || $('#province_finder').val() == 'Kalsel' || $('#province_finder').val() == 'kalsel') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Kalimantan Selatan";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(15, 500);
-            } else if ($('#province_finder').val() == 'Kalimantan Utara' || $('#province_finder').val() == 'Kalimantan utara' || $('#province_finder').val() == 'kalimantan utara' || $('#province_finder').val() == 'Kalut' || $('#province_finder').val() == 'kalut') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Kalimantan Utara";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(16, 500);
-            } else if ($('#province_finder').val() == 'Kepulauan Riau' || $('#province_finder').val() == 'Kepulauan riau' || $('#province_finder').val() == 'kepulauan riau' || $('#province_finder').val() == 'Riau' || $('#province_finder').val() == 'riau') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Kepulauan Riau";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(17, 500);
-            } else if ($('#province_finder').val() == 'NTB' || $('#province_finder').val() == 'Ntb' || $('#province_finder').val() == 'ntb') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "NTB";
-                searchResult = dataCorona["Nusa Tenggara Barat"];
-                swiper_province.slideTo(18, 500);
-            } else if ($('#province_finder').val() == 'Sumatera Selatan' || $('#province_finder').val() == 'Sumatera selatan' ||  $('#province_finder').val() == 'sumatera selatan' || $('#province_finder').val() == 'Sumsel' || $('#province_finder').val() == 'sumsel') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sumatera Selatan";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(19, 500);
-            } else if ($('#province_finder').val() == 'Sumatera Barat' || $('#province_finder').val() == 'Sumatera barat' ||  $('#province_finder').val() == 'sumatera barat' || $('#province_finder').val() == 'Sumbar' || $('#province_finder').val() == 'sumbar') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sumatera Barat";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(20, 500);
-            } else if ($('#province_finder').val() == 'Sumatera Utara' || $('#province_finder').val() == 'Sumatera utara' ||  $('#province_finder').val() == 'sumatera utara' || $('#province_finder').val() == 'Sumut' || $('#province_finder').val() == 'sumut') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sumatera Utara";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(21, 500);
-            } else if ($('#province_finder').val() == 'Sulawesi Utara' || $('#province_finder').val() == 'Sulawesi utara' ||  $('#province_finder').val() == 'sulawesi utara' || $('#province_finder').val() == 'Sulut' || $('#province_finder').val() == 'sulut') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sulawesi Utara";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(22, 500);
-            } else if ($('#province_finder').val() == 'Sulawesi Tenggara' || $('#province_finder').val() == 'Sulawesi tenggara' ||  $('#province_finder').val() == 'sulawesi tenggara' || $('#province_finder').val() == 'Sultra' || $('#province_finder').val() == 'sultra') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sulawesi Tenggara";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(23, 500);
-            } else if ($('#province_finder').val() == 'Sulawesi Selatan' || $('#province_finder').val() == 'Sulawesi selatan' ||  $('#province_finder').val() == 'sulawesi selatan' || $('#province_finder').val() == 'Sulsel' || $('#province_finder').val() == 'sulsel') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sulawesi Selatan";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(24, 500);
-            } else if ($('#province_finder').val() == 'Sulawesi Tengah' || $('#province_finder').val() == 'Sulawesi tengah' ||  $('#province_finder').val() == 'sulawesi tengah' || $('#province_finder').val() == 'Sulteng' || $('#province_finder').val() == 'sulteng') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sulawesi Tengah";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(25, 500);
-            } else if ($('#province_finder').val() == 'Lampung' || $('#province_finder').val() == 'lampung') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Lampung";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(26, 500);
-            } else if ($('#province_finder').val() == 'Riau' || $('#province_finder').val() == 'riau') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Riau";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(27, 500);
-            } else if ($('#province_finder').val() == 'Maluku Utara' || $('#province_finder').val() == 'Maluku utara' || $('#province_finder').val() == 'maluku utara' || $('#province_finder').val() == 'Malut' || $('#province_finder').val() == 'malut') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Maluku Utara";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(28, 500);
-            } else if ($('#province_finder').val() == 'Maluku' || $('#province_finder').val() == 'Maluku' || $('#province_finder').val() == 'maluku') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Maluku";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(29, 500);
-            } else if ($('#province_finder').val() == 'Papua Barat' || $('#province_finder').val() == 'Papua barat' || $('#province_finder').val() == 'papua barat') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Papua Barat";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(30, 500);
-            } else if ($('#province_finder').val() == 'Papua' || $('#province_finder').val() == 'Papua' || $('#province_finder').val() == 'papua') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Papua";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(31, 500);
-            } else if ($('#province_finder').val() == 'Sulawesi Barat' || $('#province_finder').val() == 'Sulawesi barat' ||  $('#province_finder').val() == 'sulawesi barat' || $('#province_finder').val() == 'Sulbar' || $('#province_finder').val() == 'sulbar') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Sulawesi Barat";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(32, 500);
-            } else if ($('#province_finder').val() == 'NTT' || $('#province_finder').val() == 'Ntt' || $('#province_finder').val() == 'ntt') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "NTT";
-                searchResult = dataCorona["Nusa Tenggara Timur"];
-                swiper_province.slideTo(33, 500);
-            } else if ($('#province_finder').val() == 'Gorontalo' || $('#province_finder').val() == 'gorontalo') {
-                draggable = true;
-                $('.rs-rujukan').removeClass('d-none');
-                $('.alert').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-                vProvince += "Gorontalo";
-                searchResult = dataCorona[vProvince];
-                swiper_province.slideTo(34, 500);
-            } else {
-                $( "#input_search" )
-                    .animate({ "left": "+=10px" }, 70 )
-                    .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
-                    .animate({ "left": "-=10px" }, 70 );
-                $('.search-not-found').addClass('d-none');
-                $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
-                $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>')
-                $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.')
-                
-            }
-
-            $.each($('.provinceSelector'), (k, v) => {
-                if ($(v).html() == vProvince || $(v).data("real") == vProvince) {
-                    $(v).parent().addClass('card-active');             
-                } else {
-                    $(v).parent().removeClass('card-active');       
-                }
-            });
-
-            // console.log(vProvince);
-            
-
-            if (vProvince == 'Bangka Belitung') {
-                vProvince = "";
-                vProvince += "Kepulauan Bangka Belitung";
-            }else if (vProvince == 'DI Yogyakarta') {
-                vProvince = "";
-                vProvince += "Daerah Istimewa Yogyakarta";
-            }else if (vProvince == 'NTT') {
-                vProvince = "";
-                vProvince += "Nusa Tenggara Timur";
-            }else if (vProvince == 'NTB') {
-                vProvince = "";
-                vProvince += "Nusa Tenggara Barat";
-            }
-
-            // console.log(vProvince);
-
-            $("#call_center_nam").html(provinceData[vProvince].call_center_name);
-            $("#hotline_name").html(provinceData[vProvince].hotline_name);
-            $("#call_center_number").html(provinceData[vProvince].call_center_number.replace(/\-/g, ' '));
-            $("#hot_line_number").html(provinceData[vProvince].hotline_number.replace(/\-/g, ' '));
-
-            $("#txt_konfirm").text(searchResult.kasusPosi);
-            $("#txt_meninggal").text(searchResult.kasusMeni);
-            $("#txt_sembuh").text(searchResult.kasusSemb);
-
-            counterAnimation();
-        })
 
         $('.provinceSelector').click((e) => {
             
             var arrayKey = $(e.target).data("real");
+            
             var finalResult = dataCorona[arrayKey];
             
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
 
             if(arrayKey == 'Indonesia'){
-                finalResult = summaryCorona;
                 $('.rs-rujukan').addClass('d-none');
             }else{
                 $('.rs-rujukan').removeClass('d-none');
             };
 
-            $("#call_center_nam").html(provinceData[arrayKey].call_center_name);
-            $("#hotline_name").html(provinceData[arrayKey].hotline_name);
-            $("#call_center_number").html(provinceData[arrayKey].call_center_number.replace(/\-/g, ' '));
-            $("#hot_line_number").html(provinceData[arrayKey].hotline_number.replace(/\-/g, ' '));
+            $("#call_center_nam").html(dataCorona[arrayKey].call_center_name);
+            $("#hotline_name").html(dataCorona[arrayKey].hotline_name);
+            $("#call_center_number").html(dataCorona[arrayKey].call_center_number.replace(/\-/g, ' '));
+            $("#hot_line_number").html(dataCorona[arrayKey].hotline_number.replace(/\-/g, ' '));
             // $("#card_call_center").attr(provinceData[arrayKey].call_center_number);
             // alert($("#card_hotline").attr("href",provinceData[arrayKey].call_center_number))
             
             
-            $("#txt_konfirm").text(finalResult.kasusPosi);
-            $("#txt_meninggal").text(finalResult.kasusMeni);
-            $("#txt_sembuh").text(finalResult.kasusSemb);
+            $("#txt_konfirm").text(finalResult.positive);
+            $("#txt_meninggal").text(finalResult.cured);
+            $("#txt_sembuh").text(finalResult.death);
 
             counterAnimation();
         });
@@ -1283,7 +851,9 @@
             document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].hotline_number;
         });
 
-        console.log(draggable);
+        function slickSlider(draggable){
+
+        }
 
         $('.slider-nav').slick({
             slidesToShow: 2,
@@ -1305,6 +875,7 @@
             slidesToScroll: 1,
             arrows: false,
             fade: false,
+            // draggable: draggable,
             asNavFor: '.slider-nav',
             speed: 300,
             adaptiveHeight: true
@@ -1338,8 +909,6 @@
                 let factor = roundUp(delta / data_rect.width, 10);
             }
             
-            // console.log(sliding, slide);
-            
             prev_left = left;
         }); 
 
@@ -1347,21 +916,125 @@
             trigger: 'hover'
         })
 
-        function counterAnimation() {
-            $('.count').each(function () {
-                $(this).prop('Counter',0).animate({
-                    Counter: $(this).text()
-                }, {
-                    duration: 375,
-                    easing: 'swing',
-                    step: function (now) {
-                        $(this).text(Math.ceil(now));
-                    }
-                });
-            });
-        };
-
     });
+
+    function counterAnimation() {
+        $('.count').each(function () {
+            $(this).prop('Counter',0).animate({
+                Counter: $(this).text()
+            }, {
+                duration: 375,
+                easing: 'swing',
+                step: function (now) {
+                    $(this).text(Math.ceil(now));
+                }
+            });
+        });
+    };
+
+    function check_if_in_view() {
+    
+        var window_height = $window.height();
+        var window_top_position = $window.scrollTop();
+        var window_bottom_position = (window_top_position + window_height);
+
+        if(window_top_position > prev) {
+            $('.fixed-btm-navbar').addClass('hidden');
+            $('.back-to-top').removeClass('hidden');
+        } else {
+            $('.fixed-btm-navbar').removeClass('hidden');
+            $('.back-to-top').addClass('hidden');
+        }
+        prev = window_top_position;
+
+        $.each($animation_elements, function() {
+            var $element = $(this);
+            var element_height = $element.outerHeight();
+            var element_top_position = $element.offset().top;
+            var element_bottom_position = (element_top_position + element_height);
+
+            //check to see if this current container is within viewport
+            if ((element_bottom_position >= window_top_position) &&
+                (element_top_position <= window_bottom_position)) {
+            $element.addClass('in-view');
+            }
+            // else {
+            // $element.removeClass('in-view');
+            // }
+        });
+
+    }
+
+    function provinceFinder(e) {
+            if (e.keyCode == 13){
+                var searchResult = "";
+
+                axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
+                    
+
+                    if (res.data.length > 0) {
+                        
+                        $.each(res.data,(k, v) => {
+                            
+                            if (v.name == "Indonesia") {
+                                $('.rs-rujukan').addClass('d-none');
+                                $('.alert').removeAttr('class');
+                                $('#icon-alert-search').html('');
+                                $('#alert-search-not-found').html('');
+                                $('.search-not-found').removeClass('d-none');
+                                searchResult = v;
+                                
+                            } else {
+                                $('.rs-rujukan').removeClass('d-none');
+                                $('.alert').removeAttr('class');
+                                $('#icon-alert-search').html('');
+                                $('#alert-search-not-found').html('');
+                                $('.search-not-found').removeClass('d-none');
+                                searchResult = v;
+                                
+                            }
+                        });
+                        
+                    }else{
+                        $( "#input_search" )
+                            .animate({ "left": "+=10px" }, 70 )
+                            .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
+                            .animate({ "left": "-=10px" }, 70 );
+                        $('.search-not-found').addClass('d-none');
+                        $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
+                        $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                        $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
+                    }
+
+                    $.each($('.provinceSelector'), (k, v) => {
+                        if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
+                            $(v).parent().addClass('card-active'); 
+                            last_selected = v;
+                            swiper_province.slideTo(k, 500);        
+                        } else {
+                            $(v).parent().removeClass('card-active');       
+                        }
+                    });
+
+                    
+
+                    $("#call_center_name").html(searchResult.call_center_name);
+                    $("#hotline_name").html(searchResult.hotline_name);
+                    $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
+                    $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
+
+                    $("#txt_konfirm").text(searchResult.positive);
+                    $("#txt_meninggal").text(searchResult.cured);
+                    $("#txt_sembuh").text(searchResult.death);
+
+                    // last_selected = searchResult.name;
+
+                    counterAnimation();
+                    
+                });
+            }
+        }
+
 
 
 </script>

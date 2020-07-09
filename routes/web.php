@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Http;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +21,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('', 'HomeController@index');
+Route::get('data-spread', 'HomeController@getDataSpread')->name("get.dataSpread");
 
-Route::get('/kon', function(){
-    $test = \DB::table('json_data')->get();
-    dd($test);
-});
+Route::get('search-province/{province_name}', 'HomeController@searchProvince')->name("get.provinceName");
 
 // Route::get('/home', 'HomeController@getHotlineNumber')->name('getHotline');

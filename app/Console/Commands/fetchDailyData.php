@@ -40,10 +40,44 @@ class fetchDailyData extends Command
      */
     public function handle()
     {
-        $response = Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
-        \App\Models\JsonData::create(['json' => json_encode($response->json()), 'date_time' => now('Asia/Jakarta')->toDateTimeString()]);
+        $provinve = Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
+        $idCase =  Http::get('https://indonesia-covid-19.mathdro.id/api/');
+        $caseData = $provinve->json();
+        $idCaseData = $idCase->json();
+
+        for ($i=0; $i < count($caseData["data"]); $i++) {
+            # code...
+
+            \Log::info($caseData["data"][$i]);
+
+
+            if ($i < 34) {
+                \DB::table('daily_data')
+                ->insert([
+                    'provinceCode' => $caseData["data"][$i]["kodeProvi"],
+                    'positive' => $caseData["data"][$i]["kasusPosi"],
+                    'cured' => $caseData["data"][$i]["kasusSemb"],
+                    'death' => $caseData["data"][$i]["kasusMeni"],
+                    'createdAt' => now('Asia/Jakarta')->toDateTimeString()
+                ]);
+            } else {
+                # code...
+                // dd("false");
+                \DB::table('daily_data')
+                ->insert([
+                    'provinceCode' => $caseData["data"][$i]["kodeProvi"],
+                    'positive' => $idCaseData["jumlahKasus"],
+                    'cured' => $idCaseData["sembuh"],
+                    'death' => $idCaseData["meninggal"],
+                    'createdAt' => now('Asia/Jakarta')->toDateTimeString()
+                ]);
+            }
+        }
+
+        
+
         \Log::info("SUKSES AMBIL DATA JAM : ".now('Asia/Jakarta')->toDateTimeString());
-        \Log::info($response->json());
+        \Log::info($provinve->json());
 
     }
 }
