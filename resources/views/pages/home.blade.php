@@ -99,7 +99,7 @@
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
-                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
+                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" pattern=".{4,}" title="Dibutuhkan 3 karakter untuk mencari" onfocus="this.value=''">
                     <div class="input-group-append show-content-lg">
                         <span class="input-group-text icon-right-padding">
                             <i class="fas fa-search"></i>
@@ -141,6 +141,7 @@
                     </div>
                 </div>
             </div>
+            {{-- @dump($hospitalData) --}}
             <div class="col-md-12 p-0 mt-30">
                 <div class="row slider slider-nav content-sm search-not-found">
                     <div class="col-md-6 p-0 data-kasus txt-left">
@@ -211,7 +212,22 @@
                         </div>
                     </div>
                     <div id="rs_rujukan" class="col-md-12 p-0 content-sm mt-20 search-not-found">
-                        asdasdsadsa
+                        <div class="">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Rumah Sakit</th>
+                                        <th>Alamat</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table_hospital">
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -742,17 +758,20 @@
         var dataCorona = [];
         var summaryCorona = [];
         var provinceData = JSON.parse('{!! json_encode($newData) !!}');
+        var hospitalData = '';
         
         function getDataSpread(){
             axios.get('{{ route("get.dataSpread") }}').then((res) =>{
-                moment.locale("id");
-                var tempArray = [];
+                moment.locale("id");getDataSpread
+                var tempArrayCase = [];
+                hospitalData = res.data.hospitalData;
+                var tableHospital = '';
 
-                $.each(res.data, (k, v) => {
-                    tempArray[v.name] = v;
+                $.each(res.data.dataSpread, (k, v) => {
+                    tempArrayCase[v.name] = v;
                 });
                 
-                dataCorona = (tempArray);
+                dataCorona  = (tempArrayCase);
 
                 $.each($('.provinceSelector'), (k, v) => {
                     vHtml = $(v).html();
@@ -822,12 +841,33 @@
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
 
+            var hospitalCollection = [];
+            var c = 0;
+            var test = '';
+            
+            $.each(hospitalData, (k, v) => {
+                if(v.loc_name == arrayKey){
+                    
+                    c++;
+
+                    test +=`<tr>
+                                <td>`+ c+`</td>
+                                <td>`+ v.name_hospital +`</td>
+                                <td>`+ v.address +`</td>
+                                <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0">Lihat Peta</a></td>
+                            </tr>`
+                    // hospitalCollection[c] = v;
+                    
+                }
+            })
+            
             if(arrayKey == 'Indonesia'){
                 $('.rs-rujukan').addClass('d-none');
             }else{
                 $('.rs-rujukan').removeClass('d-none');
             };
 
+            $("#table_hospital").html(test);
             $("#call_center_nam").html(dataCorona[arrayKey].call_center_name);
             $("#hotline_name").html(dataCorona[arrayKey].hotline_name);
             $("#call_center_number").html(dataCorona[arrayKey].call_center_number.replace(/\-/g, ' '));
@@ -875,14 +915,16 @@
             slidesToScroll: 1,
             arrows: false,
             fade: false,
-            // draggable: draggable,
+            // draggable: false,
             asNavFor: '.slider-nav',
             speed: 300,
             adaptiveHeight: true
         });
+        
 
         // precision is 10 for 10ths, 100 for 100ths, etc.
         function roundUp(num, precision) {
+            // console.log(num);
         return Math.ceil(num * precision) / precision
         }
 
@@ -905,7 +947,7 @@
                 if (sliding === 'left') slide = 2; // entering slide 2
                 else slide = 1; // leaving slide 2 into slide 1
                 
-                let delta = data_rect.left - left;
+                // let delta = data_rect.left - left;
                 let factor = roundUp(delta / data_rect.width, 10);
             }
             
@@ -971,7 +1013,6 @@
 
                 axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
                     
-
                     if (res.data.length > 0) {
                         
                         $.each(res.data,(k, v) => {
