@@ -52,7 +52,9 @@ class HomeController extends Controller
         )
         ->leftJoin('daily_data as b', 'a.id', '=', 'b.provinceCode')
         ->leftJoin('hotline_number as c', 'a.hotline_id', '=', 'c.id')
-        ->whereDate('b.updatedAt', now())
+        // ->whereDate('b.updatedAt', now())
+        ->orderBy('b.updatedAt', 'desc')
+        ->limit(35)
         ->get();
 
         return $data;
