@@ -831,7 +831,7 @@
         };
 
         // $('#province_finder').on('focus', function() {
-        //     $('.alert').removeAttr('class');
+        //     $('#alert_search').removeAttr('class');
         //     $('#icon-alert-search').html('');
         //     $('#alert-search-not-found').html('');
         //     $('.search-not-found').removeClass('d-none');
@@ -846,7 +846,7 @@
 
         $('#province_finder').on('input', function() {
             if ($('#province_finder').val() == ''){
-                $('.alert').removeAttr('class');
+                $('#alert_search').removeAttr('class');
                 $('#icon-alert-search').html('');
                 $('#alert-search-not-found').html('');
                 $('.search-not-found').removeClass('d-none');
@@ -1054,6 +1054,7 @@
                 var searchResult = "";
                 var c = 0;
                 var tableHospital = '';
+                cardHospital = '';
 
                 axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
                     
@@ -1075,7 +1076,7 @@
                             
                             if (v.name == "Indonesia") {
                                 $('.rs-rujukan').addClass('d-none');
-                                $('.alert').removeAttr('class');
+                                $('#alert_search').removeAttr('class');
                                 $('#icon-alert-search').html('');
                                 $('#alert-search-not-found').html('');
                                 $('.search-not-found').removeClass('d-none');
@@ -1083,7 +1084,7 @@
                                 
                             } else {
                                 $('.rs-rujukan').removeClass('d-none');
-                                $('.alert').removeAttr('class');
+                                $('#alert_search').removeAttr('class');
                                 $('#icon-alert-search').html('');
                                 $('#alert-search-not-found').html('');
                                 $('.search-not-found').removeClass('d-none');
@@ -1116,11 +1117,22 @@
                                         <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
                                     </tr>`
                             // hospitalCollection[c] = v;
-                            
+                            cardHospital +=`<div class="col-md-12 p-0 mb-15">
+                                        <div class="card card-data m-0">
+                                            <div class="card-body">
+                                                <div class ="col-md-12 p-0 my-15 mt-0">
+                                                    <h5 class="card-title">`+ v.name_hospital +`</h5>
+                                                    <p class="card-text sub-color">`+ v.address +`</p>
+                                                </div>
+                                                <a href="`+ v.link_map +`" class="btn btn-purple w-100 mt-0" target="_blank">Lihat Peta</a>
+                                            </div>
+                                        </div>
+                                    </div>`;
                         }
                     });
 
                     $("#table_hospital").html(tableHospital);
+                    $("#card_hospital").html(cardHospital);
                     $("#call_center_name").html(searchResult.call_center_name);
                     $("#hotline_name").html(searchResult.hotline_name);
                     $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
