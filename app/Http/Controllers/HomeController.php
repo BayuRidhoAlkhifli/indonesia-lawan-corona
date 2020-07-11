@@ -52,15 +52,28 @@ class HomeController extends Controller
                 'c.hotline_number_primary as call_center_number',
                 'c.name_hotline_secondary as hotline_name',
                 'c.hotline_number_secondary as hotline_number'
-
         )
         ->leftJoin('daily_data as b', 'a.id', '=', 'b.provinceCode')
         ->leftJoin('hotline_number as c', 'a.hotline_id', '=', 'c.id')
-        // ->whereDate('b.updatedAt', now())
+        ->whereDate('b.updatedAt', now())
         ->orderBy('b.updatedAt', 'desc')
         ->limit(35)
         ->get();
 
+        $oldDataSpread = \DB::table('daily_data as a')
+        ->select(
+                'a.positive',
+                'a.cured',
+                'a.death',
+                'a.updatedAt as updated_at',
+                'b.name as loc_name'
+        )
+        ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( '-1 day' ))])
+        ->orderBy('a.updatedAt', 'desc')
+        ->limit(35)
+        ->get();
+        
         $hospitalData = \DB::table('referral_hospital as a')
         ->select(
             'a.*',
@@ -72,6 +85,7 @@ class HomeController extends Controller
 
         return $data = [
             'dataSpread'    => $dataSpread,
+            'oldDataSpread' => $oldDataSpread,
             'hospitalData'  => $hospitalData
         ];
     }

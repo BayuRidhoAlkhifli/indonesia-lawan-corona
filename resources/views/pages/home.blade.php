@@ -166,10 +166,10 @@
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >TERKONFIRMASI</span>
-                                            <span id="txt_konfirm" class="color-orange data-angka count d-block">-</span>
-                                            <div class="increase-val-1">
+                                            <span id="txt_confirm" class="color-orange data-angka count d-block">-</span>
+                                            <div class="increase-val-1 increase-val">
                                                 <i class="fas fa-arrow-up"></i>
-                                                <span>0</span>
+                                                <span id="txt_confirm_increase" class="txt_increase"0</span>
                                             </div>
                                         </div>
                                     </div>
@@ -181,10 +181,10 @@
 
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >SEMBUH</span>
-                                            <span id="txt_sembuh" class="color-green data-angka count d-block">-</span>
-                                            <div class="increase-val-3">
+                                            <span id="txt_cured" class="color-green data-angka count d-block">-</span>
+                                            <div class="increase-val-3 increase-val">
                                                 <i class="fas fa-arrow-up"></i>
-                                                <span>0</span>
+                                                <span id="txt_cured_increase" class="txt_increase"0</span>
                                             </div>
                                         </div>
                                     </div>
@@ -195,10 +195,10 @@
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >MENINGGAL</span>
-                                            <span id="txt_meninggal" class="color-purple data-angka count d-block">-</span>
-                                            <div class="increase-val-2">
+                                            <span id="txt_death" class="color-purple data-angka count d-block">-</span>
+                                            <div class="increase-val-2 increase-val">
                                                 <i class="fas fa-arrow-up"></i>
-                                                <span>0</span>
+                                                <span id="txt_death_increase" class="txt_increase">0</span>
                                             </div>
                                         </div>
                                     </div>
@@ -756,22 +756,27 @@
 		});
 
         var dataCorona = [];
-        var summaryCorona = [];
-        var provinceData = JSON.parse('{!! json_encode($newData) !!}');
         var hospitalData = '';
+        var oldCaseData = [];
+        var caseIncrease = 0;
         
         function getDataSpread(){
             axios.get('{{ route("get.dataSpread") }}').then((res) =>{
                 moment.locale("id");getDataSpread
                 var tempArrayCase = [];
+                var tempOldArrayCase = [];
                 hospitalData = res.data.hospitalData;
-                var tableHospital = '';
 
                 $.each(res.data.dataSpread, (k, v) => {
                     tempArrayCase[v.name] = v;
                 });
+
+                $.each(res.data.oldDataSpread, (k, v) => {
+                    tempOldArrayCase[v.loc_name] = v;
+                });
                 
                 dataCorona  = (tempArrayCase);
+                oldCaseData = (tempOldArrayCase);
 
                 $.each($('.provinceSelector'), (k, v) => {
                     vHtml = $(v).html();
@@ -797,10 +802,15 @@
                     }
                 });
                 
+                console.log(res.data.oldDataSpread);
+                
                 $("#updated_at").html(moment(dataCorona["Indonesia"].updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
-                $("#txt_konfirm").html(dataCorona["Indonesia"].positive);
-                $("#txt_meninggal").html(dataCorona["Indonesia"].death);
-                $("#txt_sembuh").html(dataCorona["Indonesia"].cured);
+                $("#txt_confirm").html(dataCorona["Indonesia"].positive);
+                $("#txt_death").html(dataCorona["Indonesia"].death);
+                $("#txt_cured").html(dataCorona["Indonesia"].cured);
+                $("#txt_confirm_increase").html(dataCorona["Indonesia"].positive - oldCaseData["Indonesia"].positive);
+                $("#txt_death_increase").html(dataCorona["Indonesia"].death - oldCaseData["Indonesia"].death);
+                $("#txt_cured_increase").html(dataCorona["Indonesia"].cured - oldCaseData["Indonesia"].cured);
 
                 counterAnimation();
             });
@@ -854,7 +864,7 @@
                                 <td>`+ c+`</td>
                                 <td>`+ v.name_hospital +`</td>
                                 <td>`+ v.address +`</td>
-                                <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0">Lihat Peta</a></td>
+                                <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
                             </tr>`
                     // hospitalCollection[c] = v;
                     
@@ -876,9 +886,9 @@
             // alert($("#card_hotline").attr("href",provinceData[arrayKey].call_center_number))
             
             
-            $("#txt_konfirm").text(finalResult.positive);
-            $("#txt_meninggal").text(finalResult.cured);
-            $("#txt_sembuh").text(finalResult.death);
+            $("#txt_confirm").text(finalResult.positive);
+            $("#txt_death").text(finalResult.cured);
+            $("#txt_cured").text(finalResult.death);
 
             counterAnimation();
         });
@@ -924,7 +934,6 @@
 
         // precision is 10 for 10ths, 100 for 100ths, etc.
         function roundUp(num, precision) {
-            // console.log(num);
         return Math.ceil(num * precision) / precision
         }
 
@@ -1064,9 +1073,9 @@
                     $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
                     $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
 
-                    $("#txt_konfirm").text(searchResult.positive);
-                    $("#txt_meninggal").text(searchResult.cured);
-                    $("#txt_sembuh").text(searchResult.death);
+                    $("#txt_confirm").text(searchResult.positive);
+                    $("#txt_death").text(searchResult.cured);
+                    $("#txt_cured").text(searchResult.death);
 
                     // last_selected = searchResult.name;
 
