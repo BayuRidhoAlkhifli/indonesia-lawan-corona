@@ -238,7 +238,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div id="card_hospital" class="row m-0">
+                        <div id="card_hospital" class="row m-0 card-hospital">
 
                         </div>
                     </div>

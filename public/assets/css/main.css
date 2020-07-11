@@ -766,6 +766,10 @@ nav .nav-link:hover {
     padding: 0px;
 }
 
+.card-hospital {
+    display: none;
+}
+
 .color-green {
     color: #86bd2c;
     opacity: 0.75;
@@ -1514,6 +1518,10 @@ nav .nav-link:hover {
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
+    }
+
+    .card-hospital {
+        display: block;
     }
 
     .show-content-lg {
