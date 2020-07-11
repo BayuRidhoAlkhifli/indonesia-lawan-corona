@@ -217,7 +217,7 @@
                                 <h4>Peringatan!</h4>
                             </div>
                             <div>
-                                Sebelum kamu ketempat lokasi, terlebih dahulu hubungi call center <a href="tel: 119">119</a> dan lakukan verifikasi rumah sakit.
+                                Sebelum kamu menuju rumah sakit, terlebih dahulu hubungi call center <a href="tel: 119">119</a> dan lakukan verifikasi rumah sakit.
                             </div>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -961,7 +961,7 @@
             fade: false,
             asNavFor: '.slider-nav',
             speed: 300,
-            adaptiveHeight: false
+            adaptiveHeight: true
         });
         
 
