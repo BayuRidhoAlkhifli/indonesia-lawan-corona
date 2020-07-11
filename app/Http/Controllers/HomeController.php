@@ -69,10 +69,12 @@ class HomeController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( '-1 day' ))])
+        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( 'now' ))])
         ->orderBy('a.updatedAt', 'desc')
         ->limit(35)
         ->get();
+        
+        // dd($oldDataSpread);
         
         $hospitalData = \DB::table('referral_hospital as a')
         ->select(
@@ -92,7 +94,7 @@ class HomeController extends Controller
 
     public function searchProvince($province_name) 
     {   
-        $data = \DB::table('locations as a')
+        $dataSpread = \DB::table('locations as a')
             ->select(
                 'a.name',
                 'b.name_hotline_primary as call_center_name',
@@ -103,18 +105,37 @@ class HomeController extends Controller
             )
             ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
             ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
-            ->where('name', 'like', '%'.$province_name.'%')
+            ->where('a.name', 'like', '%'.$province_name.'%')
             ->orderBy('c.updatedAt', 'desc')
             ->limit(1);
 
-            if (!$data->exists()) {
+            if (!$dataSpread->exists()) {
                 # code...
                 return [];
             }
         
-        $data = $data->get();
+        $dataSpread = $dataSpread->get();
 
-        return $data;
+        $hospitalData = \DB::table('referral_hospital as a')
+            ->select(
+                'a.*',
+                'b.name as loc_name'
+            )
+            ->leftJoin('locations as b', 'a.location_id', '=', 'b.id')
+            ->where('b.name', 'like', '%'.$province_name.'%');
+
+            if (!$hospitalData->exists()) {
+                # code...
+                return [];
+            }
+
+        $hospitalData = $hospitalData->get();
+
+        // dd($hospitalData);
+        return $data = [
+            'dataSpread'    => $dataSpread,
+            'hospitalData'  => $hospitalData
+        ];
         // dd($data);
 
     }

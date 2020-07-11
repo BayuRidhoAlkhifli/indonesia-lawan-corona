@@ -341,6 +341,10 @@ nav .nav-link:hover {
     color: rgba(177, 177, 177, 1);
 }
 
+.mb-15 {
+    margin-bottom: 15px;
+}
+
 .link-purple{
     font-weight: 300;
     color: #592E91;
@@ -506,6 +510,9 @@ nav .nav-link:hover {
     border-radius: 20px;
 }
 
+#data_kasus {
+    padding: 0px 6px 0px 6px;
+}
 
 .main-title{
     font-size: 16px;
@@ -629,6 +636,15 @@ nav .nav-link:hover {
     margin-top: 55px;
 }
 
+.btn-purple {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 18px;
+    background-color: #7350A2;
+    border: 2px solid #7350A2;
+}
+
 .swiper-p {
     padding: 0px 10px;
 }
@@ -637,6 +653,10 @@ nav .nav-link:hover {
     box-shadow: 0px 6px 15px rgba(115, 80, 162, 0.25);
     transition: all 0.25s linear;
     color: #7350A2;
+}
+
+.btn-purple:hover {
+    color: #ffffff;
 }
 
 .call-content {
@@ -1528,6 +1548,10 @@ nav .nav-link:hover {
         margin-bottom: 15px;
     }
 
+    #data_kasus {
+        padding: 0px;
+    }
+
     .card-data-left,
     .card-data-middle,
     .card-data-right {
@@ -1657,5 +1681,11 @@ nav .nav-link:hover {
     .whitespace-data-left{
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+@media only screen and (min-width: 320px) and (max-width: 545px) {
+    .tbl-hospital {
+        display: none;
     }
 }

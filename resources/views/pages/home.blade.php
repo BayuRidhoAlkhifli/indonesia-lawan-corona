@@ -99,7 +99,7 @@
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
-                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" pattern=".{4,}" title="Dibutuhkan 3 karakter untuk mencari" onfocus="this.value=''">
+                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
                     <div class="input-group-append show-content-lg">
                         <span class="input-group-text icon-right-padding">
                             <i class="fas fa-search"></i>
@@ -156,7 +156,7 @@
                     </div>
                 </div>
                 <div class="row slider slider-for search-not-found">
-                    <div id="data_kasus" class="col-md-12 p-0 content-sm mt-20 search-not-found">
+                    <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
                         <label class="sub-color animation-element fade-in" style="font-weight: 300;">
                             Pembaharuan Terakhir: <span id="updated_at"></span>
                         </label>
@@ -212,7 +212,18 @@
                         </div>
                     </div>
                     <div id="rs_rujukan" class="col-md-12 p-0 content-sm mt-20 search-not-found">
-                        <div class="">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <div>
+                                <h4>Peringatan!</h4>
+                            </div>
+                            <div>
+                                Sebelum kamu ketempat lokasi, terlebih dahulu hubungi call center <a href="tel: 119">119</a> dan lakukan verifikasi rumah sakit.
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="tbl-hospital">
                             <table class="table">
                                 <thead>
                                     <tr>
@@ -227,7 +238,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+                        <div id="card_hospital" class="row m-0">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -730,7 +743,7 @@
                 prevEl: '.sbp-1',
             },
             autoplay: {
-                delay: 3000,
+                delay: 4000,
                 disableOnInteraction: false,
             },
         });
@@ -743,7 +756,7 @@
                 prevEl: '.sbp-2',
             },
             autoplay: {
-                delay: 3500,
+                delay: 4500,
                 disableOnInteraction: false,
             },
         });
@@ -784,6 +797,7 @@
                     if(vHtml == "Indonesia"){
                         $(v).parent().addClass('card-active');
                         $('.rs-rujukan').addClass('d-none');
+                        $('#rs_rujukan').addClass('d-none');
                     }
 
                     $(v).data("real", vHtml);
@@ -802,7 +816,7 @@
                     }
                 });
                 
-                console.log(res.data.oldDataSpread);
+                // console.log(res.data.oldDataSpread);
                 
                 $("#updated_at").html(moment(dataCorona["Indonesia"].updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
                 $("#txt_confirm").html(dataCorona["Indonesia"].positive);
@@ -846,26 +860,40 @@
             
             var arrayKey = $(e.target).data("real");
             
-            var finalResult = dataCorona[arrayKey];
+            var finalResultData = dataCorona[arrayKey];
+            var finalResultOldData = oldCaseData[arrayKey];
             
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
 
             var hospitalCollection = [];
             var c = 0;
-            var test = '';
+            var tableHospital = '';
+            var cardHospital = '';
             
             $.each(hospitalData, (k, v) => {
                 if(v.loc_name == arrayKey){
                     
                     c++;
 
-                    test +=`<tr>
-                                <td>`+ c+`</td>
-                                <td>`+ v.name_hospital +`</td>
-                                <td>`+ v.address +`</td>
-                                <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
-                            </tr>`
+                    tableHospital +=`<tr>
+                                        <td>`+ c+`</td>
+                                        <td>`+ v.name_hospital +`</td>
+                                        <td>`+ v.address +`</td>
+                                        <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
+                                    </tr>`;
+
+                    cardHospital +=`<div class="col-md-12 p-0 mb-15">
+                                        <div class="card card-data m-0">
+                                            <div class="card-body">
+                                                <div class ="col-md-12 p-0 my-15 mt-0">
+                                                    <h5 class="card-title">`+ v.name_hospital +`</h5>
+                                                    <p class="card-text sub-color">`+ v.address +`</p>
+                                                </div>
+                                                <a href="`+ v.link_map +`" class="btn btn-purple w-100 mt-0" target="_blank">Lihat Peta</a>
+                                            </div>
+                                        </div>
+                                    </div>`;
                     // hospitalCollection[c] = v;
                     
                 }
@@ -873,11 +901,14 @@
             
             if(arrayKey == 'Indonesia'){
                 $('.rs-rujukan').addClass('d-none');
+                $('#rs_rujukan').addClass('d-none');
             }else{
                 $('.rs-rujukan').removeClass('d-none');
+                $('#rs_rujukan').removeClass('d-none');
             };
 
-            $("#table_hospital").html(test);
+            $("#table_hospital").html(tableHospital);
+            $("#card_hospital").html(cardHospital);
             $("#call_center_nam").html(dataCorona[arrayKey].call_center_name);
             $("#hotline_name").html(dataCorona[arrayKey].hotline_name);
             $("#call_center_number").html(dataCorona[arrayKey].call_center_number.replace(/\-/g, ' '));
@@ -886,9 +917,12 @@
             // alert($("#card_hotline").attr("href",provinceData[arrayKey].call_center_number))
             
             
-            $("#txt_confirm").text(finalResult.positive);
-            $("#txt_death").text(finalResult.cured);
-            $("#txt_cured").text(finalResult.death);
+            $("#txt_confirm").text(finalResultData.positive);
+            $("#txt_death").text(finalResultData.cured);
+            $("#txt_cured").text(finalResultData.death);
+            $("#txt_confirm_increase").text(finalResultData.positive - finalResultOldData.positive);
+            $("#txt_death_increase").text(finalResultData.death - finalResultOldData.death);
+            $("#txt_cured_increase").text(finalResultData.cured - finalResultOldData.cured);
 
             counterAnimation();
         });
@@ -925,10 +959,9 @@
             slidesToScroll: 1,
             arrows: false,
             fade: false,
-            // draggable: false,
             asNavFor: '.slider-nav',
             speed: 300,
-            adaptiveHeight: true
+            adaptiveHeight: false
         });
         
 
@@ -956,7 +989,7 @@
                 if (sliding === 'left') slide = 2; // entering slide 2
                 else slide = 1; // leaving slide 2 into slide 1
                 
-                // let delta = data_rect.left - left;
+                let delta = data_rect.left - left;
                 let factor = roundUp(delta / data_rect.width, 10);
             }
             
@@ -1019,12 +1052,26 @@
     function provinceFinder(e) {
             if (e.keyCode == 13){
                 var searchResult = "";
+                var c = 0;
+                var tableHospital = '';
 
                 axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
                     
-                    if (res.data.length > 0) {
+                    console.log(res.data);
+                    if (res.data == 0) {
                         
-                        $.each(res.data,(k, v) => {
+                        $( "#input_search" )
+                            .animate({ "left": "+=10px" }, 70 )
+                            .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
+                            .animate({ "left": "-=10px" }, 70 );
+                        $('.search-not-found').addClass('d-none');
+                        $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
+                        $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                        $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
+
+                    }else{
+
+                        $.each(res.data.dataSpread,(k, v) => {
                             
                             if (v.name == "Indonesia") {
                                 $('.rs-rujukan').addClass('d-none');
@@ -1044,30 +1091,36 @@
                                 
                             }
                         });
-                        
-                    }else{
-                        $( "#input_search" )
-                            .animate({ "left": "+=10px" }, 70 )
-                            .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
-                            .animate({ "left": "-=10px" }, 70 );
-                        $('.search-not-found').addClass('d-none');
-                        $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
-                        $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
-                        $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
                     }
 
                     $.each($('.provinceSelector'), (k, v) => {
                         if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
                             $(v).parent().addClass('card-active'); 
                             last_selected = v;
-                            swiper_province.slideTo(k, 500);        
+                            swiper_province.slideTo(k, 500); 
                         } else {
                             $(v).parent().removeClass('card-active');       
                         }
                     });
 
-                    
+                    // console.log(searchResult);
+                    $.each(res.data.hospitalData,(k, v) => {
+                        if(v.loc_name == searchResult.name){
+                        
+                            c++;
 
+                            tableHospital +=`<tr>
+                                        <td>`+ c+`</td>
+                                        <td>`+ v.name_hospital +`</td>
+                                        <td>`+ v.address +`</td>
+                                        <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
+                                    </tr>`
+                            // hospitalCollection[c] = v;
+                            
+                        }
+                    });
+
+                    $("#table_hospital").html(tableHospital);
                     $("#call_center_name").html(searchResult.call_center_name);
                     $("#hotline_name").html(searchResult.hotline_name);
                     $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
