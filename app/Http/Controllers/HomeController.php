@@ -55,7 +55,7 @@ class HomeController extends Controller
         )
         ->leftJoin('daily_data as b', 'a.id', '=', 'b.provinceCode')
         ->leftJoin('hotline_number as c', 'a.hotline_id', '=', 'c.id')
-        ->whereDate('b.updatedAt', now())
+        ->whereBetween('b.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( 'now' ))])
         ->orderBy('b.updatedAt', 'desc')
         ->limit(35)
         ->get();
@@ -69,7 +69,7 @@ class HomeController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( 'now' ))])
+        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( '-1 day' ))])
         ->orderBy('a.updatedAt', 'desc')
         ->limit(35)
         ->get();
