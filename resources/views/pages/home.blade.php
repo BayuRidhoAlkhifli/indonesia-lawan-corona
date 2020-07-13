@@ -169,7 +169,7 @@
                                             <span id="txt_confirm" class="color-orange data-angka count d-block">-</span>
                                             <div class="increase-val-1 increase-val">
                                                 <i class="fas fa-arrow-up"></i>
-                                                <span id="txt_confirm_increase" class="txt_increase"0</span>
+                                                <span id="txt_confirm_increase" class="txt_increase"></span>0</span>
                                             </div>
                                         </div>
                                     </div>
@@ -184,7 +184,7 @@
                                             <span id="txt_cured" class="color-green data-angka count d-block">-</span>
                                             <div class="increase-val-3 increase-val">
                                                 <i class="fas fa-arrow-up"></i>
-                                                <span id="txt_cured_increase" class="txt_increase"0</span>
+                                                <span id="txt_cured_increase" class="txt_increase">0</span>
                                             </div>
                                         </div>
                                     </div>
