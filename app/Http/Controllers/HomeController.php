@@ -74,12 +74,12 @@ class HomeController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( 'now' ))])
+        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( '-1 day' ))])
         ->orderBy('a.updatedAt', 'desc')
         ->limit(35)
         ->get();
         
-        // dd($dataSpread);
+        // dd($oldDataSpread);
         
         $hospitalData = \DB::table('referral_hospital as a')
         ->select(
