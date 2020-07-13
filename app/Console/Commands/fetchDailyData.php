@@ -40,9 +40,9 @@ class fetchDailyData extends Command
      */
     public function handle()
     {
-        $provinve = Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
+        $province = Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
         $idCase =  Http::get('https://indonesia-covid-19.mathdro.id/api/');
-        $caseData = $provinve->json();
+        $caseData = $province->json();
         $idCaseData = $idCase->json();
 
         for ($i=0; $i < count($caseData["data"]); $i++) {
@@ -77,7 +77,7 @@ class fetchDailyData extends Command
         
 
         \Log::info("SUKSES AMBIL DATA JAM : ".now('Asia/Jakarta')->toDateTimeString());
-        \Log::info($provinve->json());
+        \Log::info($province->json());
 
     }
 }

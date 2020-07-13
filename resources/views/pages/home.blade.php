@@ -634,7 +634,6 @@
         return false;
     }); 
 
-    var draggable = null;
     var last_selected = $(".provinceSelector:contains('Indonesia')");
 
     var swiper_province = {};
@@ -798,6 +797,10 @@
                         $(v).parent().addClass('card-active');
                         $('.rs-rujukan').addClass('d-none');
                         $('#rs_rujukan').addClass('d-none');
+                        $('.slider-for').slick("slickSetOption", "accessibility", false);
+                        $('.slider-for').slick("slickSetOption", "draggable", false);
+                        $('.slider-for').slick("slickSetOption", "swipe", false);
+                        $('.slider-for').slick("slickSetOption", "touchMove", false);
                     }
 
                     $(v).data("real", vHtml);
@@ -902,9 +905,17 @@
             if(arrayKey == 'Indonesia'){
                 $('.rs-rujukan').addClass('d-none');
                 $('#rs_rujukan').addClass('d-none');
+                $('.slider-for').slick("slickSetOption", "accessibility", false);
+                $('.slider-for').slick("slickSetOption", "draggable", false);
+                $('.slider-for').slick("slickSetOption", "swipe", false);
+                $('.slider-for').slick("slickSetOption", "touchMove", false);
             }else{
                 $('.rs-rujukan').removeClass('d-none');
                 $('#rs_rujukan').removeClass('d-none');
+                $('.slider-for').slick("slickSetOption", "accessibility", true);
+                $('.slider-for').slick("slickSetOption", "draggable", true);
+                $('.slider-for').slick("slickSetOption", "swipe", true);
+                $('.slider-for').slick("slickSetOption", "touchMove", true);
             };
 
             $("#table_hospital").html(tableHospital);
@@ -980,11 +991,13 @@
         setInterval(() => {
             let rect = h.getBoundingClientRect();
             let left =  rect.left;
+
             if (prev_left === left) return;
             let sliding;
             if (prev_left > left) sliding = 'left';
             if (prev_left < left) sliding = 'right';
             let slide;
+            
             if (left > breakpoint_1) {
                 if (sliding === 'left') slide = 2; // entering slide 2
                 else slide = 1; // leaving slide 2 into slide 1
@@ -1058,7 +1071,6 @@
 
                 axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
                     
-                    console.log(res.data);
                     if (res.data == 0) {
                         
                         $( "#input_search" )
