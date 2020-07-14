@@ -114,13 +114,6 @@ class HomeController extends Controller
             ->orderBy('c.updatedAt', 'desc')
             ->limit(1);
 
-            if (!$dataSpread->exists()) {
-                # code...
-                return [];
-            }
-        
-        $dataSpread = $dataSpread->get();
-
         $hospitalData = \DB::table('referral_hospital as a')
             ->select(
                 'a.*',
@@ -129,11 +122,12 @@ class HomeController extends Controller
             ->leftJoin('locations as b', 'a.location_id', '=', 'b.id')
             ->where('b.name', 'like', '%'.$province_name.'%');
 
-            if (!$hospitalData->exists()) {
-                # code...
-                return [];
-            }
+        if (!$dataSpread->exists() && !$hospitalData->exists()) {
+            # code...
+            return [];
+        }
 
+        $dataSpread = $dataSpread->get();
         $hospitalData = $hospitalData->get();
 
         // dd($hospitalData);
@@ -141,7 +135,6 @@ class HomeController extends Controller
             'dataSpread'    => $dataSpread,
             'hospitalData'  => $hospitalData
         ];
-        // dd($data);
 
     }
 }
