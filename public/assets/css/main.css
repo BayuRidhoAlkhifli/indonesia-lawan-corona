@@ -196,10 +196,6 @@ input[type="search"]::-webkit-search-cancel-button {
     outline: none;
 }
 
-.slider-nav {
-    height: 60px;
-}
-
 .slider-nav .slick-slide {
     color: #727BCB;
     padding-bottom: 12px !important;
@@ -207,14 +203,19 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .slider-nav .slick-current::after {
     content: "";
-    display: inline-block;
-    width: 50px;
+    display: inline-flex;
+    width: 100%;
     border-bottom: 5px solid transparent;
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
     border-bottom-left-radius: .25rem;
     border-bottom-right-radius: .25rem;
     border-color: #ffffff #ffffff #727BCB;
+}
+
+.slick-active::after {
+    content: "";
+    display: inline-flex;
 }
 
 .slider-nav .slick-slide>h4 {
@@ -331,6 +332,13 @@ nav .nav-link:hover {
 
 .mt-custm {
     margin-bottom: 40px;
+}
+
+.news-descript {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 
 .btm-nav-active {
@@ -502,6 +510,11 @@ nav .nav-link:hover {
     padding:30px;
 }
 
+.card-img {
+    border-radius: 10px;
+    object-fit: cover;
+}
+
 .card-body-data {
     padding: 16px;
 }
@@ -589,7 +602,11 @@ nav .nav-link:hover {
 }
 
 .form-control {
-    border: 1px solid #EFF0F9;
+    border: 0px solid #EFF0F9;
+}
+
+.border-false {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 
 .border-orange {
@@ -1029,6 +1046,12 @@ nav .nav-link:hover {
 
 @media (min-width: 1441px) {
 
+    .slider-nav {
+        height: 60px;
+        border-bottom: 2px solid #eff0f9;
+        box-shadow: 0 13px 15px -12px rgba(148, 108, 185, 0.13) !important;
+    }
+
     .content {
         max-width: 1000px;
         margin-left: auto;
@@ -1085,6 +1108,12 @@ nav .nav-link:hover {
 }
 
 @media (min-width: 1350px) and (max-width: 1440px) {
+
+    .slider-nav {
+        height: 60px;
+        border-bottom: 2px solid #eff0f9;
+        box-shadow: 0 13px 15px -12px rgba(148, 108, 185, 0.13) !important;
+    }
 
     .content {
         max-width: 1000px;
@@ -1152,6 +1181,12 @@ nav .nav-link:hover {
 }
 
 @media (min-width: 991px) and (max-width: 1349px) {
+
+    .slider-nav {
+        height: 60px;
+        border-bottom: 2px solid #eff0f9;
+        box-shadow: 0 13px 15px -12px rgba(148, 108, 185, 0.13) !important;
+    }
 
     .content {
         max-width: 1000px;
@@ -1235,6 +1270,12 @@ nav .nav-link:hover {
 }
 
 @media (min-width: 768px) and (max-width: 990px) {
+
+    .slider-nav {
+        height: 60px;
+        border-bottom: 2px solid #eff0f9;
+        box-shadow: 0 13px 15px -12px rgba(148, 108, 185, 0.13) !important;
+    }
 
     .txt-left {
         text-align: left;

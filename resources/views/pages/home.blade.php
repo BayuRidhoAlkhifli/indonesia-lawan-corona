@@ -144,12 +144,12 @@
             {{-- @dump($hospitalData) --}}
             <div class="col-md-12 p-0 mt-30">
                 <div class="row slider slider-nav content-sm search-not-found">
-                    <div class="col-md-6 p-0 data-kasus txt-left">
+                    <div class="col-md-3 p-0 data-kasus text-center">
                         <h4>
                             Data Kasus
                         </h4>
                     </div>
-                    <div class="col-md-6 p-0 rs-rujukan txt-right">
+                    <div class="col-md-3 p-0 rs-rujukan text-center">
                         <h4>
                             RS Rujukan
                         </h4>
@@ -257,13 +257,13 @@
                     COVID-19 merupakan penyakit yang disebabkan Novel Coronavirus 2019.
                     Meski bergejala mirip dengan flu biasa, COVID-19 sampai saat ini memiliki fatalitas lebih tinggi.
                     Virus ini juga menyebar dengan sangat cepat karena bisa pindah dari orang ke orang bahkan sebelum orang tersebut menunjukkan gejala.
-                    Penting bagi kamu untuk menilai kondisi secara mandiri. Kamu bergejala?
+                    <br><br>Penting bagi kamu untuk menilai kondisi secara mandiri. Apa kamu bergejala?
                 </p>
                 <a href="https://prixa.ai/corona" class="btn btn-outline-purple animation-element fade-in" role="button" target="_blank">
                     Periksa Mandiri
                 </a>
             </div>
-            <div id="scene" class="col-lg-6 col-md-12 p-0">
+            <div id="scene" class="col-lg-6 col-md-12 p-0" style="margin-top: 10px">
                 {{-- <div>
                     <img src="{{ asset('assets/img/computer_man.svg') }}" style="position:absolute;right:0" class="float-right" width="auto" height="auto" alt="">
                 </div> --}}
@@ -918,6 +918,9 @@
                 $('.slider-for').slick("slickSetOption", "touchMove", true);
             };
 
+            // $('.slider-for').find("slick-list").height("auto");
+            // $('.slider-for').slick(null, null, true);
+
             $("#table_hospital").html(tableHospital);
             $("#card_hospital").html(cardHospital);
             $("#call_center_nam").html(dataCorona[arrayKey].call_center_name);
@@ -939,16 +942,12 @@
         });
 
         $('#card_call_center').click((e) => {
-            document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].call_center_number;
+            document.location.href = 'tel:'+dataCorona[$('.card-active').children().html()].call_center_number;
         });
 
         $('#card_hotline').click((e) => {
-            document.location.href = 'tel:'+provinceData[$('.card-active').children().html()].hotline_number;
+            document.location.href = 'tel:'+dataCorona[$('.card-active').children().html()].hotline_number;
         });
-
-        function slickSlider(draggable){
-
-        }
 
         $('.slider-nav').slick({
             slidesToShow: 2,
