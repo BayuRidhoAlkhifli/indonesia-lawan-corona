@@ -143,13 +143,13 @@
             </div>
             {{-- @dump($hospitalData) --}}
             <div class="col-md-12 p-0 mt-30">
-                <div class="row slider slider-nav content-sm search-not-found">
-                    <div class="col-md-3 p-0 data-kasus text-center">
+                <div class="row slider slider-nav search-not-found">
+                    <div class="col-md-3 content-sm-ml p-0 data-kasus text-center">
                         <h4>
                             Data Kasus
                         </h4>
                     </div>
-                    <div class="col-md-3 p-0 rs-rujukan text-center">
+                    <div class="col-md-3 content-sm-mr p-0 rs-rujukan text-center">
                         <h4>
                             RS Rujukan
                         </h4>
@@ -165,11 +165,11 @@
                                 <div class="card card-data card-data-left animation-element slide-bottom">
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
-                                            <span class="d-block main-title-md" >TERKONFIRMASI</span>
+                                            <span class="d-block main-title-md">TERKONFIRMASI</span>
                                             <span id="txt_confirm" class="color-orange data-angka count d-block">-</span>
                                             <div class="increase-val-1 increase-val">
                                                 <i class="fas fa-arrow-up"></i>
-                                                <span id="txt_confirm_increase" class="txt_increase"></span>0</span>
+                                                <span id="txt_confirm_increase" class="txt_increase">0</span>
                                             </div>
                                         </div>
                                     </div>
@@ -786,6 +786,9 @@
                 $.each(res.data.oldDataSpread, (k, v) => {
                     tempOldArrayCase[v.loc_name] = v;
                 });
+
+
+                console.log(res.data);
                 
                 dataCorona  = (tempArrayCase);
                 oldCaseData = (tempOldArrayCase);
@@ -820,7 +823,6 @@
                 });
                 
                 // console.log(res.data.oldDataSpread);
-                
                 $("#updated_at").html(moment(dataCorona["Indonesia"].updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
                 $("#txt_confirm").html(dataCorona["Indonesia"].positive);
                 $("#txt_death").html(dataCorona["Indonesia"].death);
@@ -920,7 +922,7 @@
 
             // $('.slider-for').find("slick-list").height("auto");
             // $('.slider-for').slick(null, null, true);
-
+            console.log(dataCorona)
             $("#table_hospital").html(tableHospital);
             $("#card_hospital").html(cardHospital);
             $("#call_center_nam").html(dataCorona[arrayKey].call_center_name);
