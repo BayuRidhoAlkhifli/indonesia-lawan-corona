@@ -198,7 +198,7 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .slider-nav .slick-slide {
     color: #727BCB;
-    padding-bottom: 12px !important;
+    margin-bottom: 12px !important;
     cursor: pointer;
 }
 
@@ -209,8 +209,6 @@ input[type="search"]::-webkit-search-cancel-button {
     border-bottom: 5px solid transparent;
     border-top-left-radius: .25rem;
     border-top-right-radius: .25rem;
-    border-bottom-left-radius: .25rem;
-    border-bottom-right-radius: .25rem;
     border-color: #ffffff #ffffff #727BCB;
 }
 
@@ -355,7 +353,7 @@ nav .nav-link:hover {
 }
 
 .link-purple{
-    font-weight: 300;
+    font-weight: 600;
     color: #592E91;
     opacity: 0.60;
 }
@@ -1719,6 +1717,10 @@ nav .nav-link:hover {
         margin-left: 0px;
     }
 
+    .mt-10 {
+        margin-top: 10px;
+    }
+    
     .mt-15 {
         margin-top: 15px;
     }
