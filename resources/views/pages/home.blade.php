@@ -788,7 +788,7 @@
                 });
 
 
-                console.log(res.data);
+                // console.log(res.data);
                 
                 dataCorona  = (tempArrayCase);
                 oldCaseData = (tempOldArrayCase);
@@ -922,7 +922,7 @@
 
             // $('.slider-for').find("slick-list").height("auto");
             // $('.slider-for').slick(null, null, true);
-            console.log(dataCorona)
+            // console.log(dataCorona)
             $("#table_hospital").html(tableHospital);
             $("#card_hospital").html(cardHospital);
             $("#call_center_nam").html(dataCorona[arrayKey].call_center_name);
