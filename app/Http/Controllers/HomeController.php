@@ -34,7 +34,7 @@ class HomeController extends Controller
         ->limit(35)
         ->get();
 
-
+        // dd($data);
         return view('pages.home', [
             'data'          => $data
         ]);

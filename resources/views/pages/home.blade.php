@@ -157,7 +157,7 @@
                 </div>
                 <div class="row slider slider-for search-not-found">
                     <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
-                        <label class="sub-color animation-element fade-in" style="font-weight: 300;">
+                        <label class="sub-color animation-element fade-in" style="font-weight: 400;">
                             Pembaharuan Terakhir: <span id="updated_at"></span>
                         </label>
                         <div class="row">
@@ -204,7 +204,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 p-0 text-right">
+                            <div class="col-md-12 p-0 text-right mt-10">
                                 <a href="#" class="link-purple">
                                     Lihat Lebih Lengkap >
                                 </a>
@@ -1000,8 +1000,12 @@
             let slide;
             
             if (left > breakpoint_1) {
-                if (sliding === 'left') slide = 2; // entering slide 2
-                else slide = 1; // leaving slide 2 into slide 1
+                if (sliding === 'left') {
+                    slide = 2; // entering slide 2
+                }
+                else {
+                    slide = 1; // leaving slide 2 into slide 1
+                }
                 
                 let delta = data_rect.left - left;
                 let factor = roundUp(delta / data_rect.width, 10);
