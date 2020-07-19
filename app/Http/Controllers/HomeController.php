@@ -113,6 +113,22 @@ class HomeController extends Controller
             ->orderBy('c.updatedAt', 'desc')
             ->limit(1);
 
+        $oldDataSpread = \DB::table('daily_data as a')
+            ->select(
+                'a.positive',
+                'a.cured',
+                'a.death',
+                'a.updatedAt as updated_at',
+                'b.name as loc_name'
+            )
+            ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+            ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime('-7 day')),date("Y-m-d", strtotime('now'))])
+            ->where('b.name', 'like', '%'.$province_name.'%')
+            ->orderBy('a.updatedAt', 'desc')
+            ->limit(1)
+            ->get();
+
+
         $hospitalData = \DB::table('referral_hospital as a')
             ->select(
                 'a.*',
@@ -132,6 +148,7 @@ class HomeController extends Controller
         // dd($hospitalData);
         return $data = [
             'dataSpread'    => $dataSpread,
+            'oldDataSpread' => $oldDataSpread,
             'hospitalData'  => $hospitalData
         ];
 

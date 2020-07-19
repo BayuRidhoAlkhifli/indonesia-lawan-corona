@@ -348,6 +348,11 @@ nav .nav-link:hover {
     color: rgba(177, 177, 177, 1);
 }
 
+.btm-nav-color:hover {
+    color: rgba(115, 80, 162, 1) !important;
+    text-decoration: none;
+}
+
 .mb-15 {
     margin-bottom: 15px;
 }
@@ -652,6 +657,13 @@ nav .nav-link:hover {
     margin-top: 55px;
 }
 
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 50vh;
+    width: 100%;
+}
+
 .btn-purple {
     color: #ffffff;
     font-weight: 600;
@@ -818,6 +830,10 @@ nav .nav-link:hover {
 .section-whitespace {
     padding-top: 120px;
     padding-bottom: 109px;
+}
+
+.section-data-top {
+    padding-top: 80px;
 }
 
 .show-content-sm {
@@ -1459,6 +1475,11 @@ nav .nav-link:hover {
         display: none;
     }
 
+    .chart-container {
+        height: 60vw;
+        width: 79.5vw;
+    }
+
     .mt-20 {
         margin-top: 0px !important;
     }
@@ -1517,7 +1538,7 @@ nav .nav-link:hover {
 
     .btm-nav-item {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(3, 1fr);
         width: 100%;
         padding: .5rem 20px;
     }

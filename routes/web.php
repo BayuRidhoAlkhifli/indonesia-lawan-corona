@@ -16,13 +16,30 @@ use Illuminate\Support\Facades\Http;
 |
 */
 
-// Route::get('/', function () {
-//     return view('layout.hero');
+// Route::get('news', function () {
+//     return view('pages.news');
 // });
 
-Route::get('', 'HomeController@index');
-Route::get('data-spread', 'HomeController@getDataSpread')->name("get.dataSpread");
+Route::get('', 'HomeController@index')->name("home");
+Route::get('news', 'HomeController@news')->name("newsPage");
+Route::get('data', 'DataController@index')->name("dataPage");
 
+Route::get('data-spread', 'HomeController@getDataSpread')->name("get.dataSpread");
 Route::get('search-province/{province_name}', 'HomeController@searchProvince')->name("get.provinceName");
+Route::get('data/{province_name}', 'DataController@getDataStatisticProvince')->name("get.dataStatistic");
+
+
+Route::get('/kon', function () {
+    $data = \Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
+
+    $data = $data->json();
+    $sum = 0;
+    foreach($data['data'] as $v){
+        $sum+=$v['kasusPosi'];
+    }
+
+    dd($sum);
+});
+
 
 // Route::get('/home', 'HomeController@getHotlineNumber')->name('getHotline');

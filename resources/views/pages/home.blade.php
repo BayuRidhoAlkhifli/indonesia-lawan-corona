@@ -774,7 +774,7 @@
         
         function getDataSpread(){
             axios.get('{{ route("get.dataSpread") }}').then((res) =>{
-                moment.locale("id");getDataSpread
+                moment.locale("id");
                 var tempArrayCase = [];
                 var tempOldArrayCase = [];
                 hospitalData = res.data.hospitalData;
@@ -786,7 +786,6 @@
                 $.each(res.data.oldDataSpread, (k, v) => {
                     tempOldArrayCase[v.loc_name] = v;
                 });
-
 
                 // console.log(res.data);
                 
@@ -1070,6 +1069,7 @@
     function provinceFinder(e) {
             if (e.keyCode == 13){
                 var searchResult = "";
+                var oldData = "";
                 var c = 0;
                 var tableHospital = '';
                 cardHospital = '';
@@ -1158,6 +1158,9 @@
                     $("#txt_confirm").text(searchResult.positive);
                     $("#txt_death").text(searchResult.cured);
                     $("#txt_cured").text(searchResult.death);
+                    $("#txt_confirm_increase").text(res.data.dataSpread[0].positive - res.data.oldDataSpread[0].positive);
+                    $("#txt_death_increase").text(res.data.dataSpread[0].death - res.data.oldDataSpread[0].death);
+                    $("#txt_cured_increase").text(res.data.dataSpread[0].cured - res.data.oldDataSpread[0].cured);
 
                     // last_selected = searchResult.name;
 
