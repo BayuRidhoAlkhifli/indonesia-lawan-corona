@@ -205,7 +205,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12 p-0 text-right mt-10">
-                                <a href="#" class="link-purple">
+                                <a href="{{ route("dataPage") }}" class="link-purple">
                                     Lihat Lebih Lengkap >
                                 </a>
                             </div>
@@ -933,8 +933,8 @@
             
             
             $("#txt_confirm").text(finalResultData.positive);
-            $("#txt_death").text(finalResultData.cured);
-            $("#txt_cured").text(finalResultData.death);
+            $("#txt_cured").text(finalResultData.cured);
+            $("#txt_death").text(finalResultData.death);
             $("#txt_confirm_increase").text(finalResultData.positive - finalResultOldData.positive);
             $("#txt_death_increase").text(finalResultData.death - finalResultOldData.death);
             $("#txt_cured_increase").text(finalResultData.cured - finalResultOldData.cured);

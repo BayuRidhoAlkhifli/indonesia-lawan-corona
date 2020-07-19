@@ -1,7 +1,7 @@
 @extends('layout.hero')
 
 @section('content')
-<section class="section-data-top mt-15">
+<section class="section-data-top">
     <div class="row content">
         <div class="col-md-12 content-sm-ml p-0 text-left">
             <h4>
@@ -66,12 +66,12 @@
                 <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
                     <div class="row">
                         <div class="col-md-4 p-0 ">
-                            <div class="card card-data card-data-left animation-element slide-bottom">
+                            <div class="card card-data card-data-left">
                                 <div class="card-body-data wrap">
                                     <div class=" whitespace-data-left mt-0">
                                         <span class="d-block main-title-md">TERKONFIRMASI</span>
                                         <span id="txt_confirm" class="color-orange data-angka count">-</span>
-                                        <div class="increase-val-1 increase-val">
+                                        <div class="increase-val-1 increase-val-data increase-val">
                                             <i class="fas fa-arrow-up"></i>
                                             <span id="txt_confirm_increase" class="txt_increase">0</span>
                                         </div>
@@ -81,13 +81,13 @@
                             </div>
                         </div>
                         <div class="col-md-4 p-0">
-                            <div class="card card-data card-data-middle animation-element slide-bottom-dly-135s">
+                            <div class="card card-data card-data-middle">
                                 <div class="card-body-data wrap">
 
                                     <div class=" whitespace-data-left mt-0">
                                         <span class="d-block main-title-md" >SEMBUH</span>
                                         <span id="txt_cured" class="color-green data-angka count">-</span>
-                                        <div class="increase-val-3 increase-val">
+                                        <div class="increase-val-3 increase-val-data increase-val">
                                             <i class="fas fa-arrow-up"></i>
                                             <span id="txt_cured_increase" class="txt_increase">0</span>
                                         </div>
@@ -97,12 +97,12 @@
                             </div>
                         </div>
                         <div class="col-md-4 p-0">
-                            <div class="card card-data card-data-right animation-element slide-bottom-dly-145s">
+                            <div class="card card-data card-data-right">
                                 <div class="card-body-data wrap">
                                     <div class=" whitespace-data-left mt-0">
                                         <span class="d-block main-title-md" >MENINGGAL</span>
                                         <span id="txt_death" class="color-purple data-angka count">-</span>
-                                        <div class="increase-val-2 increase-val">
+                                        <div class="increase-val-2 increase-val-data increase-val">
                                             <i class="fas fa-arrow-up"></i>
                                             <span id="txt_death_increase" class="txt_increase">0</span>
                                         </div>
@@ -358,8 +358,8 @@
 
             $("#loc_name").html(locName);
             $("#txt_confirm").text(valueDataPosiFinal);
-            $("#txt_death").text(valueDataCuredFinal);
-            $("#txt_cured").text(valueDataDeathFinal);
+            $("#txt_cured").text(valueDataCuredFinal);
+            $("#txt_death").text(valueDataDeathFinal);
 
             counterAnimation();
         });
