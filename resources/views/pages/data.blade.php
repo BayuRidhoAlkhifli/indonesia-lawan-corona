@@ -262,6 +262,20 @@
             var countArrayData = 1;
             var countArrayOldData = 0;
             var locName = "";
+            var ctx = document.getElementById('chart').getContext('2d'),
+                gradientPosi = ctx.createLinearGradient(0, 0, 0, 350),
+                gradientCured = ctx.createLinearGradient(0, 0, 0, 350),
+                gradientDeath = ctx.createLinearGradient(0, 0, 0, 350);
+
+            gradientPosi.addColorStop(0, 'rgba(249,135,135, 0.5)');
+            gradientPosi.addColorStop(0.5, 'rgba(249,135,135, 0.1)');
+            gradientPosi.addColorStop(1, 'rgba(249,135,135, 0)');
+            gradientCured.addColorStop(0, 'rgba(134,189,44, 0.5)');
+            gradientCured.addColorStop(0.5, 'rgba(134,189,44, 0.1)');
+            gradientCured.addColorStop(1, 'rgba(134,189,44, 0)');
+            gradientDeath.addColorStop(0, 'rgba(202,76,129, 0.5)');
+            gradientDeath.addColorStop(0.5, 'rgba(202,76,129, 0.1)');
+            gradientDeath.addColorStop(1, 'rgba(202,76,129, 0)');
 
             // chart.destroy();
 
@@ -294,7 +308,7 @@
                 labels: labelDate,
                 datasets: [{
                     label: "Meninggal",
-                    backgroundColor: "rgba(202,76,129,0.2)",
+                    backgroundColor:  gradientDeath,
                     borderColor: "rgba(202,76,129,1)",
                     borderWidth: 2,
                     hoverBackgroundColor: "rgba(202,76,129,0.4)",
@@ -303,7 +317,7 @@
                     data: increaseDeathCase,
                 },{
                     label: "Sembuh",
-                    backgroundColor: "rgba(134,189,44,0.2)",
+                    backgroundColor: gradientCured,
                     borderColor: "rgba(134,189,44,1)",
                     borderWidth: 2,
                     hoverBackgroundColor: "rgba(134,189,44,0.4)",
@@ -313,7 +327,7 @@
                 },
                 {
                     label: "Terkonfirmasi",
-                    backgroundColor: "rgba(249,135,135,0.2)",
+                    backgroundColor: gradientPosi,
                     borderColor: "rgba(249,135,135,1)",
                     borderWidth: 2,
                     hoverBackgroundColor: "rgba(249,135,135,0.4)",
@@ -350,8 +364,8 @@
                 }
             };
 
-            var chart = new Chart($("#chart"), {
-                type: 'bar',
+            var chart = new Chart(ctx, {
+                type: 'line',
                 options: options,
                 data: data
             });
