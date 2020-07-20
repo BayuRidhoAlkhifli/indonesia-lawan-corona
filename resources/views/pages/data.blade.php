@@ -4,14 +4,14 @@
 <section class="section-data-top">
     <div class="row content">
         <div class="col-md-12 content-sm-ml p-0 text-left">
-            <h4>
-                Data Kasus
+            <h4 style="font-weight: bold">
+                Data Kasus Covid-19
             </h4>
-            <label class="sub-color animation-element fade-in" style="font-weight: 400;">
-                Pembaharuan Terakhir: <span id="updated_at"></span>
+            <label class="sub-color" style="font-weight: 400;">
+                Pembaharuan Terakhir:<br> <span id="updated_at"></span>
             </label>
         </div>
-        <div id="input_search" class="col-lg-12 col-md-12 p-0 input-bg border-radius-10 content-sm">
+        <div id="input_search" class="col-lg-12 col-md-12 p-0 mt-20 input-bg border-radius-10 content-sm">
             <div class="input-group my-15">
                 <div class="input-group-prepend show-content-sm">
                     <span class="input-group-text icon-left-padding">
@@ -62,7 +62,7 @@
         </div>
         {{-- @dump($hospitalData) --}}
         <div class="col-md-12 p-0">
-            <di v class="row search-not-found">
+            <div class="row search-not-found">
                 <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
                     <div class="row">
                         <div class="col-md-4 p-0 ">
@@ -117,7 +117,7 @@
                             <div class="card card-data animation-element slide-bottom-dly-145s">
                                 <div class="">
                                     <div class="card-body pb-2">
-                                        <label class="d-block main-title-md" style="word-break: normal">Chart Harian Kasus Covid-19 <span id="loc_name"></span></label>
+                                        <label class="d-block main-title-md" style="word-break: normal">Chart Peningkatan Kasus Covid-19 <span id="loc_name"></span></label>
                                     </div>
                                     
                                     <hr>

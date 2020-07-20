@@ -206,7 +206,7 @@
                             </div>
                             <div class="col-md-12 p-0 text-right mt-10">
                                 <a href="{{ route("dataPage") }}" class="link-purple">
-                                    Lihat Lebih Lengkap >
+                                    Lihat Lebih Lengkap <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
