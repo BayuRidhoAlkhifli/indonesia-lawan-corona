@@ -151,6 +151,29 @@
         // getNewsData();
         $window.on('scroll resize', check_if_in_view);
 
+        $window.scroll(function(){
+            if ($(window).scrollTop() >= 745) {
+                $('.content_header').addClass('fixed-header');
+                $('.content_header').removeClass('header-white-bbtm');
+                
+                // $('nav div').addClass('visible-title');
+            }
+            else {
+                $('.content_header').removeClass('fixed-header');
+                $('.content_header').addClass('header-white-bbtm');
+                
+                // $('nav div').removeClass('visible-title');
+            }
+
+            // if ($(window).scrollTop() >= 1400) {
+            //     $('.back-to-top').fadeIn();
+            //     // $('nav div').addClass('visible-title');
+            // }
+            // else {
+            //     $('.back-to-top').fadeOut();
+            // }
+        });
+
         swiper_province = new Swiper('.swiper-province', {
             slidesPerView: 4,
             spaceBetween: 30,

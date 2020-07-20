@@ -10,10 +10,14 @@
         <script>
                 var current = window.location.pathname;
                 $('.navbar-nav li a').each(function(){
-                    
+                    console.log(current);
                     if(this.pathname == current)
                     {
-                        $(this).parent().addClass("active")
+                        $(this).parent().addClass("active");
+                    }
+                    if (current != "/") {
+                        $('.content_header').removeClass("bg-light");
+                        $('.content_header').addClass("header-white-bbtm");
                     }
                 });
 
