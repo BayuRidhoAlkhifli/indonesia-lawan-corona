@@ -33,10 +33,10 @@
                         $val = 0;
                     @endphp
 
-                    @foreach ($data as $key)
+                    @foreach ($location as $key)
                         <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
                             <div class="card card-location" style="cursor:pointer">
-                                <div class="card-province text-center provinceSelector">{{ $data[$val]->name }}</div>
+                                <div class="card-province text-center provinceSelector">{{ $location[$val]->name }}</div>
                             </div>
                         </div>
                         @php
@@ -70,12 +70,17 @@
                                 <div class="card-body-data wrap">
                                     <div class=" whitespace-data-left mt-0">
                                         <span class="d-block main-title-md">TERKONFIRMASI</span>
-                                        <span id="txt_confirm" class="color-orange data-angka count">-</span>
-                                        <div class="increase-val-1 increase-val-data increase-val">
-                                            <i class="fas fa-arrow-up"></i>
-                                            <span id="txt_confirm_increase" class="txt_increase">0</span>
+                                        <div>
+                                            <span id="txt_confirm" class="color-orange data-angka count">-</span>
+                                            <div class="increase-val-1 increase-val-data increase-val">
+                                                <i class="fas fa-arrow-up"></i>
+                                                <span id="txt_confirm_increase" class="txt_increase">0</span>
+                                            </div>
                                         </div>
-                                        <span class="d-block main-title-md" >Indonesia</span>
+                                        <div>
+                                            <span class="main-title-md">Indonesia</span>
+                                            <span id="txt_confirm_idn" class="color-orange sub-data-angka">-</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -91,7 +96,10 @@
                                             <i class="fas fa-arrow-up"></i>
                                             <span id="txt_cured_increase" class="txt_increase">0</span>
                                         </div>
-                                        <span class="d-block main-title-md" >Indonesia</span>
+                                        <div>
+                                            <span class="main-title-md">Indonesia</span>
+                                            <span id="txt_cured_idn" class="color-green sub-data-angka" style="opacity: 1;">-</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +114,10 @@
                                             <i class="fas fa-arrow-up"></i>
                                             <span id="txt_death_increase" class="txt_increase">0</span>
                                         </div>
-                                        <span class="d-block main-title-md" >Indonesia</span>
+                                        <div>
+                                            <span class="main-title-md">Indonesia</span>
+                                            <span id="txt_death_idn" class="color-purple sub-data-angka">-</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -117,7 +128,7 @@
                             <div class="card card-data animation-element slide-bottom-dly-145s">
                                 <div class="">
                                     <div class="card-body pb-2">
-                                        <label class="d-block main-title-md" style="word-break: normal">Chart Peningkatan Kasus Covid-19 <span id="loc_name"></span></label>
+                                        <label class="d-block main-title-md" style="word-break: normal">Data Peningkatan Kasus Covid-19 <span id="loc_name"></span></label>
                                     </div>
                                     
                                     <hr>
@@ -146,6 +157,35 @@
     var $window = $(window);
     var prev = 0;
     var provinceSelect = "";
+
+    var increasePosiCase = [];
+    var increaseCuredCase = [];
+    var increaseDeathCase = [];
+    var labelDate = [];
+
+    var dataSelected = "";
+    var oldDataSelected = "";
+    var last_selected = "";
+    
+
+    var dataPosiNow = 0;
+    var dataCuredNow = 0;
+    var dataDeathNow = 0;
+
+    var ctx = document.getElementById('chart').getContext('2d'),
+                gradientPosi = ctx.createLinearGradient(0, 0, 0, 350),
+                gradientCured = ctx.createLinearGradient(0, 0, 0, 350),
+                gradientDeath = ctx.createLinearGradient(0, 0, 0, 350);
+
+            gradientPosi.addColorStop(0, 'rgba(249,135,135, 0.5)');
+            gradientPosi.addColorStop(0.5, 'rgba(249,135,135, 0.1)');
+            gradientPosi.addColorStop(1, 'rgba(249,135,135, 0)');
+            gradientCured.addColorStop(0, 'rgba(134,189,44, 0.5)');
+            gradientCured.addColorStop(0.5, 'rgba(134,189,44, 0.1)');
+            gradientCured.addColorStop(1, 'rgba(134,189,44, 0)');
+            gradientDeath.addColorStop(0, 'rgba(202,76,129, 0.5)');
+            gradientDeath.addColorStop(0.5, 'rgba(202,76,129, 0.1)');
+            gradientDeath.addColorStop(1, 'rgba(202,76,129, 0)');
 
     $(document).ready(function() {
         // getNewsData();
@@ -206,201 +246,237 @@
             }
         });
 
-        $.each($('.provinceSelector'), (k, v) => {
-            vHtml = $(v).html();
-            
-            if(vHtml == "Aceh"){
-                $(v).parent().addClass('card-active');
-                $('.rs-rujukan').addClass('d-none');
-                $('#rs_rujukan').addClass('d-none');
-                $('.slider-for').slick("slickSetOption", "accessibility", false);
-                $('.slider-for').slick("slickSetOption", "draggable", false);
-                $('.slider-for').slick("slickSetOption", "swipe", false);
-                $('.slider-for').slick("slickSetOption", "touchMove", false);
-                provinceSelect = "Aceh"
-            }
-
-            $(v).data("real", vHtml);
-            if(vHtml == "Kepulauan Bangka Belitung"){
-                $(v).data("real", "Kepulauan Bangka Belitung");
-                $(v).html("Bangka Belitung");
-            }else if(vHtml == "Daerah Istimewa Yogyakarta"){
-                $(v).data("real", "Daerah Istimewa Yogyakarta");
-                $(v).html("DI Yogyakarta");
-            }else if(vHtml == "Nusa Tenggara Barat"){
-                $(v).data("real", "Nusa Tenggara Barat");
-                $(v).html("NTB");
-            }else if(vHtml == "Nusa Tenggara Timur"){
-                $(v).data("real", "Nusa Tenggara Timur");
-                $(v).html("NTT");
-            }
-        });
-
         getData(provinceSelect);
 
         $('.provinceSelector').click((e) => {
             
             var arrayKey = $(e.target).data("real");
             
-            // var finalResultData = dataCorona[arrayKey];
-            // var finalResultOldData = oldCaseData[arrayKey];
+            var finalResultStatistic = dataStatistic[arrayKey];
+            var finalResultOldStatistic = oldDataStatistic[arrayKey];
             
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
-            
-            if(arrayKey == 'Aceh'){
-                $('.rs-rujukan').addClass('d-none');
-                $('#rs_rujukan').addClass('d-none');
-            }else{
-                $('.rs-rujukan').removeClass('d-none');
-                $('#rs_rujukan').removeClass('d-none');
-            };
 
-            provinceSelect = arrayKey;
-
-            getData(provinceSelect);
             // removeData(chart);
+            $.each(finalResultStatistic, (k, v) => {
+                dataSelected = v;
+            });
 
-        });
-        
+            $.each(finalResultOldStatistic, (k, v) => {
+                oldDataSelected = v;
+            });
 
-    });
+            for (let index = 0; index < finalResultStatistic.length - 1; index++) {
+                var countArray = index + 1;
 
-    function getData(province){
-        axios.get('{{ url("data") }}/' + province).then((res) => {
-            moment.locale("id");
-            var labelDate = [];
-            var valueDataPosi = [];
-            var valueDataCured = [];
-            var valueDataDeath = [];
-            var oldValueDataPosi = [];
-            var oldValueDataCured = [];
-            var oldValueDataDeath = [];
-            var valueDataDeathFinal = 0;
-            var valueDataPosiFinal = 0;
-            var valueDataCuredFinal = 0;
-            var increasePosiCase = [];
-            var increaseCuredCase = [];
-            var increaseDeathCase = [];
-            var countArrayData = 1;
-            var countArrayOldData = 0;
-            var locName = "";
-            var ctx = document.getElementById('chart').getContext('2d'),
-                gradientPosi = ctx.createLinearGradient(0, 0, 0, 350),
-                gradientCured = ctx.createLinearGradient(0, 0, 0, 350),
-                gradientDeath = ctx.createLinearGradient(0, 0, 0, 350);
+                labelDate[index] = moment(finalResultStatistic[countArray].updated_at).format("DD MMM");
+                increasePosiCase[index] = finalResultStatistic[countArray].positive - finalResultOldStatistic[index].positive;
+                increaseCuredCase[index] = finalResultStatistic[countArray].cured - finalResultOldStatistic[index].cured;
+                increaseDeathCase[index] = finalResultStatistic[countArray].death - finalResultOldStatistic[index].death;
+            }
 
-            gradientPosi.addColorStop(0, 'rgba(249,135,135, 0.5)');
-            gradientPosi.addColorStop(0.5, 'rgba(249,135,135, 0.1)');
-            gradientPosi.addColorStop(1, 'rgba(249,135,135, 0)');
-            gradientCured.addColorStop(0, 'rgba(134,189,44, 0.5)');
-            gradientCured.addColorStop(0.5, 'rgba(134,189,44, 0.1)');
-            gradientCured.addColorStop(1, 'rgba(134,189,44, 0)');
-            gradientDeath.addColorStop(0, 'rgba(202,76,129, 0.5)');
-            gradientDeath.addColorStop(0.5, 'rgba(202,76,129, 0.1)');
-            gradientDeath.addColorStop(1, 'rgba(202,76,129, 0)');
+            dataPosiNow = dataSelected.positive - oldDataSelected.positive;
+            dataCuredNow = dataSelected.cured - oldDataSelected.cured;
+            dataDeathNow = dataSelected.death - oldDataSelected.death;
+
+            if (dataPosiNow == 0) {
+                dataPosiNow = "-";
+            }
+            if(dataCuredNow == 0) {
+                dataCuredNow = "-";
+            }
+            if(dataDeathNow == 0) {
+                dataDeathNow = "-";
+            }
+
+            $("#txt_confirm").text(dataSelected.positive);
+            $("#txt_cured").text(dataSelected.cured);
+            $("#txt_death").text(dataSelected.death);
+            $("#txt_confirm_increase").text(dataPosiNow);
+            $("#txt_death_increase").text(dataDeathNow);
+            $("#txt_cured_increase").text(dataCuredNow);
 
             // chart.destroy();
+            displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
+            counterAnimation();
+        });
+        
+        
+    });
 
-            $.each(res.data.dataSpread, (k,v) => {
-                locName = v.name
-                valueDataPosi[k] = v.positive;
-                valueDataCured[k] = v.cured;
-                valueDataDeath[k] = v.death;
-                valueDataPosiFinal = v.positive;
-                valueDataCuredFinal = v.cured;
-                valueDataDeathFinal = v.death;
+    function getData(province) {
+        axios.get('{{ route("get.dataStatistic") }}').then((res) => {
+            moment.locale("id");
+
+            var tempArrayStatistic = [];
+            var tempOldArrayStatistic = [];
+
+            var i = {!! json_encode($location) !!};
+            
+            $.each(i, (k,v) => { 
+                tempArrayStatistic[v.name] = [];
+                tempOldArrayStatistic[v.name] = [];
+            });
+
+            $.each(res.data.dataSpread, (k,v) => { 
+                tempArrayStatistic[v.name].push(v);
             });
 
             $.each(res.data.oldDataSpread, (k,v) => {
-                labelDate[k] = moment(v.updated_at).format("DD MMM");
-                oldValueDataPosi[k] = v.positive;
-                oldValueDataCured[k] = v.cured;
-                oldValueDataDeath[k] = v.death;
+                tempOldArrayStatistic[v.loc_name].push(v);
+            });
+
+            dataStatistic  = (tempArrayStatistic);
+            oldDataStatistic = (tempOldArrayStatistic);
+
+            $.each(dataStatistic["Aceh"], (k, v) => {
+                dataSelected = v;
+            });
+
+            $.each(oldDataStatistic["Aceh"], (k, v) => {
+                oldDataSelected = v;
+            });
+
+            $.each(dataStatistic["Indonesia"], (k, v) => {
                 
-                increasePosiCase[k] = valueDataPosi[countArrayData]-oldValueDataPosi[countArrayOldData];
-                increaseCuredCase[k] = valueDataCured[countArrayData]-oldValueDataCured[countArrayOldData];
-                increaseDeathCase[k] = valueDataDeath[countArrayData]-oldValueDataDeath[countArrayOldData];
-                countArrayData ++;
-                countArrayOldData ++;
-
+                indonesiaData = v;
             });
-            
-            
-            var data = {
-                labels: labelDate,
-                datasets: [{
-                    label: "Meninggal",
-                    backgroundColor:  gradientDeath,
-                    borderColor: "rgba(202,76,129,1)",
-                    borderWidth: 2,
-                    hoverBackgroundColor: "rgba(202,76,129,0.4)",
-                    hoverBorderColor: "rgba(202,76,129,1)",
-                    stack: 'Stack 0',
-                    data: increaseDeathCase,
-                },{
-                    label: "Sembuh",
-                    backgroundColor: gradientCured,
-                    borderColor: "rgba(134,189,44,1)",
-                    borderWidth: 2,
-                    hoverBackgroundColor: "rgba(134,189,44,0.4)",
-                    hoverBorderColor: "rgba(134,189,44,1)",
-                    stack: 'Stack 0',
-                    data: increaseCuredCase,
-                },
-                {
-                    label: "Terkonfirmasi",
-                    backgroundColor: gradientPosi,
-                    borderColor: "rgba(249,135,135,1)",
-                    borderWidth: 2,
-                    hoverBackgroundColor: "rgba(249,135,135,0.4)",
-                    hoverBorderColor: "rgba(249,135,135,1)",
-                    stack: 'Stack 0',
-                    data: increasePosiCase,
-                }]
-            };
 
-            var options = {
-                maintainAspectRatio: false,
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                responsive: true,
-                scales: {
-                    yAxes: [{
-                    stacked: true,
-                    gridLines: {
-                        display: true,
-                        color: "rgba(115, 80, 162, 0.1)"
-                    }
-                    }],
-                    xAxes: [{
-                        stacked: true,
-                        gridLines: {
-                            display: false
-                        }
-                    }]
+            for (let index = 0; index < dataStatistic["Aceh"].length - 1; index++) {
+                var countArray = index + 1;
+
+                labelDate[index] = moment(dataStatistic["Aceh"][countArray].updated_at).format("DD MMM");
+                increasePosiCase[index] = dataStatistic["Aceh"][countArray].positive - oldDataStatistic["Aceh"][index].positive;
+                increaseCuredCase[index] = dataStatistic["Aceh"][countArray].cured - oldDataStatistic["Aceh"][index].cured;
+                increaseDeathCase[index] = dataStatistic["Aceh"][countArray].death - oldDataStatistic["Aceh"][index].death;
+            }
+
+            $.each($('.provinceSelector'), (k, v) => {
+                vHtml = $(v).html();
+                
+                if(vHtml == "Aceh"){
+                    $(v).parent().addClass('card-active');
+                    provinceSelect = "Aceh"
+            }
+
+            $(v).data("real", vHtml);
+                if(vHtml == "Kepulauan Bangka Belitung"){
+                    $(v).data("real", "Kepulauan Bangka Belitung");
+                    $(v).html("Bangka Belitung");
+                }else if(vHtml == "Daerah Istimewa Yogyakarta"){
+                    $(v).data("real", "Daerah Istimewa Yogyakarta");
+                    $(v).html("DI Yogyakarta");
+                }else if(vHtml == "Nusa Tenggara Barat"){
+                    $(v).data("real", "Nusa Tenggara Barat");
+                    $(v).html("NTB");
+                }else if(vHtml == "Nusa Tenggara Timur"){
+                    $(v).data("real", "Nusa Tenggara Timur");
+                    $(v).html("NTT");
                 }
-            };
-
-            var chart = new Chart(ctx, {
-                type: 'line',
-                options: options,
-                data: data
             });
 
-            $("#loc_name").html(locName);
-            $("#txt_confirm").text(valueDataPosiFinal);
-            $("#txt_cured").text(valueDataCuredFinal);
-            $("#txt_death").text(valueDataDeathFinal);
+            dataPosiNow = dataSelected.positive - oldDataSelected.positive;
+            dataCuredNow = dataSelected.cured - oldDataSelected.cured;
+            dataDeathNow = dataSelected.death - oldDataSelected.death;
 
+            if (dataPosiNow == 0) {
+                dataPosiNow = "-";
+            }
+            if(dataCuredNow == 0) {
+                dataCuredNow = "-";
+            }
+            if(dataDeathNow == 0) {
+                dataDeathNow = "-";
+            }
+            
+
+            $("#loc_name").html(dataSelected.name);
+            $("#updated_at").html(moment(dataSelected.updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
+            $("#txt_confirm").html(dataSelected.positive);
+            $("#txt_death").html(dataSelected.death);
+            $("#txt_cured").html(dataSelected.cured);
+            $("#txt_confirm_idn").html(indonesiaData.positive);
+            $("#txt_cured_idn").html(indonesiaData.cured);
+            $("#txt_death_idn").html(indonesiaData.death);
+            $("#txt_confirm_increase").html(dataPosiNow);
+            $("#txt_death_increase").html(dataDeathNow);
+            $("#txt_cured_increase").html(dataCuredNow);
+
+            
+            displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             counterAnimation();
         });
+        
     }
+
+    function displayChart(label, deathCase, curedCase, posiCase, deathBg, curedBg, posiBg) {
+        var data = {
+            labels: label,
+            datasets: [{
+                label: "Meninggal",
+                backgroundColor:  deathBg,
+                borderColor: "rgba(202,76,129,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: "rgba(202,76,129,0.4)",
+                hoverBorderColor: "rgba(202,76,129,1)",
+                stack: 'Stack 0',
+                data: deathCase,
+            },{
+                label: "Sembuh",
+                backgroundColor: curedBg,
+                borderColor: "rgba(134,189,44,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: "rgba(134,189,44,0.4)",
+                hoverBorderColor: "rgba(134,189,44,1)",
+                stack: 'Stack 0',
+                data: curedCase,
+            },
+            {
+                label: "Terkonfirmasi",
+                backgroundColor: posiBg,
+                borderColor: "rgba(249,135,135,1)",
+                borderWidth: 2,
+                hoverBackgroundColor: "rgba(249,135,135,0.4)",
+                hoverBorderColor: "rgba(249,135,135,1)",
+                stack: 'Stack 0',
+                data: posiCase,
+            }]
+        };
+
+        var options = {
+            maintainAspectRatio: false,
+            legend: {
+                display: false
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: false,
+            },
+            responsive: true,
+            scales: {
+                yAxes: [{
+                stacked: true,
+                gridLines: {
+                    display: true,
+                    color: "rgba(115, 80, 162, 0.1)"
+                }
+                }],
+                xAxes: [{
+                    stacked: true,
+                    gridLines: {
+                        display: false
+                    }
+                }]
+            }
+        };
+
+        var chart = new Chart(ctx, {
+            type: 'line',
+            options: options,
+            data: data
+        });
+    };
 
     function counterAnimation() {
         $('.count').each(function () {

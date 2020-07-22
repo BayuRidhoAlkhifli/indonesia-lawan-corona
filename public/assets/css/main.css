@@ -822,6 +822,11 @@ nav .nav-link:hover {
     opacity: 0.75;
 }
 
+.sub-data-angka {
+    font-size: 18px;
+    font-weight: 600;
+}
+
 .fixed-header {
     position: fixed;
     top: 0;

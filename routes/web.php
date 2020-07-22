@@ -26,7 +26,7 @@ Route::get('data', 'DataController@index')->name("dataPage");
 
 Route::get('data-spread', 'HomeController@getDataSpread')->name("get.dataSpread");
 Route::get('search-province/{province_name}', 'HomeController@searchProvince')->name("get.provinceName");
-Route::get('data/{province_name}', 'DataController@getDataStatisticProvince')->name("get.dataStatistic");
+Route::get('data-statistic', 'DataController@getDataStatisticProvince')->name("get.dataStatistic");
 
 
 Route::get('/kon', function () {

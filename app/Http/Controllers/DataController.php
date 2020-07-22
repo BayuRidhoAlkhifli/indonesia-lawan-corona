@@ -10,7 +10,7 @@ class DataController extends Controller
     //
     public function index()
     {
-        $data = \DB::table('locations as a')
+        $location = \DB::table('locations as a')
         ->select(
             'a.*',
             'b.name_hotline_primary as call_center_name',
@@ -29,14 +29,14 @@ class DataController extends Controller
         ->limit(35)
         ->get();
 
-        // dd($data);
+        // dd($location);
         return view('pages.data', [
-            'data'          => $data
+            'location'          => $location
         ]);
 
     }
 
-    public function getDataStatisticProvince($province_name)
+    public function getDataStatisticProvince()
     {
         $dataSpread = \DB::table('locations as a')
         ->select(
@@ -52,7 +52,6 @@ class DataController extends Controller
         )
         ->leftJoin('daily_data as b', 'a.id', '=', 'b.provinceCode')
         ->leftJoin('hotline_number as c', 'a.hotline_id', '=', 'c.id')
-        ->where('a.name', $province_name)
         ->orderBy('b.updatedAt', 'asc')
         ->get();
 
@@ -65,7 +64,6 @@ class DataController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->where('b.name', $province_name)
         ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-1 year' )),date("Y-m-d", strtotime( 'now' ))])
         ->orderBy('a.updatedAt', 'asc')
         ->get();
