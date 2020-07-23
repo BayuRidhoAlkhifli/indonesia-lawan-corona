@@ -10,7 +10,7 @@ class DataController extends Controller
     //
     public function index()
     {
-        $location = \DB::table('locations as a')
+        $locations = \DB::table('locations as a')
         ->select(
             'a.*',
             'b.name_hotline_primary as call_center_name',
@@ -31,7 +31,7 @@ class DataController extends Controller
 
         // dd($location);
         return view('pages.data', [
-            'location'          => $location
+            'locations'          => $locations
         ]);
 
     }

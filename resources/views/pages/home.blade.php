@@ -1,11 +1,6 @@
 @extends('layout.hero')
 
 @section('content')
-@php
-    foreach($data as $dt){
-        $newData[$dt->name] = $dt;
-    }
-@endphp
 
     <picture>
         <source media="(max-width:375px)" srcset="{{ asset ('assets/img/wave_white_375.svg') }}">
@@ -58,12 +53,12 @@
                             <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
-                                        <span id="call_center_name" class="d-block main-title">{{ $data[0]->call_center_name}}</span>
+                                        <span id="call_center_name" class="d-block main-title">{{ $locations[0]->call_center_name}}</span>
                                         <span class="d-block sub-title">Nomor Darurat</span>
                                     </div>
                                     <div class="call-center-body">
                                         <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
-                                        <a id="call_center_number">{{ str_replace("-"," ", $data[0]->call_center_number)}}</a>
+                                        <a id="call_center_number">{{ str_replace("-"," ", $locations[0]->call_center_number)}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -72,12 +67,12 @@
                             <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
-                                        <span id="hotline_name"  class="d-block main-title">{{ $data[0]->hotline_name}}</span>
+                                        <span id="hotline_name"  class="d-block main-title">{{ $locations[0]->hotline_name}}</span>
                                         <span class="d-block sub-title">Pertanyaan Umum</span>
                                     </div>
                                     <div class="call-center-body">
                                         <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
-                                        <a id="hot_line_number">{{ str_replace("-"," ", $data[0]->hotline_number)}}</a>
+                                        <a id="hot_line_number">{{ str_replace("-"," ", $locations[0]->hotline_number)}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -113,13 +108,19 @@
                         @php
                             $val = 0;
                         @endphp
-
-                        @foreach ($data as $key)
                             <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
                                 <div class="card card-location" style="cursor:pointer">
-                                    <div class="card-province text-center provinceSelector">{{ $data[$val]->name }}</div>
+                                    <div class="card-province text-center provinceSelector">Indonesia</div>
                                 </div>
                             </div>
+                        @foreach ($locations as $key)
+                            @if ($locations[$val]->name != "Indonesia")
+                                <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
+                                    <div class="card card-location" style="cursor:pointer">
+                                        <div class="card-province text-center provinceSelector">{{ $locations[$val]->name }}</div>
+                                    </div>
+                                </div>
+                            @endif
                             @php
                                 $val++;
                             @endphp
@@ -158,7 +159,7 @@
                 <div class="row slider slider-for search-not-found">
                     <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
                         <label class="sub-color animation-element fade-in" style="font-weight: 400;">
-                            Pembaharuan Terakhir: <span id="updated_at"></span>
+                            Pembaharuan Terakhir:<span id="updated_at"></span>
                         </label>
                         <div class="row">
                             <div class="col-md-4 p-0 ">
@@ -166,10 +167,16 @@
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md">TERKONFIRMASI</span>
-                                            <span id="txt_confirm" class="color-orange data-angka count d-block">-</span>
-                                            <div class="increase-val-1 increase-val">
-                                                <i class="fas fa-arrow-up"></i>
-                                                <span id="txt_confirm_increase" class="txt_increase">0</span>
+                                            <div>
+                                                <span id="txt_confirm" class="color-orange data-angka count">-</span>
+                                                <div class="increase-val-1 increase-val-data increase-val">
+                                                    <i class="fas fa-arrow-up"></i>
+                                                    <span id="txt_confirm_increase" class="txt_increase">0</span>
+                                                </div>
+                                            </div>
+                                            <div class="idn-data">
+                                                <span id="txt_confirm_idn" class="color-orange sub-data-angka">-</span>
+                                                <span class="sub-color">Dari total kasus</span>
                                             </div>
                                         </div>
                                     </div>
@@ -178,13 +185,16 @@
                             <div class="col-md-4 p-0">
                                 <div class="card card-data card-data-middle animation-element slide-bottom-dly-135s">
                                     <div class="card-body-data wrap">
-
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >SEMBUH</span>
-                                            <span id="txt_cured" class="color-green data-angka count d-block">-</span>
-                                            <div class="increase-val-3 increase-val">
+                                            <span id="txt_cured" class="color-green data-angka count">-</span>
+                                            <div class="increase-val-3 increase-val-data increase-val">
                                                 <i class="fas fa-arrow-up"></i>
                                                 <span id="txt_cured_increase" class="txt_increase">0</span>
+                                            </div>
+                                            <div class="idn-data">
+                                                <span id="txt_cured_idn" class="color-green sub-data-angka" style="opacity: 1;">-</span>
+                                                <span class="sub-color">Dari total kasus</span>
                                             </div>
                                         </div>
                                     </div>
@@ -195,10 +205,14 @@
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >MENINGGAL</span>
-                                            <span id="txt_death" class="color-purple data-angka count d-block">-</span>
-                                            <div class="increase-val-2 increase-val">
+                                            <span id="txt_death" class="color-purple data-angka count">-</span>
+                                            <div class="increase-val-2 increase-val-data increase-val">
                                                 <i class="fas fa-arrow-up"></i>
                                                 <span id="txt_death_increase" class="txt_increase">0</span>
+                                            </div>
+                                            <div class="idn-data">
+                                                <span id="txt_death_idn" class="color-purple sub-data-angka">-</span>
+                                                <span class="sub-color">Dari total kasus</span>
                                             </div>
                                         </div>
                                     </div>
@@ -652,6 +666,10 @@
     var arrayPlaceHolder = 0;
     var loopLength = placeHolder.length;
 
+    var dataPosiNow = 0;
+    var dataCuredNow = 0;
+    var dataDeathNow = 0;
+
     $(document).ready(function() {
         // animation when section in poinview
 
@@ -799,6 +817,9 @@
                         $(v).parent().addClass('card-active');
                         $('.rs-rujukan').addClass('d-none');
                         $('#rs_rujukan').addClass('d-none');
+                        $('.idn-data').addClass('d-none');
+                        $('.data-angka').addClass('d-block');
+                        $('.increase-val-data').addClass('top-0');
                         $('.slider-for').slick("slickSetOption", "accessibility", false);
                         $('.slider-for').slick("slickSetOption", "draggable", false);
                         $('.slider-for').slick("slickSetOption", "swipe", false);
@@ -820,15 +841,29 @@
                         $(v).html("NTT");
                     }
                 });
+
+                dataPosiNow = dataCorona["Indonesia"].positive - oldCaseData["Indonesia"].positive;
+                dataCuredNow = dataCorona["Indonesia"].cured - oldCaseData["Indonesia"].cured;
+                dataDeathNow = dataCorona["Indonesia"].death - oldCaseData["Indonesia"].death;
+
+                if (dataPosiNow == 0) {
+                    dataPosiNow = "-";
+                }
+                if(dataCuredNow == 0) {
+                    dataCuredNow = "-";
+                }
+                if(dataDeathNow == 0) {
+                    dataDeathNow = "-";
+                }
                 
                 // console.log(res.data.oldDataSpread);
                 $("#updated_at").html(moment(dataCorona["Indonesia"].updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
                 $("#txt_confirm").html(dataCorona["Indonesia"].positive);
                 $("#txt_death").html(dataCorona["Indonesia"].death);
                 $("#txt_cured").html(dataCorona["Indonesia"].cured);
-                $("#txt_confirm_increase").html(dataCorona["Indonesia"].positive - oldCaseData["Indonesia"].positive);
-                $("#txt_death_increase").html(dataCorona["Indonesia"].death - oldCaseData["Indonesia"].death);
-                $("#txt_cured_increase").html(dataCorona["Indonesia"].cured - oldCaseData["Indonesia"].cured);
+                $("#txt_confirm_increase").html(dataPosiNow);
+                $("#txt_death_increase").html(dataCuredNow);
+                $("#txt_cured_increase").html(dataDeathNow);
 
                 counterAnimation();
             });
@@ -906,6 +941,9 @@
             if(arrayKey == 'Indonesia'){
                 $('.rs-rujukan').addClass('d-none');
                 $('#rs_rujukan').addClass('d-none');
+                $('.idn-data').addClass('d-none');
+                $('.data-angka').addClass('d-block');
+                $('.increase-val-data').addClass('top-0');
                 $('.slider-for').slick("slickSetOption", "accessibility", false);
                 $('.slider-for').slick("slickSetOption", "draggable", false);
                 $('.slider-for').slick("slickSetOption", "swipe", false);
@@ -913,11 +951,33 @@
             }else{
                 $('.rs-rujukan').removeClass('d-none');
                 $('#rs_rujukan').removeClass('d-none');
+                $('.idn-data').addClass('mb-5px');
+                $('.idn-data').removeClass('d-none');
+                $('.data-angka').removeClass('d-block');
+                $('.increase-val-data').removeClass('top-0');
                 $('.slider-for').slick("slickSetOption", "accessibility", true);
                 $('.slider-for').slick("slickSetOption", "draggable", true);
                 $('.slider-for').slick("slickSetOption", "swipe", true);
                 $('.slider-for').slick("slickSetOption", "touchMove", true);
             };
+
+            persentaseOfTotalPosi = finalResultData.positive/dataCorona["Indonesia"].positive*100;
+            persentaseOfTotalCured = finalResultData.cured/dataCorona["Indonesia"].cured*100;
+            persentaseOfTotalDeath = finalResultData.death/dataCorona["Indonesia"].death*100;
+
+            dataPosiNow = finalResultData.positive - finalResultOldData.positive;
+            dataCuredNow = finalResultData.cured - finalResultOldData.cured;
+            dataDeathNow = finalResultData.death - finalResultOldData.death;
+
+            if (dataPosiNow == 0) {
+                dataPosiNow = "-";
+            }
+            if(dataCuredNow == 0) {
+                dataCuredNow = "-";
+            }
+            if(dataDeathNow == 0) {
+                dataDeathNow = "-";
+            }
 
             // $('.slider-for').find("slick-list").height("auto");
             // $('.slider-for').slick(null, null, true);
@@ -935,9 +995,12 @@
             $("#txt_confirm").text(finalResultData.positive);
             $("#txt_cured").text(finalResultData.cured);
             $("#txt_death").text(finalResultData.death);
-            $("#txt_confirm_increase").text(finalResultData.positive - finalResultOldData.positive);
-            $("#txt_death_increase").text(finalResultData.death - finalResultOldData.death);
-            $("#txt_cured_increase").text(finalResultData.cured - finalResultOldData.cured);
+            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
+            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
+            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
+            $("#txt_confirm_increase").text(dataPosiNow);
+            $("#txt_death_increase").text(dataDeathNow);
+            $("#txt_cured_increase").text(dataCuredNow);
 
             counterAnimation();
         });
@@ -1123,7 +1186,7 @@
 
                     // console.log(searchResult);
                     $.each(res.data.hospitalData,(k, v) => {
-                        if(v.loc_name == searchResult.name){
+                        if(v.loc_name == searchResult.name) {
                         
                             c++;
 
@@ -1168,7 +1231,7 @@
                     
                 });
             }
-        }
+    }
 
 
 

@@ -16,27 +16,46 @@ class HomeController extends Controller
 
     public function index() 
     {
-        $data = \DB::table('locations as a')
+        // $locations = \DB::table('locations as a')
+        // ->select(
+        //     'a.*',
+        //     'b.name_hotline_primary as call_center_name',
+        //     'b.hotline_number_primary as call_center_number',
+        //     'b.name_hotline_secondary as hotline_name',
+        //     'b.hotline_number_secondary as hotline_number',
+        //     'c.positive',
+        //     'c.updatedAt'
+        // )
+        // ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
+        // ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
+        // ->orderBy('c.updatedAt', 'desc')
+        // ->orderBy('c.positive', 'desc')
+        // // ->orderBy('a.name', 'asc')
+        // ->limit(35)
+        // ->get();
+        $locations = \DB::table('locations as a')
         ->select(
             'a.*',
             'b.name_hotline_primary as call_center_name',
             'b.hotline_number_primary as call_center_number',
             'b.name_hotline_secondary as hotline_name',
             'b.hotline_number_secondary as hotline_number',
-            'c.positive',
-            'c.updatedAt'
+            // 'c.positive',
+            // 'c.updatedAt'
         )
         ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
-        ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
-        ->orderBy('c.updatedAt', 'desc')
-        ->orderBy('c.positive', 'desc')
+        // ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
+        ->distinct('a.name')
+        ->orderBy('a.name', 'asc')
+        // ->orderBy('c.updatedAt', 'desc')
         // ->orderBy('a.name', 'asc')
         ->limit(35)
         ->get();
 
+
         // dd($data);
         return view('pages.home', [
-            'data'          => $data
+            'locations'          => $locations
         ]);
     }
 
