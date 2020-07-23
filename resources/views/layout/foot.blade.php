@@ -24,6 +24,10 @@
                $('.btm-nav-item a').each(function(){
                     if(this.pathname == current)
                     {   
+<<<<<<< HEAD
+=======
+                        console.log($(this).first());
+>>>>>>> ee5a931172e94d57de44016b28a198a28ca2a595
                         $(this).children("div").addClass("btm-nav-active");
                     }else{
                         $(this).children("div").removeClass("btm-nav-active");
