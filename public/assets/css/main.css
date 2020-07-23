@@ -240,14 +240,14 @@ nav .nav-link:hover {
     color: rgba(0, 0, 0, .7);
 } */
 ::placeholder {
-    color: rgba(120, 120, 120, .5) !important;
+    color: rgba(120, 120, 120, .7) !important;
 }
 :-ms-input-placeholder {
-    color: rgba(120, 120, 120, .5) !important;
+    color: rgba(120, 120, 120, .7) !important;
 }
 
 ::-ms-input-placeholder {
-    color: rgba(120, 120, 120, .5) !important;
+    color: rgba(120, 120, 120, .7) !important;
 }
 
 .input-bg {
@@ -381,11 +381,20 @@ nav .nav-link:hover {
 }
 
 .btm-nav-active {
-    color: rgba(115, 80, 162, 1) !important;
+    background-color: rgba(115, 80, 162, 1);
+    color: #ffffff;
 }
 
 .btm-nav-color {
-    color: rgba(177, 177, 177, 1);
+    color: rgba(115, 80, 162, 1);
+}
+
+.btm-nav-icon {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    padding: 6px;
+    margin-top: 5px;
 }
 
 .btm-nav-color:hover {

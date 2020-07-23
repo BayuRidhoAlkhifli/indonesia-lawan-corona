@@ -23,10 +23,10 @@
 
                $('.btm-nav-item a').each(function(){
                     if(this.pathname == current)
-                    {
-                        $(this).addClass("btm-nav-active")
+                    {   
+                        $(this).children("div").addClass("btm-nav-active");
                     }else{
-                        $(this).removeClass("btm-nav-active")
+                        $(this).children("div").removeClass("btm-nav-active");
                     }
                 });
         </script>
