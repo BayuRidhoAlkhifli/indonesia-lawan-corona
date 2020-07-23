@@ -258,9 +258,34 @@ nav .nav-link:hover {
     border-radius: 10px;
 }
 
+.color-case {
+    width: 15px;
+    height: 3px;
+    margin-top: 11px;
+    margin-bottom: auto;
+}
+
+.bg-orange {
+    background-color: #f8615a;
+}
+
+.bg-green {
+    background-color: #86bd2c;
+}
+
+.bg-purple {
+    background-color: #ca4c81;
+}
+
+.ml-10 {
+    margin-left: 10px;
+}
+
 .top-0 {
     top: 0px !important;
 }
+
+
 
 .search-input:focus {
     color: #495057;
@@ -331,6 +356,17 @@ nav .nav-link:hover {
 
 .ml-50 {
     margin-left: 50px;
+}
+
+.ml-15 {
+    margin-left: 15px;
+}
+
+.last-col-sta {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: flex !important;
+    margin-left: 15px;
 }
 
 .mt-custm {
@@ -1705,6 +1741,11 @@ nav .nav-link:hover {
     .input-group>.form-control:not(:last-child) {
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;
+    }
+
+    .last-col-sta {
+        width: 100%;
+        margin-left: 0px;
     }
     
     .grid-container {

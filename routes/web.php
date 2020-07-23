@@ -29,17 +29,4 @@ Route::get('search-province/{province_name}', 'HomeController@searchProvince')->
 Route::get('data-statistic', 'DataController@getDataStatisticProvince')->name("get.dataStatistic");
 
 
-Route::get('/kon', function () {
-    $data = \Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
-
-    $data = $data->json();
-    $sum = 0;
-    foreach($data['data'] as $v){
-        $sum+=$v['kasusPosi'];
-    }
-
-    dd($sum);
-});
-
-
 // Route::get('/home', 'HomeController@getHotlineNumber')->name('getHotline');
