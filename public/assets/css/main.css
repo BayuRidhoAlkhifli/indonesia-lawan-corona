@@ -1575,7 +1575,7 @@ nav .nav-link:hover {
     }
 
     .mt-20 {
-        margin-top: 0px !important;
+        margin-top: 0px;
     }
 
     .slider-nav {
@@ -1713,8 +1713,15 @@ nav .nav-link:hover {
         box-shadow: 0 13px 15px -12px rgba(148, 108, 185, 0.13) !important;
     }
 
-    #data_kasus > label {
+    #data_kasus {
         margin-top: 15px;
+    }
+
+    #rs_rujukan {
+        margin-top: 30px;
+    }
+
+    #data_kasus > label {
         margin-bottom: 15px;
     }
 
