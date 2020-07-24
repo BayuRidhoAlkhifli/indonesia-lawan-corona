@@ -193,6 +193,7 @@
     var dataCuredNow = 0;
     var dataDeathNow = 0;
 
+    var chart = {};
     var ctx = document.getElementById('chart').getContext('2d'),
                 gradientPosi = ctx.createLinearGradient(0, 0, 0, 350),
                 gradientCured = ctx.createLinearGradient(0, 0, 0, 350),
@@ -352,7 +353,10 @@
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-            
+            if (chart) {
+                chart.destroy();
+            }
+
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             
             counterAnimation();
@@ -469,8 +473,6 @@
             $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-            
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             counterAnimation();
         });
@@ -583,6 +585,10 @@ console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".
                     $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
+                    if (chart) {
+                        chart.destroy();
+                    }
+
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
                     counterAnimation();
                 })
@@ -594,6 +600,7 @@ console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".
     };
 
     function displayChart(label, deathCase, curedCase, posiCase, deathBg, curedBg, posiBg) {
+
         var data = {
             labels: label,
             datasets: [{
@@ -654,11 +661,12 @@ console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".
             }
         };
 
-        var chart = new Chart(ctx, {
+        chart = new Chart(ctx, {
             type: 'line',
             options: options,
             data: data
         });
+
     };
 
     function counterAnimation() {
