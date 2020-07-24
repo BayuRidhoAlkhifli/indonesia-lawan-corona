@@ -7,8 +7,8 @@
             <h4 style="font-weight: bold">
                 Data Kasus Covid-19
             </h4>
-            <label class="sub-color" style="font-weight: 400;">
-                Pembaharuan Terakhir:<br> <span id="updated_at"></span>
+            <label class="sub-color sub-title" style="font-weight: 400;">
+                Pembaharuan Terakhir: <span id="updated_at"></span>
             </label>
         </div>
         <div id="input_search" class="col-lg-12 col-md-12 p-0 mt-20 input-bg border-radius-10 content-sm">

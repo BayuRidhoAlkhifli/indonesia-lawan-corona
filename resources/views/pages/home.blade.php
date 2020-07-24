@@ -158,7 +158,7 @@
                 </div>
                 <div class="row slider slider-for search-not-found">
                     <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
-                        <label class="sub-color animation-element fade-in" style="font-weight: 400;">
+                        <label class="sub-color animation-element fade-in sub-title" style="font-weight: 400;">
                             Pembaharuan Terakhir: <span id="updated_at"></span>
                         </label>
                         <div class="row">
