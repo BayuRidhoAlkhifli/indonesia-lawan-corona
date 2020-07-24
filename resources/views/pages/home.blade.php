@@ -824,6 +824,9 @@
                         $('.slider-for').slick("slickSetOption", "draggable", false);
                         $('.slider-for').slick("slickSetOption", "swipe", false);
                         $('.slider-for').slick("slickSetOption", "touchMove", false);
+                        $('.slider-for').find(".slick-list").height("auto");
+                        // $('.slider-for').slickSetOption(null, null, true);
+                        $('.slider-for').slick("slickSetOption", null, null, false);
                     }
 
                     $(v).data("real", vHtml);
@@ -876,8 +879,6 @@
         //     $('.search-not-found').removeClass('d-none');
         //     $('#province_finder').val() == '';
         // });
-
-        
 
         $('#province_finder').keypress((e) => {
             provinceFinder(e);
@@ -948,6 +949,7 @@
                 $('.slider-for').slick("slickSetOption", "draggable", false);
                 $('.slider-for').slick("slickSetOption", "swipe", false);
                 $('.slider-for').slick("slickSetOption", "touchMove", false);
+                $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
             }else{
                 $('.rs-rujukan').removeClass('d-none');
                 $('#rs_rujukan').removeClass('d-none');
@@ -979,8 +981,6 @@
                 dataDeathNow = "-";
             }
 
-            // $('.slider-for').find("slick-list").height("auto");
-            // $('.slider-for').slick(null, null, true);
             // console.log(dataCorona)
             $("#table_hospital").html(tableHospital);
             $("#card_hospital").html(cardHospital);
@@ -995,9 +995,9 @@
             $("#txt_confirm").text(finalResultData.positive);
             $("#txt_cured").text(finalResultData.cured);
             $("#txt_death").text(finalResultData.death);
-            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
-            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
-            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
+            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
@@ -1041,7 +1041,7 @@
 
         // precision is 10 for 10ths, 100 for 100ths, etc.
         function roundUp(num, precision) {
-        return Math.ceil(num * precision) / precision
+            return Math.ceil(num * precision) / precision
         }
 
         let h = document.getElementById('data_kasus');
@@ -1089,8 +1089,8 @@
             }, {
                 duration: 375,
                 easing: 'swing',
-                step: function () {
-                    var count = Math.ceil(this.Counter).toString();
+                step: function (now) {
+                    var count = Math.ceil(now).toString();
                     if(Number(count) > 999){
                         while (/(\d+)(\d{3})/.test(count)) {
                             count = count.replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
@@ -1136,17 +1136,25 @@
     }
 
     function provinceFinder(e) {
-            if (e.keyCode == 13){
+            if (e.keyCode == 13) {
+                var tempArrayData = [];
                 var searchResult = "";
                 var oldData = "";
                 var c = 0;
                 var tableHospital = '';
                 cardHospital = '';
 
-                axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
+                axios
+                .get('{{ url("data-spread") }}'+`?query=${$('#province_finder').val()}`)
+                .then((res) => {
                     
-                    if (res.data == 0) {
-                        
+                    var i = {!! json_encode($locations) !!};
+                        $.each(i, (k,v) => { 
+                        tempArrayData[v.name] = [];
+                    });
+
+                    if (res.data.dataFinder == 0) {
+                    
                         $( "#input_search" )
                             .animate({ "left": "+=10px" }, 70 )
                             .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
@@ -1156,16 +1164,23 @@
                         $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
                         $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
 
-                    }else{
+                    } else {
 
-                        $.each(res.data.dataSpread,(k, v) => {
-                            
+                        $.each(res.data.dataFinder.dataSpread,(k, v) => {
+
                             if (v.name == "Indonesia") {
                                 $('.rs-rujukan').addClass('d-none');
                                 $('#alert_search').removeAttr('class');
                                 $('#icon-alert-search').html('');
                                 $('#alert-search-not-found').html('');
                                 $('.search-not-found').removeClass('d-none');
+                                $('.slider-for').slick("slickSetOption", "accessibility", false);
+                                $('.slider-for').slick("slickSetOption", "draggable", false);
+                                $('.slider-for').slick("slickSetOption", "swipe", false);
+                                $('.slider-for').slick("slickSetOption", "touchMove", false);
+                                $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
+                                $('.slider-for').find(".slick-list").height("auto");
+                                $('.slider-for').slick("slickSetOption", null, null, false);
                                 searchResult = v;
                                 
                             } else {
@@ -1174,13 +1189,42 @@
                                 $('#icon-alert-search').html('');
                                 $('#alert-search-not-found').html('');
                                 $('.search-not-found').removeClass('d-none');
+                                $('.slider-for').slick("slickSetOption", "accessibility", true);
+                                $('.slider-for').slick("slickSetOption", "draggable", true);
+                                $('.slider-for').slick("slickSetOption", "swipe", true);
+                                $('.slider-for').slick("slickSetOption", "touchMove", true);
+                                $('.slider-for').find(".slick-list").height("auto");
+                                $('.slider-for').slick("slickSetOption", null, null, false);
                                 searchResult = v;
                                 
                             }
                         });
+
+                        $.each(res.data.dataFinder.oldDataSpread,(k, v) => {
+                            oldData = v
+                        });
+                        
+                        $.each(res.data.dataSpread,(k, v) => {
+                            tempArrayData[v.name].push(v);
+                        });
+
+                        $.each(tempArrayData["Indonesia"], (k, v) => {
+                            totalCase = v;
+                        });
                     }
 
                     $.each($('.provinceSelector'), (k, v) => {
+                        if (searchResult.name == "Indonesia") {
+                            $('.idn-data').addClass('d-none');
+                            $('.data-angka').addClass('d-block');
+                            $('.increase-val-data').addClass('top-0');
+                        } else {
+                            $('.idn-data').addClass('mb-5px');
+                            $('.idn-data').removeClass('d-none');
+                            $('.data-angka').removeClass('d-block');
+                            $('.increase-val-data').removeClass('top-0');
+                        }
+
                         if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
                             $(v).parent().addClass('card-active'); 
                             last_selected = v;
@@ -1190,8 +1234,7 @@
                         }
                     });
 
-                    // console.log(searchResult);
-                    $.each(res.data.hospitalData,(k, v) => {
+                    $.each(res.data.dataFinder.hospitalData,(k, v) => {
                         if(v.loc_name == searchResult.name) {
                         
                             c++;
@@ -1201,7 +1244,7 @@
                                         <td>`+ v.name_hospital +`</td>
                                         <td>`+ v.address +`</td>
                                         <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
-                                    </tr>`
+                                    </tr>`;
                             // hospitalCollection[c] = v;
                             cardHospital +=`<div class="col-md-12 p-0 mb-15">
                                         <div class="card card-data m-0">
@@ -1217,9 +1260,21 @@
                         }
                     });
 
-                    dataPosiNow = res.data.dataSpread[0].positive - res.data.oldDataSpread[0].positive;
-                    dataCuredNow = res.data.dataSpread[0].cured - res.data.oldDataSpread[0].cured;
-                    dataDeathNow = res.data.dataSpread[0].death - res.data.oldDataSpread[0].death;
+                    for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
+                        var countArray = index + 1;
+
+                        labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updatedAt).format("DD MMM");
+                        increasePosiCase[index] = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
+                        increaseCuredCase[index] = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
+                        increaseDeathCase[index] = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
+                        dataPosiNow = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
+                        dataCuredNow = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
+                        dataDeathNow = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
+                    }
+
+                    persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
+                    persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
+                    persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
 
                     if (dataPosiNow == 0) {
                         dataPosiNow = "-";
@@ -1239,19 +1294,20 @@
                     $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
 
                     $("#txt_confirm").text(searchResult.positive);
-                    $("#txt_death").text(searchResult.cured);
-                    $("#txt_cured").text(searchResult.death);
+                    $("#txt_death").text(searchResult.death);
+                    $("#txt_cured").text(searchResult.cured);
+                    $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+                    $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+                    $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
                     $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                    $("#txt_death_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                    $("#txt_cured_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                    
+                    $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-
-
-                    // last_selected = searchResult.name;
-
+                    last_selected = searchResult.name;
                     counterAnimation();
-                    
+                })
+                .catch(err => {
+                    console.log(err);
                 });
             }
     }

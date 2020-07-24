@@ -345,9 +345,9 @@
             $("#txt_confirm").text(dataSelected.positive);
             $("#txt_cured").text(dataSelected.cured);
             $("#txt_death").text(dataSelected.death);
-            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
-            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
-            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
+            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
@@ -576,9 +576,9 @@ console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".
                     $("#txt_confirm").text(searchResult.positive);
                     $("#txt_death").text(searchResult.death);
                     $("#txt_cured").text(searchResult.cured);
-                    $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
-                    $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
-                    $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
+                    $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+                    $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+                    $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
                     $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
@@ -668,8 +668,8 @@ console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".
             }, {
                 duration: 375,
                 easing: 'swing',
-                step: function () {
-                    var count = Math.ceil(this.Counter).toString();
+                step: function (now) {
+                    var count = Math.ceil(now).toString();
                     if(Number(count) > 999){
                         while (/(\d+)(\d{3})/.test(count)) {
                             count = count.replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');

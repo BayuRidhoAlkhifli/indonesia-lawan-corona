@@ -64,7 +64,7 @@ class HomeController extends Controller
         return view('pages.news');
     }
 
-    public function getDataSpread()
+    public function getDataSpread(Request $req)
     {
         $dataSpread = \DB::table('locations as a')
         ->select(
@@ -111,7 +111,8 @@ class HomeController extends Controller
         return $data = [
             'dataSpread'    => $dataSpread,
             'oldDataSpread' => $oldDataSpread,
-            'hospitalData'  => $hospitalData
+            'hospitalData'  => $hospitalData,
+            'dataFinder' => ($req->filled('query') ? $this->searchProvince($req->get('query')) : [])
         ];
     }
 
@@ -129,8 +130,7 @@ class HomeController extends Controller
             ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
             ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
             ->where('a.name', 'like', '%'.$province_name.'%')
-            ->orderBy('c.updatedAt', 'desc')
-            ->limit(1);
+            ->orderBy('c.updatedAt', 'asc');
 
         $oldDataSpread = \DB::table('daily_data as a')
             ->select(
@@ -143,8 +143,7 @@ class HomeController extends Controller
             ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
             ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime('-7 day')),date("Y-m-d", strtotime('now'))])
             ->where('b.name', 'like', '%'.$province_name.'%')
-            ->orderBy('a.updatedAt', 'desc')
-            ->limit(1)
+            ->orderBy('a.updatedAt', 'asc')
             ->get();
 
 
