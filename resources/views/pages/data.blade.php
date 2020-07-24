@@ -348,9 +348,9 @@
             $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
             $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
             $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
-            $("#txt_confirm_increase").text(dataPosiNow);
-            $("#txt_death_increase").text(dataDeathNow);
-            $("#txt_cured_increase").text(dataCuredNow);
+            $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
             
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
@@ -465,10 +465,11 @@
             $("#txt_confirm").html(dataSelected.positive);
             $("#txt_death").html(dataSelected.death);
             $("#txt_cured").html(dataSelected.cured);
-            $("#txt_confirm_increase").html(dataPosiNow);
-            $("#txt_death_increase").html(dataDeathNow);
-            $("#txt_cured_increase").html(dataCuredNow);
+            $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
+console.log(dataSelected.positive.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             counterAnimation();
@@ -578,9 +579,9 @@
                     $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
                     $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
                     $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
-                    $("#txt_confirm_increase").text(dataPosiNow);
-                    $("#txt_death_increase").text(dataDeathNow);
-                    $("#txt_cured_increase").text(dataCuredNow);
+                    $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
                     counterAnimation();
@@ -667,8 +668,14 @@
             }, {
                 duration: 375,
                 easing: 'swing',
-                step: function (now) {
-                    $(this).text(Math.ceil(now));
+                step: function () {
+                    var count = Math.ceil(this.Counter).toString();
+                    if(Number(count) > 999){
+                        while (/(\d+)(\d{3})/.test(count)) {
+                            count = count.replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+                        }
+                    }
+                    $(this).text(count);
                 }
             });
         });

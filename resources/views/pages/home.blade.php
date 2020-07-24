@@ -144,13 +144,13 @@
             </div>
             {{-- @dump($hospitalData) --}}
             <div class="col-md-12 p-0 mt-30">
-                <div class="row slider slider-nav search-not-found">
-                    <div class="col-md-3 content-sm-ml p-0 data-kasus text-center">
+                <div class="row slider slider-nav search-not-found content-sm">
+                    <div class="col-md-3 p-0 data-kasus text-center">
                         <h4>
                             Data Kasus
                         </h4>
                     </div>
-                    <div class="col-md-3 content-sm-mr p-0 rs-rujukan text-center">
+                    <div class="col-md-3 p-0 rs-rujukan text-center">
                         <h4>
                             RS Rujukan
                         </h4>
@@ -159,7 +159,7 @@
                 <div class="row slider slider-for search-not-found">
                     <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
                         <label class="sub-color animation-element fade-in" style="font-weight: 400;">
-                            Pembaharuan Terakhir:<span id="updated_at"></span>
+                            Pembaharuan Terakhir: <span id="updated_at"></span>
                         </label>
                         <div class="row">
                             <div class="col-md-4 p-0 ">
@@ -861,9 +861,9 @@
                 $("#txt_confirm").html(dataCorona["Indonesia"].positive);
                 $("#txt_death").html(dataCorona["Indonesia"].death);
                 $("#txt_cured").html(dataCorona["Indonesia"].cured);
-                $("#txt_confirm_increase").html(dataPosiNow);
-                $("#txt_death_increase").html(dataCuredNow);
-                $("#txt_cured_increase").html(dataDeathNow);
+                $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_death_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_cured_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
                 counterAnimation();
             });
@@ -998,9 +998,9 @@
             $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2)+"%");
             $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2)+"%");
             $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2)+"%");
-            $("#txt_confirm_increase").text(dataPosiNow);
-            $("#txt_death_increase").text(dataDeathNow);
-            $("#txt_cured_increase").text(dataCuredNow);
+            $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
             counterAnimation();
         });
@@ -1089,8 +1089,14 @@
             }, {
                 duration: 375,
                 easing: 'swing',
-                step: function (now) {
-                    $(this).text(Math.ceil(now));
+                step: function () {
+                    var count = Math.ceil(this.Counter).toString();
+                    if(Number(count) > 999){
+                        while (/(\d+)(\d{3})/.test(count)) {
+                            count = count.replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+                        }
+                    }
+                    $(this).text(count);
                 }
             });
         });
@@ -1211,6 +1217,20 @@
                         }
                     });
 
+                    dataPosiNow = res.data.dataSpread[0].positive - res.data.oldDataSpread[0].positive;
+                    dataCuredNow = res.data.dataSpread[0].cured - res.data.oldDataSpread[0].cured;
+                    dataDeathNow = res.data.dataSpread[0].death - res.data.oldDataSpread[0].death;
+
+                    if (dataPosiNow == 0) {
+                        dataPosiNow = "-";
+                    }
+                    if(dataCuredNow == 0) {
+                        dataCuredNow = "-";
+                    }
+                    if(dataDeathNow == 0) {
+                        dataDeathNow = "-";
+                    }
+
                     $("#table_hospital").html(tableHospital);
                     $("#card_hospital").html(cardHospital);
                     $("#call_center_name").html(searchResult.call_center_name);
@@ -1221,9 +1241,12 @@
                     $("#txt_confirm").text(searchResult.positive);
                     $("#txt_death").text(searchResult.cured);
                     $("#txt_cured").text(searchResult.death);
-                    $("#txt_confirm_increase").text(res.data.dataSpread[0].positive - res.data.oldDataSpread[0].positive);
-                    $("#txt_death_increase").text(res.data.dataSpread[0].death - res.data.oldDataSpread[0].death);
-                    $("#txt_cured_increase").text(res.data.dataSpread[0].cured - res.data.oldDataSpread[0].cured);
+                    $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $("#txt_death_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $("#txt_cured_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    
+
+
 
                     // last_selected = searchResult.name;
 
