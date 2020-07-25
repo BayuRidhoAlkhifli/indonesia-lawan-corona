@@ -865,8 +865,8 @@
                 $("#txt_death").html(dataCorona["Indonesia"].death);
                 $("#txt_cured").html(dataCorona["Indonesia"].cured);
                 $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                $("#txt_death_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                $("#txt_cured_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
                 counterAnimation();
             });
