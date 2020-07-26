@@ -53,8 +53,10 @@
                             <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
-                                        <span id="call_center_name" class="d-block main-title">{{ $locations[0]->call_center_name}}</span>
-                                        <span class="d-block sub-title">Nomor Darurat</span>
+                                        <div>
+                                            <span id="call_center_name" class="d-block main-title">{{ $locations[0]->call_center_name}}</span>
+                                            <span class="d-block sub-title">Nomor Darurat</span>
+                                        </div>
                                     </div>
                                     <div class="call-center-body">
                                         <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
@@ -62,13 +64,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <button class="btn btn-cpy cpy-call-center" data-clipboard-target="#call_center_number" onclick="toastMessage()">Salin Nomor</button>
                         </div>
                         <div class="col-lg-12 card-pl-15">
                             <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
-                                    <div class="call-center-header">
-                                        <span id="hotline_name"  class="d-block main-title">{{ $locations[0]->hotline_name}}</span>
-                                        <span class="d-block sub-title">Pertanyaan Umum</span>
+                                    <div class="call-center-header row m-0">
+                                        <div>
+                                            <span id="hotline_name"  class="d-block main-title">{{ $locations[0]->hotline_name}}</span>
+                                            <span class="d-block sub-title">Pertanyaan Umum</span>
+                                        </div>
                                     </div>
                                     <div class="call-center-body">
                                         <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
@@ -76,6 +81,7 @@
                                     </div>
                                 </div>
                             </div>
+                            <button class="btn btn-cpy cpy-hotline" data-clipboard-target="#hot_line_number" onclick="toastMessage()">Salin Nomor</button>
                         </div>
                     </div>
                 </div>
@@ -633,6 +639,9 @@
             </div>
         </div>
     </section>
+    <div id="snackbar">
+        Nomor Berhasil Disalin
+    </div>
     <div class="back-to-top text-center">
         <a id="back-to-top" href="#" class="btn btn-light btn-lg" role="button">
             <i class="fas fa-arrow-up"></i>
@@ -642,6 +651,7 @@
 @endsection
 
 @section('custom_script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
 <script>
 
     $('img').bind('contextmenu', function(e) {
@@ -669,6 +679,9 @@
     var dataPosiNow = 0;
     var dataCuredNow = 0;
     var dataDeathNow = 0;
+
+    new ClipboardJS('.cpy-hotline');
+    new ClipboardJS('.cpy-call-center');
 
     $(document).ready(function() {
         // animation when section in poinview
@@ -1085,6 +1098,12 @@
         })
 
     });
+
+    function toastMessage() {
+        var toast = document.getElementById("snackbar");
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    }
 
     function counterAnimation() {
         $('.count').each(function () {

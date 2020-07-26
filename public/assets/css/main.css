@@ -373,6 +373,7 @@ nav .nav-link:hover {
     margin-bottom: 40px;
 }
 
+
 .news-descript {
     overflow: hidden;
     display: -webkit-box;
@@ -499,6 +500,10 @@ nav .nav-link:hover {
     border-bottom-left-radius: .25rem;
 }
 
+.mr-10 {
+    margin-right: 10px;
+}
+
 .grad-toptobtm{
     background: linear-gradient(180deg, #FFE8DB 0%, rgba(255, 232, 219, 0) 100%);
 }
@@ -541,6 +546,10 @@ nav .nav-link:hover {
     padding-right:15px;
 }
 
+.mb-30 {
+    margin-bottom: 30px !important;
+}
+
 .step-item-2 {
     padding-left:15px;
     padding-right:15px;
@@ -562,6 +571,14 @@ nav .nav-link:hover {
 
 .whitespace-data-left{
     margin-left:15px;
+}
+
+.ml-20 {
+    margin-left: 20px;
+}
+
+.mt-chatought {
+    margin-top: 30%;
 }
 
 .card{
@@ -717,6 +734,20 @@ nav .nav-link:hover {
     box-shadow: 0px 6px 7px rgba(115, 80, 162, .1);
 }
 
+.btn-cpy {
+    background: #fcaa60;
+    color: rgb(34, 34, 34);
+    font-size: 16px;
+    position: absolute;
+    top: 150px;
+    left: 80px;
+}
+
+.btn-cpy:hover {
+    box-shadow: 0 13px 15px -12px rgba(65, 41, 88, 0.301) !important;
+}
+
+
 .btn-light:not(:disabled):not(.disabled):active{
     background: rgb(63, 23, 110);
     color: #f8f8f8;
@@ -738,6 +769,13 @@ nav .nav-link:hover {
     margin: auto;
     height: 40vh;
     width: 100%;
+}
+
+.chart-dought-container {
+    position: relative;
+    margin: auto;
+    height: auto;
+    width: 90%;
 }
 
 .btn-purple {
@@ -817,6 +855,13 @@ nav .nav-link:hover {
 
 .card-data-right {
     margin-left: 20px;
+}
+
+.col-66 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 66.6%;
+    flex: 0 0 66.6%;
+    max-width: 66.6%;
 }
 
 .card-img-top {
@@ -1087,6 +1132,78 @@ nav .nav-link:hover {
 .virus-floating-slow {
     animation: float 20s 0.1s infinite linear;
 }
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: rgba(51, 51, 51, .6);
+    color: #fff;
+    border-radius: 50px !important;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadeinSnake 0.5s, fadeoutSnake 0.5s 2.5s;
+    animation: fadeinSnake 0.5s, fadeoutSnake 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadeinSnake {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinSnake {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeoutSnake {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeoutSnake {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
 @keyframes menu_sticky {
     0% {
         margin-top: -120px;
@@ -1472,7 +1589,9 @@ nav .nav-link:hover {
     }
     
     .carousel-indicators,
-    #scene {
+    #scene,
+    .cpy-call-center,
+    .cpy-hotline {
         display: none;
     }
 
@@ -1558,12 +1677,29 @@ nav .nav-link:hover {
     .virus-sm,
     .virus-md,
     .carousel-indicators,
-    .number-call-icon {
+    .number-call-icon,
+    .cpy-call-center,
+    .cpy-hotline {
         display: none;
+    }
+    
+    .mt-chatought {
+        margin-top: 10%;
     }
 
     .section-data-top {
         padding-top: 15px;
+    }
+
+    .col-66 {
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .mr-10 {
+        margin-right: 0px;
     }
 
     .chart-container {
@@ -1859,6 +1995,10 @@ nav .nav-link:hover {
 
     .mt-10 {
         margin-top: 10px;
+    }
+
+    .ml-20 {
+        margin-left:0px;
     }
     
     .mt-15 {
