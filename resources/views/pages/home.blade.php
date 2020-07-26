@@ -791,7 +791,7 @@
         var caseIncrease = 0;
         
         function getDataSpread(){
-            axios.get('{{ route("get.dataSpread") }}').then((res) =>{
+            axios.get('{{ route("get.dataSpread") }}').then((res) => {
                 moment.locale("id");
                 var tempArrayCase = [];
                 var tempOldArrayCase = [];
@@ -950,6 +950,8 @@
                 $('.slider-for').slick("slickSetOption", "swipe", false);
                 $('.slider-for').slick("slickSetOption", "touchMove", false);
                 $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
+                $('.slider-for').find(".slick-list").height("auto");
+                $('.slider-for').slick("slickSetOption", null, null, false);
             }else{
                 $('.rs-rujukan').removeClass('d-none');
                 $('#rs_rujukan').removeClass('d-none');
@@ -961,6 +963,8 @@
                 $('.slider-for').slick("slickSetOption", "draggable", true);
                 $('.slider-for').slick("slickSetOption", "swipe", true);
                 $('.slider-for').slick("slickSetOption", "touchMove", true);
+                $('.slider-for').find(".slick-list").height("auto");
+                $('.slider-for').slick("slickSetOption", null, null, false);
             };
 
             persentaseOfTotalPosi = finalResultData.positive/dataCorona["Indonesia"].positive*100;
