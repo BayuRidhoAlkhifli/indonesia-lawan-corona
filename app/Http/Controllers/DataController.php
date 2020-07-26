@@ -64,13 +64,29 @@ class DataController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-1 year' )),date("Y-m-d", strtotime( 'now' ))])
+        ->where('a.updatedAt', '<', now())
         ->orderBy('a.updatedAt', 'asc')
+        ->get();
+
+        $dataPercentage = \DB::table('daily_data as a')
+        ->select(
+            'a.positive',
+            'a.cured',
+            'a.death',
+            'a.updatedAt as updated_at',
+            'b.name as loc_name'
+        )
+        ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+        ->whereNotIn('b.name', ["Indonesia"])
+        ->orderBy('a.updatedAt', 'desc')
+        ->orderBy('b.name', 'asc')
+        ->limit(34)
         ->get();
 
         return $data = [
             'dataSpread'    => $dataSpread,
             'oldDataSpread' => $oldDataSpread,
+            'dataPercentage' => $dataPercentage,
             'statistic' => ($req->filled('query') ? $this->searchProvinceStatistic($req->get('query')) : [])
         ];
     }
@@ -102,7 +118,7 @@ class DataController extends Controller
                 'b.name as loc_name'
             )
             ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-            ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime('-1 month')),date("Y-m-d", strtotime('now'))])
+            ->where('a.updatedAt', '<', now())
             ->where('b.name', 'like', '%'.$province_name.'%')
             ->orderBy('a.updatedAt', 'asc')
             ->get();
