@@ -30,3 +30,56 @@ Route::get('data-statistic', 'DataController@getDataStatisticProvince')->name("g
 
 
 // Route::get('/home', 'HomeController@getHotlineNumber')->name('getHotline');
+Route::get('/kon', function () {
+    $caseindonesia = \Http::get('https://data.covid19.go.id/public/api/prov.json');
+    $province = Http::get('https://indonesia-covid-19.mathdro.id/api/provinsi');
+    $positive = 0;
+    $cured = 0;
+    $death = 0;
+
+
+    $caseData = $province->json();
+
+    for ($i=0; $i < count($caseData["data"]); $i++) {
+        
+        if ($i < 34) {
+            # code...
+            $positive += $caseindonesia["list_data"][$i]["jumlah_kasus"];
+            $cured += $caseindonesia["list_data"][$i]["jumlah_sembuh"];
+            $death += $caseindonesia["list_data"][$i]["jumlah_meninggal"];
+
+            if ($caseData["data"][$i]["provinsi"] != "Indonesia" && $caseindonesia["list_data"][$i]["key"] == strtoupper($caseData["data"][$i]["provinsi"])) {
+                # code...
+                \DB::table('daily_data')
+                ->insert([
+                    'provinceCode' => $caseData["data"][$i]["kodeProvi"],
+                    'positive' => $caseindonesia["list_data"][$i]["jumlah_kasus"],
+                    'cured' => $caseindonesia["list_data"][$i]["jumlah_sembuh"],
+                    'death' => $caseindonesia["list_data"][$i]["jumlah_meninggal"],
+                    'createdAt' => now('Asia/Jakarta')->toDateTimeString()
+                ]);
+            }
+        } else {
+            \DB::table('daily_data')
+            ->insert([
+                'provinceCode' => $caseData["data"][$i]["kodeProvi"],
+                'positive' => $positive,
+                'cured' => $cured,
+                'death' => $death,
+                'createdAt' => now('Asia/Jakarta')->toDateTimeString()
+            ]);
+
+        }      
+
+    }
+    
+    // $sum = 0;
+    // foreach ($data['data'] as $v) {
+    //     $sum+=$v['kasusPosi'];
+    // }
+
+    // dd($positive,$cured,$death);
+    \Log::info("SUKSES AMBIL DATA JAM : ".now('Asia/Jakarta')->toDateTimeString());
+
+});
+
