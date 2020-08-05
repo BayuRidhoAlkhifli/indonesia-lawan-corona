@@ -2,14 +2,14 @@
 
 @section('content')
 
-    <picture>
-        <source media="(max-width:375px)" srcset="{{ asset ('assets/img/wave_white_375.svg') }}">
-        <source media="(min-width: 425px)" srcset="{{ asset ('assets/img/wave_white_425.svg') }}">
-        <img src="{{ asset('assets/img/wave_white_425.svg') }}" class="bg-top" alt="">
-    </picture>
     <section class="section-top-content">
         <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row content content-sm">
+                <picture style="position: absolute;width: 100%;top: 0;left: 0;">
+                    <source media="(max-width:375px)" srcset="{{ asset ('assets/img/wave_white_375.svg') }}">
+                    <source media="(min-width: 425px)" srcset="{{ asset ('assets/img/wave_white_425.svg') }}">
+                    <img src="{{ asset('assets/img/wave_white_425.svg') }}" class="bg-top" alt="">
+                </picture>
                 <div class="col-lg-8 col-md-12 col- p-0 mt-15">
                     <div id="carouselExampleIndicators" class="carousel slide" style="width:100%; height:auto;" data-ride="carousel">
 
@@ -93,7 +93,14 @@
 
     <section class="padding-section">
         <div class="row content">
-            <div id="input_search" class="col-lg-12 col-md-12 p-0 input-bg border-radius-10 content-sm">
+            {{-- <div class="col-md-12 p-0 text-right content-sm sub-title">
+                <label class="cstm-switch ">
+                    <span class="cstm-switch-description mr-3 text-left">Urutkan Provinsi Berdasarkan Kasus Terkonfirmasi</span>
+                    <input id="filter_by_posi" type="checkbox" required="" name="option" value="1" class="cstm-switch-input">
+                    <span class="cstm-switch-indicator size-lg "></span>
+                </label>
+            </div> --}}
+            <div id="input_search" class="col-lg-12 col-md-12 p-0 input-bg border-radius-10 content-sm mt-30">
                 <div class="input-group my-15">
                     <div class="input-group-prepend show-content-sm">
                         <span class="input-group-text icon-left-padding">
@@ -680,12 +687,13 @@
     var dataCuredNow = 0;
     var dataDeathNow = 0;
 
+    var switchStatus = false;
+
     new ClipboardJS('.cpy-hotline');
     new ClipboardJS('.cpy-call-center');
 
     $(document).ready(function() {
         // animation when section in poinview
-
         $window.on('scroll resize', check_if_in_view);
         $window.trigger('scroll');
 
@@ -791,6 +799,17 @@
             },
         });
 
+        $("#filter_by_posi").on('change', function() {
+            if ($(this).is(':checked')) {
+                switchStatus = $(this).is(':checked');
+                alert(switchStatus);// To verify
+            }
+            else {
+            switchStatus = $(this).is(':checked');
+            alert(switchStatus);// To verify
+            }
+        });
+
         $('#back-to-top').click(function () {
 			$('body,html').animate({
 				scrollTop: 0
@@ -839,7 +858,7 @@
                         $('.slider-for').slick("slickSetOption", "touchMove", false);
                         $('.slider-for').find(".slick-list").height("auto");
                         // $('.slider-for').slickSetOption(null, null, true);
-                        $('.slider-for').slick("slickSetOption", null, null, false);
+                        // $('.slider-for').slick("slickSetOption", null, null, false);
                     }
 
                     $(v).data("real", vHtml);
@@ -857,6 +876,8 @@
                         $(v).html("NTT");
                     }
                 });
+
+                
 
                 dataPosiNow = dataCorona["Indonesia"].positive - oldCaseData["Indonesia"].positive;
                 dataCuredNow = dataCorona["Indonesia"].cured - oldCaseData["Indonesia"].cured;
@@ -958,13 +979,13 @@
                 $('.idn-data').addClass('d-none');
                 $('.data-angka').addClass('d-block');
                 $('.increase-val-data').addClass('top-0');
-                $('.slider-for').slick("slickSetOption", "accessibility", false);
-                $('.slider-for').slick("slickSetOption", "draggable", false);
-                $('.slider-for').slick("slickSetOption", "swipe", false);
-                $('.slider-for').slick("slickSetOption", "touchMove", false);
-                $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
-                $('.slider-for').find(".slick-list").height("auto");
-                $('.slider-for').slick("slickSetOption", null, null, false);
+                // $('.slider-for').slick("slickSetOption", "accessibility", false);
+                // $('.slider-for').slick("slickSetOption", "draggable", false);
+                // $('.slider-for').slick("slickSetOption", "swipe", false);
+                // $('.slider-for').slick("slickSetOption", "touchMove", false);
+                // $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
+                // $('.slider-for').find(".slick-list").height("auto");
+                // $('.slider-for').slick("slickSetOption", null, null, false);
             }else{
                 $('.rs-rujukan').removeClass('d-none');
                 $('#rs_rujukan').removeClass('d-none');
@@ -972,12 +993,12 @@
                 $('.idn-data').removeClass('d-none');
                 $('.data-angka').removeClass('d-block');
                 $('.increase-val-data').removeClass('top-0');
-                $('.slider-for').slick("slickSetOption", "accessibility", true);
-                $('.slider-for').slick("slickSetOption", "draggable", true);
-                $('.slider-for').slick("slickSetOption", "swipe", true);
-                $('.slider-for').slick("slickSetOption", "touchMove", true);
-                $('.slider-for').find(".slick-list").height("auto");
-                $('.slider-for').slick("slickSetOption", null, null, false);
+                // $('.slider-for').slick("slickSetOption", "accessibility", true);
+                // $('.slider-for').slick("slickSetOption", "draggable", true);
+                // $('.slider-for').slick("slickSetOption", "swipe", true);
+                // $('.slider-for').slick("slickSetOption", "touchMove", true);
+                // $('.slider-for').find(".slick-list").height("auto");
+                // $('.slider-for').slick("slickSetOption", null, null, false);
             };
 
             persentaseOfTotalPosi = finalResultData.positive/dataCorona["Indonesia"].positive*100;
@@ -1203,7 +1224,7 @@
                                 $('.slider-for').slick("slickSetOption", "touchMove", false);
                                 $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
                                 $('.slider-for').find(".slick-list").height("auto");
-                                $('.slider-for').slick("slickSetOption", null, null, false);
+                                // $('.slider-for').slick("slickSetOption", null, null, false);
                                 searchResult = v;
                                 
                             } else {
@@ -1217,7 +1238,7 @@
                                 $('.slider-for').slick("slickSetOption", "swipe", true);
                                 $('.slider-for').slick("slickSetOption", "touchMove", true);
                                 $('.slider-for').find(".slick-list").height("auto");
-                                $('.slider-for').slick("slickSetOption", null, null, false);
+                                // $('.slider-for').slick("slickSetOption", null, null, false);
                                 searchResult = v;
                                 
                             }
