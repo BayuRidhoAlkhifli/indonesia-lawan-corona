@@ -869,15 +869,15 @@
                     const input = searchInput.value;
                     suggestionsPanel.innerHTML = '';
                     const suggestions = countries.filter((country) => {
-                        return country.name.toLowerCase().startsWith(input);
+                        return country.name.toLowerCase().startsWith(input) || country.name.startsWith(input);
                     });
                     suggestions.forEach((suggested) => {
                         const div = document.createElement('div');
                         div.innerHTML = "<strong>" + suggested.name.substr(0, input.length) + "</strong>";
                         div.innerHTML += suggested.name.substr(input.length);
                         div.setAttribute("class", "suggest-finder");
+                        document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)";
                         div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
-                        document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
                         suggestionsPanel.appendChild(div);
                     });
                     if (input === '') {
@@ -1024,6 +1024,7 @@
 
             $("#province_finder").val(param);
             $(".province-suggest").empty();
+            document.querySelector("#input_search").style.boxShadow = "";
         })
         .catch(err => {
             console.log(err);
