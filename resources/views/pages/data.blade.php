@@ -872,12 +872,12 @@
                         return country.name.toLowerCase().startsWith(input);
                     });
                     suggestions.forEach((suggested) => {
-                        console.log(suggested);
                         const div = document.createElement('div');
-                        div.innerHTML = suggested.name;
+                        div.innerHTML = "<strong>" + suggested.name.substr(0, input.length) + "</strong>";
+                        div.innerHTML += suggested.name.substr(input.length);
                         div.setAttribute("class", "suggest-finder");
                         div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
-                        suggestionsPanel.style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
+                        document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
                         suggestionsPanel.appendChild(div);
                     });
                     if (input === '') {
