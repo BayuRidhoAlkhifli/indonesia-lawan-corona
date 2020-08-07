@@ -859,7 +859,7 @@
         axios
         .get('{{ url("data-statistic") }}'+`?query=${$('#province_finder').val()}`)
         .then((res) => {
-            const countries = res.data.statistic.dataSpread;
+            const countries = res.data.statistic.provinceLoc;
 
             const searchInput = document.querySelector('.search-input');
             const suggestionsPanel = document.querySelector('.province-suggest');
@@ -868,13 +868,14 @@
                 const input = searchInput.value;
                 suggestionsPanel.innerHTML = '';
                 const suggestions = countries.filter(function(country) {
-                    return country.name.toLowerCase().startsWith(input);
+                    return country.name.toLowerCase().startsWith(input) || country.name.startsWith(input);
                 });
                 suggestions.forEach(function(suggested) {
                     const div = document.createElement('div');
                     div.innerHTML = suggested.name;
                     div.setAttribute("class", "suggest-finder");
                     div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
+                    suggestionsPanel.style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
                     suggestionsPanel.appendChild(div);
                 });
                 if (input === '') {
@@ -938,7 +939,6 @@
                 }
 
 
-            // console.log(provinceName);
             });
 
             $.each(res.data.statistic.oldDataSpread,(k, v) => {
@@ -953,80 +953,75 @@
                 totalCase = v;
             });
 
-            $.each(res.data.statistic.hospitalData,(k, v) => {
-                    if(v.loc_name == searchResult.name) {
-                    
-                        c++;
-
-                        tableHospital +=`<tr>
-                                    <td>`+ c+`</td>
-                                    <td>`+ v.name_hospital +`</td>
-                                    <td>`+ v.address +`</td>
-                                    <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
-                                </tr>`;
-                        // hospitalCollection[c] = v;
-                        cardHospital +=`<div class="col-md-12 p-0 mb-15">
-                                    <div class="card card-data m-0">
-                                        <div class="card-body">
-                                            <div class ="col-md-12 p-0 my-15 mt-0">
-                                                <h5 class="card-title">`+ v.name_hospital +`</h5>
-                                                <p class="card-text sub-color">`+ v.address +`</p>
-                                            </div>
-                                            <a href="`+ v.link_map +`" class="btn btn-purple w-100 mt-0" target="_blank">Lihat Peta</a>
-                                        </div>
-                                    </div>
-                                </div>`;
-                    }
-                });
-
-                for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
-                    var countArray = index + 1;
-
-                    labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updatedAt).format("DD MMM");
-                    increasePosiCase[index] = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
-                    increaseCuredCase[index] = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
-                    increaseDeathCase[index] = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
-                    dataPosiNow = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
-                    dataCuredNow = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
-                    dataDeathNow = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
+            $.each($('.provinceSelector'), (k, v) => {
+                if (searchResult.name == "Indonesia") {
+                    $('.idn-data').addClass('d-none');
+                    $('.data-angka').addClass('d-block');
+                    $('.increase-val-data').addClass('top-0');
+                } else {
+                    $('.idn-data').addClass('mb-5px');
+                    $('.idn-data').removeClass('d-none');
+                    $('.data-angka').removeClass('d-block');
+                    $('.increase-val-data').removeClass('top-0');
                 }
 
-                persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
-                persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
-                persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
-
-                if (dataPosiNow == 0) {
-                    dataPosiNow = "-";
+                if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
+                    $(v).parent().addClass('card-active'); 
+                    last_selected = v;
+                    swiper_province.slideTo(k, 500); 
+                } else {
+                    $(v).parent().removeClass('card-active');       
                 }
-                if(dataCuredNow == 0) {
-                    dataCuredNow = "-";
-                }
-                if(dataDeathNow == 0) {
-                    dataDeathNow = "-";
-                }
+            });
 
-                $("#table_hospital").html(tableHospital);
-                $("#card_hospital").html(cardHospital);
-                $("#call_center_name").html(searchResult.call_center_name);
-                $("#hotline_name").html(searchResult.hotline_name);
-                $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
-                $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
+            for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
+                var countArray = index + 1;
 
-                $("#txt_confirm").text(searchResult.positive);
-                $("#txt_death").text(searchResult.death);
-                $("#txt_cured").text(searchResult.cured);
-                $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
-                $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
-                $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
-                $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updatedAt).format("DD MMM");
+                increasePosiCase[index] = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
+                increaseCuredCase[index] = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
+                increaseDeathCase[index] = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
+                dataPosiNow = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
+                dataCuredNow = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
+                dataDeathNow = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
+            }
 
-                last_selected = searchResult.name;
-                counterAnimation();
+            persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
+            persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
+            persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
 
-                $("#province_finder").val(param);
-                $(".province-suggest").empty();
+            if (dataPosiNow == 0) {
+                dataPosiNow = "-";
+            }
+            if(dataCuredNow == 0) {
+                dataCuredNow = "-";
+            }
+            if(dataDeathNow == 0) {
+                dataDeathNow = "-";
+            }
+
+            $("#table_hospital").html(tableHospital);
+            $("#card_hospital").html(cardHospital);
+            $("#call_center_name").html(searchResult.call_center_name);
+            $("#hotline_name").html(searchResult.hotline_name);
+            $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
+            $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
+
+            $("#txt_confirm").text(searchResult.positive);
+            $("#txt_death").text(searchResult.death);
+            $("#txt_cured").text(searchResult.cured);
+            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+
+            last_selected = searchResult.name;
+            counterAnimation();
+
+            $("#province_finder").val(param);
+            $(".province-suggest").empty();
         })
         .catch(err => {
             console.log(err);
