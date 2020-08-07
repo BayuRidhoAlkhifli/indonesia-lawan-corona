@@ -120,6 +120,10 @@ class HomeController extends Controller
 
     public function searchProvince($province_name) 
     {   
+        $provinceLoc = \DB::table('locations')
+            ->where('name', 'like', '%'.$province_name.'%')
+            ->get();
+            
         $dataSpread = \DB::table('locations as a')
             ->select(
                 'a.name',
@@ -131,8 +135,9 @@ class HomeController extends Controller
             )
             ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
             ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
+            ->distinct()
             ->where('a.name', 'like', '%'.$province_name.'%')
-            ->orderBy('c.updatedAt', 'asc');
+            ->orderBy('c.updatedAt', 'desc');
 
         $oldDataSpread = \DB::table('daily_data as a')
             ->select(
@@ -145,7 +150,7 @@ class HomeController extends Controller
             ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
             ->where('a.updatedAt', '<', date("Y-m-d", strtotime( 'now' )))
             ->where('b.name', 'like', '%'.$province_name.'%')
-            ->orderBy('a.updatedAt', 'asc')
+            ->orderBy('a.updatedAt', 'desc')
             ->get();
 
 
@@ -167,6 +172,7 @@ class HomeController extends Controller
 
         // dd($hospitalData);
         return $data = [
+            'provinceLoc'    => $provinceLoc,
             'dataSpread'    => $dataSpread,
             'oldDataSpread' => $oldDataSpread,
             'hospitalData'  => $hospitalData

@@ -93,7 +93,10 @@ class DataController extends Controller
 
     public function searchProvinceStatistic($province_name) 
     {   
-        
+        $provinceLoc = \DB::table('locations')
+            ->where('name', 'like', '%'.$province_name.'%')
+            ->get();
+
         $dataSpread = \DB::table('locations as a')
             ->select(
                 'a.name',
@@ -132,6 +135,7 @@ class DataController extends Controller
 
         // dd($hospitalData);
         return $data = [
+            'provinceLoc'    => $provinceLoc,
             'dataSpread'    => $dataSpread,
             'oldDataSpread' => $oldDataSpread
         ];
