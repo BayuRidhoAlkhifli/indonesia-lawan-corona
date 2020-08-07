@@ -1543,6 +1543,7 @@
 
                 $("#province_finder").val(param);
                 $(".province-suggest").empty();
+                document.getElementById("input_search").style.boxShadow = null;
         })
         .catch(err => {
             console.log(err);
