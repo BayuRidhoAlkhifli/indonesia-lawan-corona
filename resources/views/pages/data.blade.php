@@ -859,29 +859,31 @@
         axios
         .get('{{ url("data-statistic") }}'+`?query=${$('#province_finder').val()}`)
         .then((res) => {
+            
             const countries = res.data.statistic.provinceLoc;
 
-            const searchInput = document.querySelector('.search-input');
-            const suggestionsPanel = document.querySelector('.province-suggest');
+                const searchInput = document.querySelector('.search-input');
+                const suggestionsPanel = document.querySelector('.province-suggest');
 
-            searchInput.addEventListener('keyup', function() {
-                const input = searchInput.value;
-                suggestionsPanel.innerHTML = '';
-                const suggestions = countries.filter(function(country) {
-                    return country.name.toLowerCase().startsWith(input) || country.name.startsWith(input);
-                });
-                suggestions.forEach(function(suggested) {
-                    const div = document.createElement('div');
-                    div.innerHTML = suggested.name;
-                    div.setAttribute("class", "suggest-finder");
-                    div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
-                    suggestionsPanel.style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
-                    suggestionsPanel.appendChild(div);
-                });
-                if (input === '') {
-                    suggestionsPanel.innerHTML = '';  
-                }
-            })
+                searchInput.addEventListener('keyup', () => {
+                    const input = searchInput.value;
+                    suggestionsPanel.innerHTML = '';
+                    const suggestions = countries.filter((country) => {
+                        return country.name.toLowerCase().startsWith(input);
+                    });
+                    suggestions.forEach((suggested) => {
+                        console.log(suggested);
+                        const div = document.createElement('div');
+                        div.innerHTML = suggested.name;
+                        div.setAttribute("class", "suggest-finder");
+                        div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
+                        suggestionsPanel.style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
+                        suggestionsPanel.appendChild(div);
+                    });
+                    if (input === '') {
+                        suggestionsPanel.innerHTML = '';  
+                    }
+                })
         })
         .catch(err => {
             console.log(err);

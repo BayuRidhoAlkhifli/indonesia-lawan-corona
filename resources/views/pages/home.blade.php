@@ -1350,19 +1350,20 @@
             .get('{{ url("data-spread") }}'+`?query=${$('#province_finder').val()}`)
             .then((res) => {
 
-                console.log(res.data);
+                // console.log(res.data);
                 const countries = res.data.dataFinder.provinceLoc;
 
                 const searchInput = document.querySelector('.search-input');
                 const suggestionsPanel = document.querySelector('.province-suggest');
 
-                searchInput.addEventListener('keyup', function() {
+                searchInput.addEventListener('keyup', () => {
                     const input = searchInput.value;
                     suggestionsPanel.innerHTML = '';
-                    const suggestions = countries.filter(function(country) {
-                        return country.name.toLowerCase().startsWith(input) || country.name.startsWith(input);
+                    const suggestions = countries.filter((country) => {
+                        return country.name.toLowerCase().startsWith(input);
                     });
-                    suggestions.forEach(function(suggested) {
+                    suggestions.forEach((suggested) => {
+                        console.log(suggested);
                         const div = document.createElement('div');
                         div.innerHTML = suggested.name;
                         div.setAttribute("class", "suggest-finder");
