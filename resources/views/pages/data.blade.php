@@ -465,6 +465,7 @@
 
             $.each(res.data.genderData, (k,v) => {
                 tempArrayGender[v.nameLoc].push(v);
+            genderChartDisplay(labelGender, genderCase);
 
             });
 
@@ -553,7 +554,13 @@
             $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-            
+
+            if (chart) {
+                chart.destroy();
+            } else if (chartDough) {
+                chartDough.destroy();
+            }
+
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             genderChartDisplay(labelGender, genderCase);
             counterAnimation();
