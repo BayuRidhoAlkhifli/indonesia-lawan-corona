@@ -409,7 +409,7 @@
             }
 
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
-            
+            genderChartDisplay(labelGender, genderCase);
             counterAnimation();
         });
 
@@ -471,6 +471,7 @@
 
             $.each(res.data.genderData, (k,v) => {
                 tempArrayGender[v.nameLoc].push(v);
+            genderChartDisplay(labelGender, genderCase);
 
             });
 
@@ -560,8 +561,11 @@
             $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-                    console.log(labelGender, genderCase);
-
+            if (chart) {
+                chart.destroy();
+            } else if (chartDough) {
+                chartDough.destroy();
+            }
 
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             genderChartDisplay(labelGender, genderCase);
@@ -965,7 +969,6 @@
 
             $.each(res.data.statistic.genderData, (k,v) => {
                 // tempArrayGender[v.nameLoc].push(v);
-                console.log(v);
                 genderCase.push(v.numberOfCase);
                 if (v.sex == 1) {
                     labelGender.push("Wanita");
@@ -973,8 +976,6 @@
                     labelGender.push("Pria");
                 }
             });
-
-            console.log(genderCase, labelGender);
             
             $.each(res.data.dataSpread,(k, v) => {
                 tempArrayData[v.name].push(v);
