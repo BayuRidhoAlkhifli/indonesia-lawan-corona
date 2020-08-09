@@ -1360,7 +1360,7 @@
                     const input = searchInput.value;
                     suggestionsPanel.innerHTML = '';
                     const suggestions = countries.filter((country) => {
-                        return country.name.toLowerCase().startsWith(input);
+                        return country.name.toLowerCase().startsWith(input) || country.name.toUpperCase().startsWith(input) || country.name.startsWith(input);
                     });
                     suggestions.forEach((suggested) => {
                         const div = document.createElement('div');
