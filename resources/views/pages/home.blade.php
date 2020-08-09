@@ -100,7 +100,7 @@
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
-                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
+                    <input autocomplete="off" id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
                     <div class="input-group-append">
                         <span class="input-group-text icon-right-padding show-content-lg">
                             <i class="fas fa-search"></i>
@@ -1360,7 +1360,7 @@
                     const input = searchInput.value;
                     suggestionsPanel.innerHTML = '';
                     const suggestions = countries.filter((country) => {
-                        return country.name.toLowerCase().startsWith(input) || country.name.startsWith(input);
+                        return country.name.toLowerCase().startsWith(input);
                     });
                     suggestions.forEach((suggested) => {
                         const div = document.createElement('div');
@@ -1368,11 +1368,14 @@
                         div.innerHTML += suggested.name.substr(input.length);
                         div.setAttribute("class", "suggest-finder");
                         div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
-                        document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
                         suggestionsPanel.appendChild(div);
                     });
+
+                    document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)";
+                    
                     if (input === '') {
-                        suggestionsPanel.innerHTML = '';  
+                        suggestionsPanel.innerHTML = ''; 
+                        document.getElementById("input_search").style.boxShadow = null;
                     }
                 })
             })

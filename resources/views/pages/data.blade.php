@@ -18,7 +18,7 @@
                         <i class="fas fa-search"></i>
                     </span>
                 </div>
-                <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
+                <input autocomplete="off" id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
                 <div class="input-group-append show-content-lg">
                     <span class="input-group-text icon-right-padding">
                         <i class="fas fa-search"></i>
@@ -136,7 +136,7 @@
                                 <div>
                                     <div class="card-body row pb-2 p-20">
                                         <div class="col-md-6 p-0">
-                                            <label class="d-block main-title-md" style="word-break: normal">Data Peningkatan Kasus Covid-19 <span id="loc_name"></span></label>
+                                            <label class="d-block main-title-md" style="word-break: normal">Data Peningkatan Kasus Covid-19 <span class="loc_name"></span></label>
                                         </div>
                                         <div class="col-md-6 p-0 row m-0">
                                             <div class="d-flex">
@@ -158,40 +158,37 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 p-0">
+                        <div class="col-md-6 p-0">
                             <div class="card card-data card-data-left">
                                 <div class="card-body pb-2">
-                                    <label class="d-block main-title-md" style="word-break: normal">Data Terkonfirmasi</label>
+                                    <label class="d-block main-title-md" style="word-break: normal">Kasus Berdasarkan Jenis Kelamin di <span class="loc_name"></span></label>
                                 </div>
                                 <hr>
                                 <div class="card-body chart-dought-container p-0">
-                                    <canvas id="chartDough" class="mx-auto" width="210" height="210"></canvas>
+                                    <canvas id="genderChartDough" class="mx-auto" width="210" height="210"></canvas>
                                 </div>
-                                <hr>
-                                <div class="card-body pt-2">
-                                    <label class="d-block main-title-md" style="word-break: normal"></label>
+                                <div class="card-body pt-2 row m-0 pt-5">
+                                    <div class="d-flex">
+                                        <div class="color-gen bg-male"><i class="fas fa-male"></i></div>
+                                        <div>
+                                            <label class="ml-10 mb-0 d-block" style="padding-top: 1px">Pria</label>
+                                            <label id="case-male" class="mb-0 ml-10"></label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex ml-15">
+                                        <div class="color-gen bg-female"><i class="fas fa-female"></i></div>
+                                        <div>
+                                            <label class="ml-10 mb-0 d-block" style="padding-top: 1px">Wanita</label>
+                                            <label id="case-female" class="mb-0 ml-10"></label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 p-0">
+                        <div class="col-md-6 p-0">
                             <div class="card card-data card-data-middle">
                                 <div class="card-body pb-2">
-                                    <label class="d-block main-title-md" style="word-break: normal">Data Sembuh</label>
-                                </div>
-                                <hr>
-                                <div class="card-body chart-dought-container p-0">
-                                    <canvas id="chartDough" class="mx-auto" width="210" height="210"></canvas>
-                                </div>
-                                <hr>
-                                <div class="card-body pt-2">
-                                    <label class="d-block main-title-md" style="word-break: normal"></label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 p-0">
-                            <div class="card card-data card-data-right">
-                                <div class="card-body pb-2">
-                                    <label class="d-block main-title-md" style="word-break: normal">Data Meninggal</label>
+                                    <label class="d-block main-title-md" style="word-break: normal">Kasus Berdasarkan Umur</label>
                                 </div>
                                 <hr>
                                 <div class="card-body chart-dought-container p-0">
@@ -226,7 +223,8 @@
     var increaseCuredCase = [];
     var increaseDeathCase = [];
     var labelDate = [];
-    var labelLoc = [];
+
+    const genderCase = [];
     var proviPercentagePosi = [];
 
     var placeHolder = ['Cari provinsi', 'Misal Papua, Jawa Timur, dll'];
@@ -243,7 +241,8 @@
     var dataDeathNow = 0;
 
     var chart = {};
-    var cd = document.getElementById('chartDough');
+    var chartDough = {};
+    var genderCd = document.getElementById('genderChartDough');
     var ctx = document.getElementById('chart').getContext('2d'),
                 gradientPosi = ctx.createLinearGradient(0, 0, 0, 350),
                 gradientCured = ctx.createLinearGradient(0, 0, 0, 350),
@@ -392,7 +391,7 @@
                 dataDeathNow = "-";
             }
 
-            $("#loc_name").html(dataSelected.name);
+            $(".loc_name").html(dataSelected.name);
             $("#txt_confirm").text(dataSelected.positive);
             $("#txt_cured").text(dataSelected.cured);
             $("#txt_death").text(dataSelected.death);
@@ -405,6 +404,8 @@
 
             if (chart) {
                 chart.destroy();
+            } else if (chartDough) {
+                chartDough.destroy();
             }
 
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
@@ -449,12 +450,15 @@
             
             var tempArrayStatistic = [];
             var tempOldArrayStatistic = [];
+            var tempArrayGender = [];
+            let labelGender = [];
 
             var i = {!! json_encode($locations) !!};
             
             $.each(i, (k,v) => { 
                 tempArrayStatistic[v.name] = [];
                 tempOldArrayStatistic[v.name] = [];
+                tempArrayGender[v.name] = [];
             });
 
             $.each(res.data.dataSpread, (k,v) => { 
@@ -465,13 +469,15 @@
                 tempOldArrayStatistic[v.loc_name].push(v);
             });
 
-            $.each(res.data.dataPercentage, (k,v) => {
-                proviPercentagePosi[k] = v.positive;
-                labelLoc[k] = v.loc_name;
+            $.each(res.data.genderData, (k,v) => {
+                tempArrayGender[v.nameLoc].push(v);
+
             });
 
             dataStatistic  = (tempArrayStatistic);
             oldDataStatistic = (tempOldArrayStatistic);
+            genderStatic = (tempArrayGender);
+
 
             $.each(dataStatistic["Indonesia"], (k, v) => {
                 dataSelected = v;
@@ -479,6 +485,17 @@
 
             $.each(oldDataStatistic["Indonesia"], (k, v) => {
                 oldDataSelected = v;
+            });
+
+            $.each(genderStatic["Indonesia"], (k, v) => {
+                // oldDataSelected = v;
+                genderCase.push(v.numberOfCase);
+                if (v.sex == 1) {
+                    labelGender.push("Wanita");
+                } else {
+                    labelGender.push("Pria");
+                }
+                
             });
 
             for (let index = 0; index < dataStatistic["Indonesia"].length - 1; index++) {
@@ -493,15 +510,16 @@
             $.each($('.provinceSelector'), (k, v) => {
                 vHtml = $(v).html();
                 
-                if(vHtml == "Indonesia"){
+                if(vHtml == "Indonesia") {
                     $(v).parent().addClass('card-active');
                     $('.idn-data').addClass('d-none');
                     $('.data-angka').addClass('d-block');
                     $('.increase-val-data').addClass('top-0');
-                    provinceSelect = "Indonesia"
-            }
+                    provinceSelect = "Indonesia";
+                }
 
-            $(v).data("real", vHtml);
+                $(v).data("real", vHtml);
+
                 if(vHtml == "Kepulauan Bangka Belitung"){
                     $(v).data("real", "Kepulauan Bangka Belitung");
                     $(v).html("Bangka Belitung");
@@ -531,18 +549,22 @@
                 dataDeathNow = "-";
             }
             
-            $("#loc_name").html(dataSelected.name);
+            $(".loc_name").html(dataSelected.name);
             $("#updated_at").html(moment(dataSelected.updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
             $("#txt_confirm").html(dataSelected.positive);
             $("#txt_death").html(dataSelected.death);
             $("#txt_cured").html(dataSelected.cured);
+            $("#case-male").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-female").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-            displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
+                    console.log(labelGender, genderCase);
 
-            displayChartDough(labelLoc, proviPercentagePosi);
+
+            displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
+            genderChartDisplay(labelGender, genderCase);
             counterAnimation();
         });
         
@@ -557,7 +579,9 @@
                     moment.locale("id");
                     var tempArrayStatistic = [];
                     var searchResult = [];
+                    var genderCase = [];
                     var oldData = "";
+                    let labelGender = [];
 
                     var i = {!! json_encode($locations) !!};
                         $.each(i, (k,v) => { 
@@ -574,8 +598,7 @@
                         $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
                         $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
                     } else {
-                        $.each(res.data.statistic.dataSpread,(k, v) => {
-
+                        $.each(res.data.statistic.dataSpread,(k, v) => {    
                                 $('#alert_search').removeAttr('class');
                                 $('#icon-alert-search').html('');
                                 $('#alert-search-not-found').html('');
@@ -585,6 +608,16 @@
 
                         $.each(res.data.statistic.oldDataSpread,(k, v) => {
                             oldData = v
+                        });
+
+                        $.each(res.data.statistic.genderData, (k,v) => {
+                            // tempArrayGender[v.nameLoc].push(v);
+                            genderCase.push(v.numberOfCase);
+                            if (v.sex == 1) {
+                                labelGender.push("Wanita");
+                            } else {
+                                labelGender.push("Pria");
+                            }
                         });
                         
                         $.each(res.data.dataSpread,(k, v) => {
@@ -643,10 +676,12 @@
                         dataDeathNow = "-";
                     }
 
-                    $("#loc_name").html(searchResult.name);
+                    $(".loc_name").html(searchResult.name);
                     $("#txt_confirm").text(searchResult.positive);
                     $("#txt_death").text(searchResult.death);
                     $("#txt_cured").text(searchResult.cured);
+                    $("#case-male").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $("#case-female").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
                     $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
                     $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
@@ -656,9 +691,14 @@
 
                     if (chart) {
                         chart.destroy();
+                    } else if (chartDough) {
+                        chartDough.destroy();
                     }
 
+                    console.log(labelGender, genderCase);
+
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
+                    genderChartDisplay(labelGender, genderCase);
                     counterAnimation();
                 })
                 .catch(err => {
@@ -738,50 +778,17 @@
 
     };
 
-    function displayChartDough(label, positive) {
+    function genderChartDisplay(gender, numberOfCase) {
 
         var data = {
-            labels: label,
+            labels: gender,
             datasets: [{
-            label: '# of Tomatoes',
-            data: positive,
-            backgroundColor: [
-                '#221f3b',
-                '#6f4a8e',
-                '#f09ae9',
-                '#ffc1fa',
-                '#ffe78f',
-                '#ffd36b',
-                '#cdb30c',
-                '#62760c',
-                '#535204',
-                '#523906',
-                '#595238',
-                '#f08a5d',
-                '#0f4c75',
-                '#3282b8',
-                '#bbe1fa',
-                '#7fdbda',
-                '#4ea0ae',
-                '#24a19c',
-                '#6ebfb5',
-                '#99b898',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e',
-                '#6f4a8e'
-            ],
-            borderWidth: 1
+                data: numberOfCase,
+                backgroundColor: [
+                    '#7E5DA9',
+                    '#51238B',
+                ],
+                borderWidth: 1
             }]
         };
 
@@ -793,7 +800,7 @@
             responsive: false,
         };
 
-        var chartDough = new Chart(cd, {
+        chartDough = new Chart(genderCd, {
             type: 'doughnut',
             options: options,
             data: data
@@ -876,13 +883,16 @@
                         div.innerHTML = "<strong>" + suggested.name.substr(0, input.length) + "</strong>";
                         div.innerHTML += suggested.name.substr(input.length);
                         div.setAttribute("class", "suggest-finder");
-                        document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
                         div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
                         
                         suggestionsPanel.appendChild(div);
                     });
+
+                    document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
+
                     if (input === '') {
                         suggestionsPanel.innerHTML = '';  
+                        document.getElementById("input_search").style.boxShadow = null;
                     }
                 })
         })
@@ -894,6 +904,11 @@
 
     const suggestionClick = (param) => {
         var tempArrayData = [];
+        var tempArrayGender = [];
+        let labelGender = [];
+        var genderCase = [];
+
+
         var searchResult = "";
         var oldData = "";
         var c = 0;
@@ -947,6 +962,19 @@
             $.each(res.data.statistic.oldDataSpread,(k, v) => {
                 oldData = v
             });
+
+            $.each(res.data.statistic.genderData, (k,v) => {
+                // tempArrayGender[v.nameLoc].push(v);
+                console.log(v);
+                genderCase.push(v.numberOfCase);
+                if (v.sex == 1) {
+                    labelGender.push("Wanita");
+                } else {
+                    labelGender.push("Pria");
+                }
+            });
+
+            console.log(genderCase, labelGender);
             
             $.each(res.data.dataSpread,(k, v) => {
                 tempArrayData[v.name].push(v);
@@ -1003,16 +1031,12 @@
                 dataDeathNow = "-";
             }
 
-            $("#table_hospital").html(tableHospital);
-            $("#card_hospital").html(cardHospital);
-            $("#call_center_name").html(searchResult.call_center_name);
-            $("#hotline_name").html(searchResult.hotline_name);
-            $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
-            $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
-
+            $(".loc_name").html(searchResult.name);
             $("#txt_confirm").text(searchResult.positive);
             $("#txt_death").text(searchResult.death);
             $("#txt_cured").text(searchResult.cured);
+            $("#case-male").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-female").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
@@ -1020,7 +1044,15 @@
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
+            if (chart) {
+                chart.destroy();
+            } else if (chartDough) {
+                chartDough.destroy();
+            }
+
             last_selected = searchResult.name;
+            displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
+            genderChartDisplay(labelGender, genderCase);
             counterAnimation();
 
             $("#province_finder").val(param);

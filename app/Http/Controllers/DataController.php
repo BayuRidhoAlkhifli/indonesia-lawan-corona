@@ -68,25 +68,32 @@ class DataController extends Controller
         ->orderBy('a.updatedAt', 'asc')
         ->get();
 
-        $dataPercentage = \DB::table('daily_data as a')
-        ->select(
-            'a.positive',
-            'a.cured',
-            'a.death',
-            'a.updatedAt as updated_at',
-            'b.name as loc_name'
-        )
-        ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->whereNotIn('b.name', ["Indonesia"])
-        ->orderBy('a.updatedAt', 'desc')
-        ->orderBy('b.name', 'asc')
-        ->limit(34)
-        ->get();
+        $ageData = \DB::table('age_data as a')
+            ->select(
+                'a.*',
+                'b.name as locName'
+            )
+            ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+            ->orderBy('a.updatedAt', 'desc')
+            ->limit(6)
+            ->get();
+
+        $genderData = \DB::table('gender_data as a')
+            ->select(
+                'a.*',
+                'b.name as nameLoc'
+            )
+            ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+            ->orderBy('a.updatedAt', 'desc')
+            ->limit(70)
+            ->get();
+
 
         return $data = [
             'dataSpread'    => $dataSpread,
-            'oldDataSpread' => $oldDataSpread,
-            'dataPercentage' => $dataPercentage,
+            'oldDataSpread' => $oldDataSpread,            
+            'ageData' => $ageData,
+            'genderData' => $genderData,
             'statistic' => ($req->filled('query') ? $this->searchProvinceStatistic($req->get('query')) : [])
         ];
     }
@@ -126,6 +133,30 @@ class DataController extends Controller
             ->orderBy('a.updatedAt', 'asc')
             ->get();
 
+        $ageData = \DB::table('age_data as a')
+            ->select(
+                'a.*',
+                'b.name as locName'
+            )
+            ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+            ->where('b.name', 'like', '%'.$province_name.'%')
+            ->orderBy('a.updatedAt', 'desc')
+            ->limit(6)
+            ->get();
+
+        $genderData = \DB::table('gender_data as a')
+            ->select(
+                'a.*',
+                'b.name as locName'
+            )
+            ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
+            ->where('b.name', 'like', '%'.$province_name.'%')
+            ->orderBy('a.updatedAt', 'desc')
+            ->orderBy('a.sex', 'desc')
+            ->limit(2)
+            ->get();
+
+
         if (!$dataSpread->exists()) {
             # code...
             return [];
@@ -137,7 +168,9 @@ class DataController extends Controller
         return $data = [
             'provinceLoc'    => $provinceLoc,
             'dataSpread'    => $dataSpread,
-            'oldDataSpread' => $oldDataSpread
+            'oldDataSpread' => $oldDataSpread,
+            'ageData' => $ageData,
+            'genderData' => $genderData,
         ];
 
     }

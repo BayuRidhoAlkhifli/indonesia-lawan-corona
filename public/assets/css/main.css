@@ -265,8 +265,32 @@ nav .nav-link:hover {
     margin-bottom: auto;
 }
 
+.color-gen {
+    width: 50px;
+    height: 50px;
+    margin-bottom: auto;
+}
+
 .bg-orange {
     background-color: #f8615a;
+}
+
+.bg-male {
+    border-radius: 10px;
+    color: white;
+    font-size: 23px;
+    padding:10px;
+    text-align: center;
+    background-color: #51238B;
+}
+
+.bg-female {
+    border-radius: 10px;
+    color: white;
+    font-size: 23px;
+    padding:10px;
+    text-align: center;
+    background-color: #7E5DA9;
 }
 
 .bg-green {
@@ -480,6 +504,10 @@ nav .nav-link:hover {
 
 .province-suggest>div:hover {
     background-color: rgb(224, 226, 241);
+}
+
+.float-shadow {
+    box-shadow: rgba(65, 41, 88, 0.3) 0px 13px 15px -12px;
 }
 
 .cstm-switch .cstm-switch-input:checked~.cstm-switch-indicator.size-lg:before {
