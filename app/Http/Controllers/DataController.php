@@ -71,11 +71,12 @@ class DataController extends Controller
         $ageData = \DB::table('age_data as a')
             ->select(
                 'a.*',
-                'b.name as locName'
+                'b.name as nameLoc'
             )
             ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
             ->orderBy('a.updatedAt', 'desc')
-            ->limit(6)
+            ->orderBy('a.id', 'asc')
+            ->limit(210)
             ->get();
 
         $genderData = \DB::table('gender_data as a')

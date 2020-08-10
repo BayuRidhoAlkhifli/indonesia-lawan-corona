@@ -1371,11 +1371,13 @@
                         suggestionsPanel.appendChild(div);
                     });
 
-                    document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)";
+                    document.querySelector("#input_search").style.borderBottomLeftRadius = "0px";
+                    document.querySelector("#input_search").style.borderBottomRightRadius = "0px";
                     
                     if (input === '') {
                         suggestionsPanel.innerHTML = ''; 
-                        document.getElementById("input_search").style.boxShadow = null;
+                        document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                        document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
                     }
                 })
             })
@@ -1546,7 +1548,8 @@
 
                 $("#province_finder").val(param);
                 $(".province-suggest").empty();
-                document.getElementById("input_search").style.boxShadow = null;
+                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
         })
         .catch(err => {
             console.log(err);

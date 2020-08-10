@@ -132,9 +132,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 p-0">
-                            <div class="card card-data animation-element slide-bottom-dly-145s mb-30">
+                            <div class="card card-data animation-element slide-bottom-dly-145s card-full-width">
                                 <div>
-                                    <div class="card-body row pb-2 p-20">
+                                    <div class="card-body row pb-0 p-20">
                                         <div class="col-md-6 p-0">
                                             <label class="d-block main-title-md" style="word-break: normal">Data Peningkatan Kasus Covid-19 <span class="loc_name"></span></label>
                                         </div>
@@ -159,15 +159,13 @@
                             </div>
                         </div>
                         <div class="col-md-6 p-0">
-                            <div class="card card-data card-data-left">
-                                <div class="card-body pb-2">
-                                    <label class="d-block main-title-md" style="word-break: normal">Kasus Berdasarkan Jenis Kelamin di <span class="loc_name"></span></label>
+                            <div class="card card-data card-chart-left mt-0">
+                                <div class="card-body pb-0">
+                                    <label class="d-block main-title-md mb-0" style="word-break: normal">Data Berdasarkan Jenis Kelamin di <span class="loc_name"></span></label>
+                                    <span class="sub-color sub-title">Data terkonfirmasi berdasarkan kategori jenis kelamin</span>
                                 </div>
                                 <hr>
-                                <div class="card-body chart-dought-container p-0">
-                                    <canvas id="genderChartDough" class="mx-auto" width="210" height="210"></canvas>
-                                </div>
-                                <div class="card-body pt-2 row m-0 pt-5">
+                                <div class="card-body pt-0 row m-0">
                                     <div class="d-flex">
                                         <div class="color-gen bg-male"><i class="fas fa-male"></i></div>
                                         <div>
@@ -183,20 +181,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card-body chart-dought-container p-0 mb-5">
+                                    <canvas id="genderChartDough" class="mx-auto mt-2" width="210" height="210"></canvas>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6 p-0">
-                            <div class="card card-data card-data-middle">
-                                <div class="card-body pb-2">
-                                    <label class="d-block main-title-md" style="word-break: normal">Kasus Berdasarkan Umur</label>
+                            <div class="card card-data card-chart-right mt-0">
+                                <div class="card-body pb-0">
+                                    <label class="d-block main-title-md mb-0" style="word-break: normal">Data Berdasarkan Umur di <span class="loc_name"></span></label>
+                                    <span class="sub-color sub-title">Data terkonfirmasi berdasarkan kategori umur</span>
                                 </div>
                                 <hr>
                                 <div class="card-body chart-dought-container p-0">
-                                    <canvas id="chartDough" class="mx-auto" width="210" height="210"></canvas>
+                                    <canvas id="chartDoughAge" class="mx-auto" width="210" height="210"></canvas>
                                 </div>
                                 <hr>
-                                <div class="card-body pt-2">
-                                    <label class="d-block main-title-md" style="word-break: normal"></label>
+                                <div id="dataAge" class="card-body pt-2">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -223,8 +225,10 @@
     var increaseCuredCase = [];
     var increaseDeathCase = [];
     var labelDate = [];
+    const colorChartAge = ['#00bcd4','#2196f3','#ffc107','#ff9800','#7E5DA9','#51238B']
 
     const genderCase = [];
+    const ageCase = [];
     var proviPercentagePosi = [];
 
     var placeHolder = ['Cari provinsi', 'Misal Papua, Jawa Timur, dll'];
@@ -241,8 +245,10 @@
     var dataDeathNow = 0;
 
     var chart = {};
-    var chartDough = {};
+    var chartDoughGen = {};
+    var chartDoughAge = {};
     var genderCd = document.getElementById('genderChartDough');
+    var ageCd = document.getElementById('chartDoughAge');
     var ctx = document.getElementById('chart').getContext('2d'),
                 gradientPosi = ctx.createLinearGradient(0, 0, 0, 350),
                 gradientCured = ctx.createLinearGradient(0, 0, 0, 350),
@@ -333,9 +339,16 @@
         $('.provinceSelector').click((e) => {
             
             var arrayKey = $(e.target).data("real");
-            
+            let genderCase = [];
+            let ageCase = [];
+            let labelGender = [];
+            let labelAge = [];
+            let dataAge = [];
             var finalResultStatistic = dataStatistic[arrayKey];
             var finalResultOldStatistic = oldDataStatistic[arrayKey];
+            var finalResultGenderStatistic = genderStatic[arrayKey];
+            var finalResultAgeStatistic = ageStatic[arrayKey];
+
             
             $('.card-location').removeClass('card-active');
             $(e.target.parentElement).addClass('card-active');
@@ -349,10 +362,36 @@
                 oldDataSelected = v;
             });
 
+            $.each(finalResultGenderStatistic, (k, v) => {
+                genderCase.push(v.numberOfCase);
+                if (v.sex == 1) {
+                    labelGender.push("Wanita");
+                } else {
+                    labelGender.push("Pria");
+                }
+            });
+
+            const ageData = finalResultAgeStatistic;
+            let sumCaseByAge = 0;
+
+            ageData.map((val) => {
+                sumCaseByAge+=val.numberOfCase;
+            })
+            
+            $.each(finalResultAgeStatistic, (k, v) => {
+                ageCase.push(v.numberOfCase);
+                labelAge.push(v.age);
+                dataAge += `<div class="d-flex w-100">
+                                <div class="color-cyrcle-case" style ="background-color:`+ colorChartAge[k] +`"></div><label class="ml-10 mb-0 w-50" style="padding-top: 1px">`+ v.age.toString().replace(/\-/g, " s/d ")+` Thn</label>
+                                <label class = "text-right w-25">`+ v.numberOfCase +`</label>
+                                <label class = "text-right w-25 color-purple">`+ ((v.numberOfCase / sumCaseByAge) * 100).toFixed(2) +`%</label>
+                            </div>`;
+            });
+
             $.each(dataStatistic["Indonesia"], (k, v) => {
                 indonesiaData = v;
             });
-
+            
             if(arrayKey == 'Indonesia'){
                 $('.idn-data').addClass('d-none');
                 $('.data-angka').addClass('d-block');
@@ -391,19 +430,33 @@
                 dataDeathNow = "-";
             }
 
+            $("#dataAge").html(dataAge);
             $(".loc_name").html(dataSelected.name);
             $("#txt_confirm").text(dataSelected.positive);
             $("#txt_cured").text(dataSelected.cured);
             $("#txt_death").text(dataSelected.death);
+            $("#case-male").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-female").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-
             
+            if(chart) {
+                chart.destroy();
+            }
+            if(chartDoughGen) {
+                chartDoughGen.destroy();
+            }
+            if(chartDoughAge) {
+                chartDoughAge.destroy();
+            }
+
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
+            genderChartDisplay(labelGender, genderCase);
+            ageChartDisplay(labelAge, ageCase);
             counterAnimation();
         });
 
@@ -445,7 +498,10 @@
             var tempArrayStatistic = [];
             var tempOldArrayStatistic = [];
             var tempArrayGender = [];
+            var tempArrayAge = [];
             let labelGender = [];
+            let labelAge = [];
+            dataAge = '';
 
             var i = {!! json_encode($locations) !!};
             
@@ -453,6 +509,7 @@
                 tempArrayStatistic[v.name] = [];
                 tempOldArrayStatistic[v.name] = [];
                 tempArrayGender[v.name] = [];
+                tempArrayAge[v.name] = [];
             });
 
             $.each(res.data.dataSpread, (k,v) => { 
@@ -465,13 +522,16 @@
 
             $.each(res.data.genderData, (k,v) => {
                 tempArrayGender[v.nameLoc].push(v);
-            genderChartDisplay(labelGender, genderCase);
+            });
 
+            $.each(res.data.ageData, (k,v) => {
+                tempArrayAge[v.nameLoc].push(v);
             });
 
             dataStatistic  = (tempArrayStatistic);
             oldDataStatistic = (tempOldArrayStatistic);
             genderStatic = (tempArrayGender);
+            ageStatic = (tempArrayAge);
 
 
             $.each(dataStatistic["Indonesia"], (k, v) => {
@@ -490,8 +550,26 @@
                 } else {
                     labelGender.push("Pria");
                 }
-                
             });
+
+            const ageData = ageStatic['Indonesia'];
+            let sumCaseByAge = 0;
+
+            ageData.map((val) => {
+                sumCaseByAge+=val.numberOfCase;
+            })
+
+            $.each(ageStatic["Indonesia"], (k, v) => {
+                ageCase.push(v.numberOfCase);
+                labelAge.push(v.age);
+                dataAge += `<div class="d-flex w-100">
+                                <div class="color-cyrcle-case" style ="background-color:`+ colorChartAge[k] +`"></div><label class="ml-10 mb-0 w-50" style="padding-top: 1px">`+ v.age.toString().replace(/\-/g, " s/d ")+` Thn</label>
+                                <label class = "text-right w-25">`+ v.numberOfCase +`</label>
+                                <label class = "text-right w-25 color-purple">`+ ((v.numberOfCase / sumCaseByAge) * 100).toFixed(2) +`%</label>
+                            </div>`;
+            });
+            
+            // console.log(totalCaseAge);
 
             for (let index = 0; index < dataStatistic["Indonesia"].length - 1; index++) {
                 var countArray = index + 1;
@@ -543,7 +621,10 @@
             if(dataDeathNow == 0) {
                 dataDeathNow = "-";
             }
+
+            // console.log(dataAge);
             
+            $("#dataAge").html(dataAge);
             $(".loc_name").html(dataSelected.name);
             $("#updated_at").html(moment(dataSelected.updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
             $("#txt_confirm").html(dataSelected.positive);
@@ -557,6 +638,7 @@
 
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             genderChartDisplay(labelGender, genderCase);
+            ageChartDisplay(labelAge, ageCase);
             counterAnimation();
         });
         
@@ -572,8 +654,12 @@
                     var tempArrayStatistic = [];
                     var searchResult = [];
                     var genderCase = [];
+                    let ageCase = [];
                     var oldData = "";
+                    dataAge = '';
                     let labelGender = [];
+                    let labelAge = [];
+
 
                     var i = {!! json_encode($locations) !!};
                         $.each(i, (k,v) => { 
@@ -610,6 +696,23 @@
                             } else {
                                 labelGender.push("Pria");
                             }
+                        });
+
+                        const ageData = res.data.statistic.ageData;
+                        let sumCaseByAge = 0;
+
+                        ageData.map((val) => {
+                            sumCaseByAge+=val.numberOfCase;
+                        })
+
+                        $.each(res.data.statistic.ageData, (k,v) => {
+                            ageCase.push(v.numberOfCase);
+                            labelAge.push(v.age);
+                            dataAge += `<div class="d-flex w-100">
+                                <div class="color-cyrcle-case" style ="background-color:`+ colorChartAge[k] +`"></div><label class="ml-10 mb-0 w-50" style="padding-top: 1px">`+ v.age.toString().replace(/\-/g, " s/d ")+` Thn</label>
+                                <label class = "text-right w-25">`+ v.numberOfCase +`</label>
+                                <label class = "text-right w-25 color-purple">`+ ((v.numberOfCase / sumCaseByAge) * 100).toFixed(2) +`%</label>
+                            </div>`;
                         });
                         
                         $.each(res.data.dataSpread,(k, v) => {
@@ -668,6 +771,7 @@
                         dataDeathNow = "-";
                     }
 
+                    $("#dataAge").html(dataAge);
                     $(".loc_name").html(searchResult.name);
                     $("#txt_confirm").text(searchResult.positive);
                     $("#txt_death").text(searchResult.death);
@@ -681,15 +785,19 @@
                     $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-                    if (chart) {
+                    if(chart) {
                         chart.destroy();
                     }
-                    if (chartDough) {
-                        chartDough.destroy();
+                    if(chartDoughGen) {
+                        chartDoughGen.destroy();
+                    }
+                    if(chartDoughAge) {
+                        chartDoughAge.destroy();
                     }
 
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
                     genderChartDisplay(labelGender, genderCase);
+                    ageChartDisplay(labelAge, ageCase);
                     counterAnimation();
                 })
                 .catch(err => {
@@ -791,7 +899,41 @@
             responsive: false,
         };
 
-        chartDough = new Chart(genderCd, {
+        chartDoughGen = new Chart(genderCd, {
+            type: 'doughnut',
+            options: options,
+            data: data
+        });
+
+    };
+
+    function ageChartDisplay(gender, numberOfCase) {
+
+        var data = {
+            labels: gender,
+            datasets: [{
+                data: numberOfCase,
+                backgroundColor: [
+                    '#00bcd4',
+                    '#2196f3',
+                    '#ffc107',
+                    '#ff9800',
+                    '#7E5DA9',
+                    '#51238B',
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        var options = {
+            //cutoutPercentage: 40,
+            legend: {
+                display: false
+            },
+            responsive: false,
+        };
+
+        chartDoughAge = new Chart(ageCd, {
             type: 'doughnut',
             options: options,
             data: data
@@ -879,11 +1021,13 @@
                         suggestionsPanel.appendChild(div);
                     });
 
-                    document.querySelector("#input_search").style.boxShadow = "0 13px 15px -12px rgba(65, 41, 88, 0.301)"
+                    document.querySelector("#input_search").style.borderBottomLeftRadius = "0px";
+                    document.querySelector("#input_search").style.borderBottomRightRadius = "0px";
 
                     if (input === '') {
                         suggestionsPanel.innerHTML = '';  
-                        document.getElementById("input_search").style.boxShadow = null;
+                        document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                        document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
                     }
                 })
         })
@@ -898,6 +1042,10 @@
         var tempArrayGender = [];
         let labelGender = [];
         var genderCase = [];
+        let labelAge = [];
+        var ageCase = [];
+        let dataAge = [];
+
 
 
         var searchResult = "";
@@ -963,6 +1111,24 @@
                     labelGender.push("Pria");
                 }
             });
+
+            const ageData = res.data.statistic.ageData;
+            let sumCaseByAge = 0;
+
+            ageData.map((val) => {
+                sumCaseByAge+=val.numberOfCase;
+            })
+            
+            $.each(res.data.statistic.ageData, (k,v) => {
+                // tempArrayGender[v.nameLoc].push(v);
+                ageCase.push(v.numberOfCase);
+                labelAge.push(v.age);
+                dataAge += `<div class="d-flex w-100">
+                                <div class="color-cyrcle-case" style ="background-color:`+ colorChartAge[k] +`"></div><label class="ml-10 mb-0 w-50" style="padding-top: 1px">`+ v.age.toString().replace(/\-/g, " s/d ")+` Thn</label>
+                                <label class = "text-right w-25">`+ v.numberOfCase +`</label>
+                                <label class = "text-right w-25 color-purple">`+ ((v.numberOfCase / sumCaseByAge) * 100).toFixed(2) +`%</label>
+                            </div>`;
+            });
             
             $.each(res.data.dataSpread,(k, v) => {
                 tempArrayData[v.name].push(v);
@@ -1019,6 +1185,7 @@
                 dataDeathNow = "-";
             }
 
+            $("#dataAge").html(dataAge);
             $(".loc_name").html(searchResult.name);
             $("#txt_confirm").text(searchResult.positive);
             $("#txt_death").text(searchResult.death);
@@ -1032,21 +1199,26 @@
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
-            if (chart) {
+            if(chart) {
                 chart.destroy();
             }
-            if (chartDough) {
-                chartDough.destroy();
+            if(chartDoughGen) {
+                chartDoughGen.destroy();
+            }
+            if(chartDoughAge) {
+                chartDoughAge.destroy();
             }
 
             last_selected = searchResult.name;
             displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
             genderChartDisplay(labelGender, genderCase);
+            ageChartDisplay(labelAge, ageCase)
             counterAnimation();
 
             $("#province_finder").val(param);
             $(".province-suggest").empty();
-            document.getElementById("input_search").style.boxShadow = null;
+            document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+            document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
         })
         .catch(err => {
             console.log(err);
