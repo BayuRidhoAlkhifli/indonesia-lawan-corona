@@ -1374,7 +1374,7 @@
                     document.querySelector("#input_search").style.borderBottomLeftRadius = "0px";
                     document.querySelector("#input_search").style.borderBottomRightRadius = "0px";
                     
-                    if (input === '') {
+                    if (input === '' || suggestions < 1) {
                         suggestionsPanel.innerHTML = ''; 
                         document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
                         document.querySelector("#input_search").style.borderBottomRightRadius = "10px";

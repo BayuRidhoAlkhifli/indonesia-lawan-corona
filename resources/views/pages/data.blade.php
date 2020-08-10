@@ -1008,11 +1008,15 @@
                 searchInput.addEventListener('keyup', () => {
                     const input = searchInput.value;
                     suggestionsPanel.innerHTML = '';
+
                     const suggestions = countries.filter((country) => {
                         return country.name.toLowerCase().startsWith(input) || country.name.toUpperCase().startsWith(input) || country.name.startsWith(input);
                     });
+
+                    console.log(suggestions);
                     suggestions.forEach((suggested) => {
                         const div = document.createElement('div');
+                    
                         div.innerHTML = "<strong>" + suggested.name.substr(0, input.length) + "</strong>";
                         div.innerHTML += suggested.name.substr(input.length);
                         div.setAttribute("class", "suggest-finder");
@@ -1021,10 +1025,12 @@
                         suggestionsPanel.appendChild(div);
                     });
 
+                    // console.log(suggested);
+                    
                     document.querySelector("#input_search").style.borderBottomLeftRadius = "0px";
                     document.querySelector("#input_search").style.borderBottomRightRadius = "0px";
 
-                    if (input === '') {
+                    if (input === '' || suggestions < 1) {
                         suggestionsPanel.innerHTML = '';  
                         document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
                         document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
