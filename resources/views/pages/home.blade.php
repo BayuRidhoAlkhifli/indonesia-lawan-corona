@@ -906,6 +906,10 @@
                 $('.search-not-found').removeClass('d-none');
             }
 
+            if ('' == this.value) {
+                clearSuggest();
+            }
+
             $('#province_finder').keypress((e) => {
                 provinceFinder(e);
             });
@@ -919,9 +923,7 @@
             let clickInside = document.getElementById("input_search").contains(e.target);
             
             if(!clickInside) {
-                $(".province-suggest").empty();
-                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
-                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+                clearSuggest();
             }
             
         })
@@ -1401,6 +1403,12 @@
             
     }
 
+    function clearSuggest() {
+        $(".province-suggest").empty();
+        document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+        document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+    }
+
     const suggestionClick = (param) => {
         var tempArrayData = [];
         var searchResult = "";
@@ -1561,9 +1569,7 @@
                 counterAnimation();
 
                 $("#province_finder").val(param);
-                $(".province-suggest").empty();
-                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
-                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+                clearSuggest();
         })
         .catch(err => {
             console.log(err);
