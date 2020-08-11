@@ -468,28 +468,23 @@
                 $('.search-not-found').removeClass('d-none');
             }
 
-            // $(last_selected).parent().addClass('card-active'); 
-            
-        });
-
-        $('#province_finder').keypress((e) => {
-            provinceFinder(e);
-        })
-
-        $('#province_finder').on('input', function() {
-            if ($('#province_finder').val() == ''){
-                $('#alert_search').removeAttr('class');
-                $('#icon-alert-search').html('');
-                $('#alert-search-not-found').html('');
-                $('.search-not-found').removeClass('d-none');
-            }
-
+            $('#province_finder').keypress((e) => {
+                provinceFinder(e);
+            })
             $(last_selected).parent().addClass('card-active'); 
             
             suggestionFinder();
         });
+
+        document.getElementById("province_finder").addEventListener("blur", () => {
+            $(".province-suggest").empty();
+            document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+            document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+
+        });
         
     });
+    
 
     function getData() {
         axios.get('{{ route("get.dataStatistic") }}').then((res) => {
@@ -770,6 +765,9 @@
                     if(dataDeathNow == 0) {
                         dataDeathNow = "-";
                     }
+                    
+                    document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                    document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
 
                     $("#dataAge").html(dataAge);
                     $(".loc_name").html(searchResult.name);
@@ -784,6 +782,7 @@
                     $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                    $(".province-suggest").empty();
 
                     if(chart) {
                         chart.destroy();

@@ -898,10 +898,6 @@
         //     $('#province_finder').val() == '';
         // });
 
-        $('#province_finder').keypress((e) => {
-            provinceFinder(e);
-        })
-
         $('#province_finder').on('input', function() {
             if ($('#province_finder').val() == ''){
                 $('#alert_search').removeAttr('class');
@@ -910,9 +906,20 @@
                 $('.search-not-found').removeClass('d-none');
             }
 
+            $('#province_finder').keypress((e) => {
+                provinceFinder(e);
+            });
+
             $(last_selected).parent().addClass('card-active'); 
             
             suggestionFinder();
+        });
+
+        document.getElementById("province_finder").addEventListener("blur", () => {
+            $(".province-suggest").empty();
+            document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+            document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+
         });
 
         $('.provinceSelector').click((e) => {
@@ -1318,6 +1325,9 @@
                     dataDeathNow = "-";
                 }
 
+                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+
                 $("#table_hospital").html(tableHospital);
                 $("#card_hospital").html(cardHospital);
                 $("#call_center_name").html(searchResult.call_center_name);
@@ -1334,7 +1344,7 @@
                 $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                 $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                 $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-
+                $(".province-suggest").empty();
                 last_selected = searchResult.name;
                 counterAnimation();
             })
