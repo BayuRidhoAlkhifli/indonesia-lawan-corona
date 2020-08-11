@@ -915,12 +915,16 @@
             suggestionFinder();
         });
 
-        document.getElementById("province_finder").addEventListener("blur", () => {
-            $(".province-suggest").empty();
-            document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
-            document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
-
-        });
+        document.addEventListener('click',(e) => {
+            let clickInside = document.getElementById("input_search").contains(e.target);
+            
+            if(!clickInside) {
+                $(".province-suggest").empty();
+                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+            }
+            
+        })
 
         $('.provinceSelector').click((e) => {
             
@@ -1415,7 +1419,7 @@
                 });
 
             $.each(res.data.dataFinder.dataSpread,(k, v) => {
-                console.log(v);
+
                 if (v.name == "Indonesia") {
                     $('.rs-rujukan').addClass('d-none');
                     $('#alert_search').removeAttr('class');

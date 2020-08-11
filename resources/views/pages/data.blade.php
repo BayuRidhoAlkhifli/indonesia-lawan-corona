@@ -471,17 +471,22 @@
             $('#province_finder').keypress((e) => {
                 provinceFinder(e);
             })
+            
             $(last_selected).parent().addClass('card-active'); 
             
             suggestionFinder();
         });
 
-        document.getElementById("province_finder").addEventListener("blur", () => {
-            $(".province-suggest").empty();
-            document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
-            document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
-
-        });
+        document.addEventListener('click',(e) => {
+            let clickInside = document.getElementById("input_search").contains(e.target);
+            
+            if(!clickInside) {
+                $(".province-suggest").empty();
+                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+            }
+            
+        })
         
     });
     
@@ -1011,8 +1016,7 @@
                     const suggestions = countries.filter((country) => {
                         return country.name.toLowerCase().startsWith(input) || country.name.toUpperCase().startsWith(input) || country.name.startsWith(input);
                     });
-
-                    console.log(suggestions);
+                    
                     suggestions.forEach((suggested) => {
                         const div = document.createElement('div');
                     
@@ -1051,7 +1055,7 @@
         var ageCase = [];
         let dataAge = [];
 
-
+        // console.log(param);
 
         var searchResult = "";
         var oldData = "";
