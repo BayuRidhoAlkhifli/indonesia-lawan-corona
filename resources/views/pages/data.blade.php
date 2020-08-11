@@ -473,7 +473,7 @@
             }
 
             $('#province_finder').keypress((e) => {
-                provinceFinder(e);
+                    provinceFinder(e);
             })
             
             $(last_selected).parent().addClass('card-active'); 
@@ -772,9 +772,6 @@
                     if(dataDeathNow == 0) {
                         dataDeathNow = "-";
                     }
-                    
-                    document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
-                    document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
 
                     $("#dataAge").html(dataAge);
                     $(".loc_name").html(searchResult.name);
@@ -789,7 +786,6 @@
                     $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                     $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                    $(".province-suggest").empty();
 
                     if(chart) {
                         chart.destroy();
@@ -800,7 +796,8 @@
                     if(chartDoughAge) {
                         chartDoughAge.destroy();
                     }
-
+                    
+                    clearSuggest();
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
                     genderChartDisplay(labelGender, genderCase);
                     ageChartDisplay(labelAge, ageCase);
@@ -1176,6 +1173,7 @@
                 }
             });
 
+            
             for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
                 var countArray = index + 1;
 
