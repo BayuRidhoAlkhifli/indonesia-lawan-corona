@@ -137,7 +137,7 @@ class HomeController extends Controller
             ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
             ->distinct()
             ->where('a.name', 'like', '%'.$province_name.'%')
-            ->orderBy('c.updatedAt', 'desc');
+            ->orderBy('c.updatedAt', 'asc');
 
         $oldDataSpread = \DB::table('daily_data as a')
             ->select(
@@ -150,7 +150,7 @@ class HomeController extends Controller
             ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
             ->where('a.updatedAt', '<', date("Y-m-d", strtotime( 'now' )))
             ->where('b.name', 'like', '%'.$province_name.'%')
-            ->orderBy('a.updatedAt', 'desc')
+            ->orderBy('a.updatedAt', 'asc')
             ->get();
 
 
