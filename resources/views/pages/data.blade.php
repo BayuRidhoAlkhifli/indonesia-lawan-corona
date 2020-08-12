@@ -443,7 +443,7 @@
             $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-            sadasdsa
+            
             if(chart) {
                 chart.destroy();
             }
@@ -632,8 +632,8 @@
             $("#txt_confirm").html(dataSelected.positive);
             $("#txt_death").html(dataSelected.death);
             $("#txt_cured").html(dataSelected.cured);
-            $("#case-male").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-            $("#case-female").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-male").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-female").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
