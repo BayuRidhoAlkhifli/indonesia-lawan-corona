@@ -461,6 +461,9 @@
         });
 
         $('#province_finder').on('input', function() {
+            // $('#province_finder').keypress((e) => {
+            //     clearSuggest();
+            // });
             if ($('#province_finder').val() == ''){
                 $('#alert_search').removeAttr('class');
                 $('#icon-alert-search').html('');
@@ -471,14 +474,14 @@
             if ('' == this.value) {
                 clearSuggest();
             }
-
-            $('#province_finder').keypress((e) => {
-                    provinceFinder(e);
-            })
             
             $(last_selected).parent().addClass('card-active'); 
             
             suggestionFinder();
+        });
+
+        $('#province_finder').keypress((e) => {
+            provinceFinder(e);
         });
 
         document.addEventListener('click',(e) => {
@@ -653,7 +656,7 @@
                 .get('{{ url("data-statistic") }}'+`?query=${$('#province_finder').val()}`)
                 .then(res => {
                     moment.locale("id");
-                    var tempArrayStatistic = [];
+                    let tempArrayStatistic = [];
                     var searchResult = [];
                     var genderCase = [];
                     let ageCase = [];
@@ -721,10 +724,13 @@
                             tempArrayStatistic[v.name].push(v);
                         });
 
+
                         $.each(tempArrayStatistic["Indonesia"], (k, v) => {
                             totalCase = v;
                         });
                     }
+
+                        console.log(tempArrayStatistic);
                     
                     $.each($('.provinceSelector'), (k, v) => {
                         if (searchResult.name == "Indonesia") {
@@ -747,9 +753,12 @@
                         }
                     });
 
+
+
                     for (let index = 0; index < tempArrayStatistic[searchResult.name].length - 1; index++) {
                         var countArray = index + 1;
 
+                        // console.log(labelDate[index]);
                         labelDate[index] = moment(tempArrayStatistic[searchResult.name][countArray].updatedAt).format("DD MMM");
                         increasePosiCase[index] = tempArrayStatistic[searchResult.name][countArray].positive - tempArrayStatistic[searchResult.name][index].positive;
                         increaseCuredCase[index] = tempArrayStatistic[searchResult.name][countArray].cured - tempArrayStatistic[searchResult.name][index].cured;
@@ -797,7 +806,6 @@
                         chartDoughAge.destroy();
                     }
                     
-                    clearSuggest();
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
                     genderChartDisplay(labelGender, genderCase);
                     ageChartDisplay(labelAge, ageCase);
