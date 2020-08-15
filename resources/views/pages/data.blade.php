@@ -435,8 +435,8 @@
             $("#txt_confirm").text(dataSelected.positive);
             $("#txt_cured").text(dataSelected.cured);
             $("#txt_death").text(dataSelected.death);
-            $("#case-male").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-            $("#case-female").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-male").html(genderCase[0].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#case-female").html(genderCase[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
             $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
             $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
