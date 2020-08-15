@@ -93,6 +93,17 @@
 
     <section class="padding-section">
         <div class="row content">
+            <div class="alert alert-primary alert-dismissible fade show w-100 content-sm mb-0" role="alert">
+                <div>
+                    <h4>Disclaimer :</h4>
+                </div>
+                <div>
+                    Data COVID-19 yang kalian lihat bersumber langsung dari https://covid19.go.id/.
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <div id="input_search" class="col-lg-12 col-md-12 p-0 input-bg border-radius-10 container content-sm mt-30">
                 <div class="input-group my-15">
                     <div class="input-group-prepend show-content-sm">
@@ -234,7 +245,7 @@
                         </div>
                     </div>
                     <div id="rs_rujukan" class="col-md-12 p-0 content-sm mt-20 search-not-found">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div class="alert w-100 alert-warning alert-dismissible fade show" role="alert">
                             <div>
                                 <h4>Peringatan!</h4>
                             </div>

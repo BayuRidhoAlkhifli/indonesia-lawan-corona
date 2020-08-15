@@ -516,6 +516,12 @@ nav .nav-link:hover {
     border-top: 1px solid rgba(115, 80, 162, 0.2);
 }
 
+.alert-primary {
+    color: #7654a5;
+    background-color: #efe4ff;
+    border-color: #d9cbed;
+}
+
 .province-suggest>div {
     padding: 15px 20px;
     cursor: pointer;

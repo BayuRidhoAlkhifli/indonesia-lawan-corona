@@ -11,6 +11,17 @@
                 Pembaharuan Terakhir: <span id="updated_at"></span>
             </label>
         </div>
+        <div class="alert alert-primary alert-dismissible fade show w-100" role="alert">
+            <div>
+                <h4>Disclaimer :</h4>
+            </div>
+            <div>
+                Data COVID-19 yang kalian lihat bersumber langsung dari https://covid19.go.id/.
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <div id="input_search" class="col-lg-12 col-md-12 p-0 mt-20 input-bg border-radius-10 content-sm">
             <div class="input-group my-15">
                 <div class="input-group-prepend show-content-sm">
