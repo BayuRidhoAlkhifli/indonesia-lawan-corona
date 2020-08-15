@@ -766,8 +766,6 @@
 
                     }
 
-                    console.log(labelDate);
-
                     
                     persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
                     persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
