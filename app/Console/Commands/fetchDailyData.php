@@ -112,6 +112,9 @@ class fetchDailyData extends Command
                 }
             }
         }
+        \DB::table('daily_data')
+        ->where('updatedAt', 'like', '%15:00%')
+        ->delete();
 
         \DB::table('daily_data')
         ->insert($dailyData);
