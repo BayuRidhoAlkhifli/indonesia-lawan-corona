@@ -910,13 +910,13 @@
                 clearSuggest();
             }
 
-            $('#province_finder').keypress((e) => {
-                provinceFinder(e);
-            });
-
             $(last_selected).parent().addClass('card-active'); 
             
             suggestionFinder();
+        });
+
+        $('#province_finder').keypress((e) => {
+            provinceFinder(e);
         });
 
         document.addEventListener('click',(e) => {

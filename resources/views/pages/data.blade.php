@@ -461,9 +461,7 @@
         });
 
         $('#province_finder').on('input', function() {
-            // $('#province_finder').keypress((e) => {
-            //     clearSuggest();
-            // });
+            
             if ($('#province_finder').val() == ''){
                 $('#alert_search').removeAttr('class');
                 $('#icon-alert-search').html('');
@@ -475,7 +473,7 @@
                 clearSuggest();
             }
             
-            $(last_selected).parent().addClass('card-active'); 
+            $(last_selected).parent().addClass('card-active');
             
             suggestionFinder();
         });
@@ -660,6 +658,7 @@
                     var searchResult = [];
                     var genderCase = [];
                     let ageCase = [];
+                    let labelDate= [];
                     var oldData = "";
                     dataAge = '';
                     let labelGender = [];
@@ -729,8 +728,6 @@
                             totalCase = v;
                         });
                     }
-
-                        console.log(tempArrayStatistic);
                     
                     $.each($('.provinceSelector'), (k, v) => {
                         if (searchResult.name == "Indonesia") {
@@ -754,19 +751,23 @@
                     });
 
 
-
                     for (let index = 0; index < tempArrayStatistic[searchResult.name].length - 1; index++) {
                         var countArray = index + 1;
 
                         // console.log(labelDate[index]);
-                        labelDate[index] = moment(tempArrayStatistic[searchResult.name][countArray].updatedAt).format("DD MMM");
+
+                        labelDate[index] = moment(tempArrayStatistic[searchResult.name][countArray].updated_at).format("DD MMM");
                         increasePosiCase[index] = tempArrayStatistic[searchResult.name][countArray].positive - tempArrayStatistic[searchResult.name][index].positive;
                         increaseCuredCase[index] = tempArrayStatistic[searchResult.name][countArray].cured - tempArrayStatistic[searchResult.name][index].cured;
                         increaseDeathCase[index] = tempArrayStatistic[searchResult.name][countArray].death - tempArrayStatistic[searchResult.name][index].death;
                         dataPosiNow = tempArrayStatistic[searchResult.name][countArray].positive - tempArrayStatistic[searchResult.name][index].positive;
                         dataCuredNow = tempArrayStatistic[searchResult.name][countArray].cured - tempArrayStatistic[searchResult.name][index].cured;
                         dataDeathNow = tempArrayStatistic[searchResult.name][countArray].death - tempArrayStatistic[searchResult.name][index].death;
+
                     }
+
+                    console.log(labelDate);
+
                     
                     persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
                     persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
@@ -806,6 +807,7 @@
                         chartDoughAge.destroy();
                     }
                     
+                    clearSuggest();
                     displayChart(labelDate,increaseDeathCase,increaseCuredCase,increasePosiCase,gradientDeath,gradientCured,gradientPosi);
                     genderChartDisplay(labelGender, genderCase);
                     ageChartDisplay(labelAge, ageCase);
@@ -1045,6 +1047,7 @@
                         document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
                         document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
                     }
+
                 })
         })
         .catch(err => {
@@ -1185,7 +1188,7 @@
             for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
                 var countArray = index + 1;
 
-                labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updatedAt).format("DD MMM");
+                labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updated_at).format("DD MMM");
                 increasePosiCase[index] = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
                 increaseCuredCase[index] = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
                 increaseDeathCase[index] = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
