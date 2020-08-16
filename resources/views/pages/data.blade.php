@@ -11,7 +11,7 @@
                 Pembaharuan Terakhir: <span id="updated_at"></span>
             </label>
         </div>
-        <div class="alert alert-primary alert-dismissible fade show w-100" role="alert">
+        <div class="alert alert-primary alert-dismissible fade show w-100 content-sm" role="alert">
             <div>
                 <h4>Disclaimer :</h4>
             </div>
