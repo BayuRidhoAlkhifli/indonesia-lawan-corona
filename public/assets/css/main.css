@@ -519,11 +519,11 @@ nav .nav-link:hover {
 .alert-primary {
     color: #7654a5;
     background-color: #efe4ff;
-    border-color: #d9cbed;
+    border-color: #e2d5f5;
 }
 
 .province-suggest>div {
-    padding: 15px 20px;
+    padding: 15px 20px; 
     cursor: pointer;
 }
 

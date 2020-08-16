@@ -937,7 +937,7 @@
                 clearSuggest();
             }
             
-        })
+        });
 
         $('.provinceSelector').click((e) => {
             
@@ -1190,7 +1190,7 @@
 
     function provinceFinder(e) {
         if (e.keyCode == 13) {
-            var tempArrayData = [];
+            let tempArrayData = [];
             var searchResult = "";
             var oldData = "";
             var c = 0;
@@ -1316,21 +1316,12 @@
                     }
                 });
 
-                for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
-                    var countArray = index + 1;
-
-                    labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updatedAt).format("DD MMM");
-                    increasePosiCase[index] = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
-                    increaseCuredCase[index] = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
-                    increaseDeathCase[index] = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
-                    dataPosiNow = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
-                    dataCuredNow = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
-                    dataDeathNow = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
-                }
-
                 persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
                 persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
                 persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
+                dataPosiNow = searchResult.positive - oldData.positive;
+                dataCuredNow = searchResult.cured - oldData.cured;
+                dataDeathNow = searchResult.death - oldData.death;
 
                 if (dataPosiNow == 0) {
                     dataPosiNow = "-";
@@ -1341,9 +1332,6 @@
                 if(dataDeathNow == 0) {
                     dataDeathNow = "-";
                 }
-
-                document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
-                document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
 
                 $("#table_hospital").html(tableHospital);
                 $("#card_hospital").html(cardHospital);
@@ -1361,8 +1349,9 @@
                 $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                 $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
                 $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
-                $(".province-suggest").empty();
                 last_selected = searchResult.name;
+
+                clearSuggest();
                 counterAnimation();
             })
             .catch(err => {
@@ -1533,21 +1522,12 @@
                     }
                 });
 
-                for (let index = 0; index < tempArrayData[searchResult.name].length - 1; index++) {
-                    var countArray = index + 1;
-
-                    labelDate[index] = moment(tempArrayData[searchResult.name][countArray].updatedAt).format("DD MMM");
-                    increasePosiCase[index] = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
-                    increaseCuredCase[index] = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
-                    increaseDeathCase[index] = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
-                    dataPosiNow = tempArrayData[searchResult.name][countArray].positive - tempArrayData[searchResult.name][index].positive;
-                    dataCuredNow = tempArrayData[searchResult.name][countArray].cured - tempArrayData[searchResult.name][index].cured;
-                    dataDeathNow = tempArrayData[searchResult.name][countArray].death - tempArrayData[searchResult.name][index].death;
-                }
-
                 persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
                 persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
                 persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
+                dataPosiNow = searchResult.positive - oldData.positive;
+                dataCuredNow = searchResult.cured - oldData.cured;
+                dataDeathNow = searchResult.death - oldData.death;
 
                 if (dataPosiNow == 0) {
                     dataPosiNow = "-";
