@@ -64,9 +64,11 @@ class DataController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->where('a.updatedAt', '<', date("Y-m-d", strtotime( '-1 day' )))
+        ->where('a.updatedAt', '<', date("Y-m-d", strtotime( 'now' )))
         ->orderBy('a.updatedAt', 'asc')
         ->get();
+
+        // dump($oldDataSpread);
 
         $ageData = \DB::table('age_data as a')
             ->select(
