@@ -13,16 +13,20 @@
                     
                     if(this.pathname == current)
                     {
-                        $(this).parent().addClass("active")
+                        $(this).parent().addClass("active");
+                    }
+                    if (current != "/") {
+                        $('.content_header').removeClass("bg-light");
+                        $('.content_header').addClass("header-white-bbtm");
                     }
                 });
 
                $('.btm-nav-item a').each(function(){
                     if(this.pathname == current)
-                    {
-                        $(this).addClass("btm-nav-active")
+                    {   
+                        $(this).children("div").addClass("btm-nav-active");
                     }else{
-                        $(this).removeClass("btm-nav-active")
+                        $(this).children("div").removeClass("btm-nav-active");
                     }
                 });
         </script>

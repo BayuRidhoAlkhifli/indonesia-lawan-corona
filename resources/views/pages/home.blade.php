@@ -1,20 +1,15 @@
 @extends('layout.hero')
 
 @section('content')
-@php
-    foreach($data as $dt){
-        $newData[$dt->name] = $dt;
-    }
-@endphp
 
-    <picture>
-        <source media="(max-width:375px)" srcset="{{ asset ('assets/img/wave_white_375.svg') }}">
-        <source media="(min-width: 425px)" srcset="{{ asset ('assets/img/wave_white_425.svg') }}">
-        <img src="{{ asset('assets/img/wave_white_425.svg') }}" class="bg-top" alt="">
-    </picture>
     <section class="section-top-content">
         <!-- BEGIN PlACE PAGE CONTENT HERE -->
             <div class="row content content-sm">
+                <picture style="position: absolute;width: 100%;top: 0;left: 0;">
+                    <source media="(max-width:375px)" srcset="{{ asset ('assets/img/wave_white_375.svg') }}">
+                    <source media="(min-width: 425px)" srcset="{{ asset ('assets/img/wave_white_425.svg') }}">
+                    <img src="{{ asset('assets/img/wave_white_425.svg') }}" class="bg-top" alt="">
+                </picture>
                 <div class="col-lg-8 col-md-12 col- p-0 mt-15">
                     <div id="carouselExampleIndicators" class="carousel slide" style="width:100%; height:auto;" data-ride="carousel">
 
@@ -58,29 +53,35 @@
                             <div id="card_call_center" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
                                     <div class="call-center-header">
-                                        <span id="call_center_name" class="d-block main-title">{{ $data[0]->call_center_name}}</span>
-                                        <span class="d-block sub-title">Nomor Darurat</span>
+                                        <div>
+                                            <span id="call_center_name" class="d-block main-title">{{ $locations[0]->call_center_name}}</span>
+                                            <span class="d-block sub-title">Nomor Darurat</span>
+                                        </div>
                                     </div>
                                     <div class="call-center-body">
                                         <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
-                                        <a id="call_center_number">{{ str_replace("-"," ", $data[0]->call_center_number)}}</a>
+                                        <a id="call_center_number">{{ str_replace("-"," ", $locations[0]->call_center_number)}}</a>
                                     </div>
                                 </div>
                             </div>
+                            <button class="btn btn-cpy cpy-call-center" data-clipboard-target="#call_center_number" onclick="toastMessage()">Salin Nomor</button>
                         </div>
                         <div class="col-lg-12 card-pl-15">
                             <div id="card_hotline" class="card h-100 card-call" style="cursor: pointer" data-container="body" data-toggle="popover" data-placement="right" data-content="Klik untuk menelpon">
                                 <div class="card-body">
-                                    <div class="call-center-header">
-                                        <span id="hotline_name"  class="d-block main-title">{{ $data[0]->hotline_name}}</span>
-                                        <span class="d-block sub-title">Pertanyaan Umum</span>
+                                    <div class="call-center-header row m-0">
+                                        <div>
+                                            <span id="hotline_name"  class="d-block main-title">{{ $locations[0]->hotline_name}}</span>
+                                            <span class="d-block sub-title">Pertanyaan Umum</span>
+                                        </div>
                                     </div>
                                     <div class="call-center-body">
                                         <img src="{{ asset('assets/img/callcenter-icon.svg') }}" class="number-call-icon" alt="">
-                                        <a id="hot_line_number">{{ str_replace("-"," ", $data[0]->hotline_number)}}</a>
+                                        <a id="hot_line_number">{{ str_replace("-"," ", $locations[0]->hotline_number)}}</a>
                                     </div>
                                 </div>
                             </div>
+                            <button class="btn btn-cpy cpy-hotline" data-clipboard-target="#hot_line_number" onclick="toastMessage()">Salin Nomor</button>
                         </div>
                     </div>
                 </div>
@@ -92,19 +93,32 @@
 
     <section class="padding-section">
         <div class="row content">
-            <div id="input_search" class="col-lg-12 col-md-12 p-0 input-bg border-radius-10 content-sm">
+            <div class="alert alert-primary alert-dismissible fade show w-100 content-sm mb-0" role="alert">
+                <div>
+                    <h4>Disclaimer :</h4>
+                </div>
+                <div>
+                    Data COVID-19 yang kalian lihat bersumber langsung dari https://covid19.go.id/.
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="input_search" class="col-lg-12 col-md-12 p-0 input-bg border-radius-10 container content-sm mt-30">
                 <div class="input-group my-15">
                     <div class="input-group-prepend show-content-sm">
                         <span class="input-group-text icon-left-padding">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
-                    <input id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
-                    <div class="input-group-append show-content-lg">
-                        <span class="input-group-text icon-right-padding">
+                    <input autocomplete="off" id="province_finder" type="search" class="form-control input-bg search-input" placeholder="Cari provinsi" onfocus="this.value=''">
+                    <div class="input-group-append">
+                        <span class="input-group-text icon-right-padding show-content-lg">
                             <i class="fas fa-search"></i>
                         </span>
                     </div>
+                </div>
+                <div class="province-suggest">
                 </div>
             </div>
             <div class="col-md-12 p-0">
@@ -113,13 +127,19 @@
                         @php
                             $val = 0;
                         @endphp
-
-                        @foreach ($data as $key)
                             <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
                                 <div class="card card-location" style="cursor:pointer">
-                                    <div class="card-province text-center provinceSelector">{{ $data[$val]->name }}</div>
+                                    <div class="card-province text-center provinceSelector">Indonesia</div>
                                 </div>
                             </div>
+                        @foreach ($locations as $key)
+                            @if ($locations[$val]->name != "Indonesia")
+                                <div class="swiper-slide swiper-slide-active" style="width: auto; margin-right: 25px;">
+                                    <div class="card card-location" style="cursor:pointer">
+                                        <div class="card-province text-center provinceSelector">{{ $locations[$val]->name }}</div>
+                                    </div>
+                                </div>
+                            @endif
                             @php
                                 $val++;
                             @endphp
@@ -143,13 +163,13 @@
             </div>
             {{-- @dump($hospitalData) --}}
             <div class="col-md-12 p-0 mt-30">
-                <div class="row slider slider-nav search-not-found">
-                    <div class="col-md-3 content-sm-ml p-0 data-kasus text-center">
+                <div class="row slider slider-nav search-not-found content-sm">
+                    <div class="col-md-3 p-0 data-kasus text-center">
                         <h4>
                             Data Kasus
                         </h4>
                     </div>
-                    <div class="col-md-3 content-sm-mr p-0 rs-rujukan text-center">
+                    <div class="col-md-3 p-0 rs-rujukan text-center">
                         <h4>
                             RS Rujukan
                         </h4>
@@ -157,7 +177,7 @@
                 </div>
                 <div class="row slider slider-for search-not-found">
                     <div id="data_kasus" class="col-md-12 content-sm mt-20 search-not-found">
-                        <label class="sub-color animation-element fade-in" style="font-weight: 400;">
+                        <label class="sub-color animation-element fade-in sub-title" style="font-weight: 400;">
                             Pembaharuan Terakhir: <span id="updated_at"></span>
                         </label>
                         <div class="row">
@@ -166,10 +186,16 @@
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md">TERKONFIRMASI</span>
-                                            <span id="txt_confirm" class="color-orange data-angka count d-block">-</span>
-                                            <div class="increase-val-1 increase-val">
-                                                <i class="fas fa-arrow-up"></i>
-                                                <span id="txt_confirm_increase" class="txt_increase">0</span>
+                                            <div>
+                                                <span id="txt_confirm" class="color-orange data-angka count">-</span>
+                                                <div class="increase-val-1 increase-val-data increase-val">
+                                                    <i class="fas fa-arrow-up"></i>
+                                                    <span id="txt_confirm_increase" class="txt_increase">0</span>
+                                                </div>
+                                            </div>
+                                            <div class="idn-data">
+                                                <span id="txt_confirm_idn" class="color-orange sub-data-angka">-</span>
+                                                <span class="sub-color">Dari total kasus</span>
                                             </div>
                                         </div>
                                     </div>
@@ -178,13 +204,16 @@
                             <div class="col-md-4 p-0">
                                 <div class="card card-data card-data-middle animation-element slide-bottom-dly-135s">
                                     <div class="card-body-data wrap">
-
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >SEMBUH</span>
-                                            <span id="txt_cured" class="color-green data-angka count d-block">-</span>
-                                            <div class="increase-val-3 increase-val">
+                                            <span id="txt_cured" class="color-green data-angka count">-</span>
+                                            <div class="increase-val-3 increase-val-data increase-val">
                                                 <i class="fas fa-arrow-up"></i>
                                                 <span id="txt_cured_increase" class="txt_increase">0</span>
+                                            </div>
+                                            <div class="idn-data">
+                                                <span id="txt_cured_idn" class="color-green sub-data-angka" style="opacity: 1;">-</span>
+                                                <span class="sub-color">Dari total kasus</span>
                                             </div>
                                         </div>
                                     </div>
@@ -195,10 +224,14 @@
                                     <div class="card-body-data wrap">
                                         <div class=" whitespace-data-left mt-0">
                                             <span class="d-block main-title-md" >MENINGGAL</span>
-                                            <span id="txt_death" class="color-purple data-angka count d-block">-</span>
-                                            <div class="increase-val-2 increase-val">
+                                            <span id="txt_death" class="color-purple data-angka count">-</span>
+                                            <div class="increase-val-2 increase-val-data increase-val">
                                                 <i class="fas fa-arrow-up"></i>
                                                 <span id="txt_death_increase" class="txt_increase">0</span>
+                                            </div>
+                                            <div class="idn-data">
+                                                <span id="txt_death_idn" class="color-purple sub-data-angka">-</span>
+                                                <span class="sub-color">Dari total kasus</span>
                                             </div>
                                         </div>
                                     </div>
@@ -206,13 +239,13 @@
                             </div>
                             <div class="col-md-12 p-0 text-right mt-10">
                                 <a href="{{ route("dataPage") }}" class="link-purple">
-                                    Lihat Lebih Lengkap <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                    Lihat Data Statistik <i class="fa fa-chevron-right" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div id="rs_rujukan" class="col-md-12 p-0 content-sm mt-20 search-not-found">
-                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div class="alert w-100 alert-warning alert-dismissible fade show" role="alert">
                             <div>
                                 <h4>Peringatan!</h4>
                             </div>
@@ -619,6 +652,9 @@
             </div>
         </div>
     </section>
+    <div id="snackbar">
+        Nomor Berhasil Disalin
+    </div>
     <div class="back-to-top text-center">
         <a id="back-to-top" href="#" class="btn btn-light btn-lg" role="button">
             <i class="fas fa-arrow-up"></i>
@@ -628,6 +664,7 @@
 @endsection
 
 @section('custom_script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
 <script>
 
     $('img').bind('contextmenu', function(e) {
@@ -652,9 +689,17 @@
     var arrayPlaceHolder = 0;
     var loopLength = placeHolder.length;
 
+    var dataPosiNow = 0;
+    var dataCuredNow = 0;
+    var dataDeathNow = 0;
+
+    var switchStatus = false;
+
+    new ClipboardJS('.cpy-hotline');
+    new ClipboardJS('.cpy-call-center');
+
     $(document).ready(function() {
         // animation when section in poinview
-
         $window.on('scroll resize', check_if_in_view);
         $window.trigger('scroll');
 
@@ -773,7 +818,7 @@
         var caseIncrease = 0;
         
         function getDataSpread(){
-            axios.get('{{ route("get.dataSpread") }}').then((res) =>{
+            axios.get('{{ route("get.dataSpread") }}').then((res) => {
                 moment.locale("id");
                 var tempArrayCase = [];
                 var tempOldArrayCase = [];
@@ -799,10 +844,16 @@
                         $(v).parent().addClass('card-active');
                         $('.rs-rujukan').addClass('d-none');
                         $('#rs_rujukan').addClass('d-none');
+                        $('.idn-data').addClass('d-none');
+                        $('.data-angka').addClass('d-block');
+                        $('.increase-val-data').addClass('top-0');
                         $('.slider-for').slick("slickSetOption", "accessibility", false);
                         $('.slider-for').slick("slickSetOption", "draggable", false);
                         $('.slider-for').slick("slickSetOption", "swipe", false);
                         $('.slider-for').slick("slickSetOption", "touchMove", false);
+                        $('.slider-for').find(".slick-list").height("auto");
+                        // $('.slider-for').slickSetOption(null, null, true);
+                        // $('.slider-for').slick("slickSetOption", null, null, false);
                     }
 
                     $(v).data("real", vHtml);
@@ -820,15 +871,31 @@
                         $(v).html("NTT");
                     }
                 });
+
+                
+
+                dataPosiNow = dataCorona["Indonesia"].positive - oldCaseData["Indonesia"].positive;
+                dataCuredNow = dataCorona["Indonesia"].cured - oldCaseData["Indonesia"].cured;
+                dataDeathNow = dataCorona["Indonesia"].death - oldCaseData["Indonesia"].death;
+
+                if (dataPosiNow == 0) {
+                    dataPosiNow = "-";
+                }
+                if(dataCuredNow == 0) {
+                    dataCuredNow = "-";
+                }
+                if(dataDeathNow == 0) {
+                    dataDeathNow = "-";
+                }
                 
                 // console.log(res.data.oldDataSpread);
                 $("#updated_at").html(moment(dataCorona["Indonesia"].updated_at).format("dddd,  DD MMMM YYYY HH:mm"));
                 $("#txt_confirm").html(dataCorona["Indonesia"].positive);
                 $("#txt_death").html(dataCorona["Indonesia"].death);
                 $("#txt_cured").html(dataCorona["Indonesia"].cured);
-                $("#txt_confirm_increase").html(dataCorona["Indonesia"].positive - oldCaseData["Indonesia"].positive);
-                $("#txt_death_increase").html(dataCorona["Indonesia"].death - oldCaseData["Indonesia"].death);
-                $("#txt_cured_increase").html(dataCorona["Indonesia"].cured - oldCaseData["Indonesia"].cured);
+                $("#txt_confirm_increase").html(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_death_increase").html(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_cured_increase").html(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
                 counterAnimation();
             });
@@ -842,12 +909,6 @@
         //     $('#province_finder').val() == '';
         // });
 
-        
-
-        $('#province_finder').keypress((e) => {
-            provinceFinder(e);
-        })
-
         $('#province_finder').on('input', function() {
             if ($('#province_finder').val() == ''){
                 $('#alert_search').removeAttr('class');
@@ -856,7 +917,25 @@
                 $('.search-not-found').removeClass('d-none');
             }
 
+            if ('' == this.value) {
+                clearSuggest();
+            }
+
             $(last_selected).parent().addClass('card-active'); 
+            
+            suggestionFinder();
+        });
+
+        $('#province_finder').keypress((e) => {
+            provinceFinder(e);
+        });
+
+        document.addEventListener('click',(e) => {
+            let clickInside = document.getElementById("input_search").contains(e.target);
+            
+            if(!clickInside) {
+                clearSuggest();
+            }
             
         });
 
@@ -906,21 +985,49 @@
             if(arrayKey == 'Indonesia'){
                 $('.rs-rujukan').addClass('d-none');
                 $('#rs_rujukan').addClass('d-none');
+                $('.idn-data').addClass('d-none');
+                $('.data-angka').addClass('d-block');
+                $('.increase-val-data').addClass('top-0');
                 $('.slider-for').slick("slickSetOption", "accessibility", false);
                 $('.slider-for').slick("slickSetOption", "draggable", false);
                 $('.slider-for').slick("slickSetOption", "swipe", false);
                 $('.slider-for').slick("slickSetOption", "touchMove", false);
+                $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
+                // $('.slider-for').find(".slick-list").height("auto");
+                // $('.slider-for').slick("slickSetOption", null, null, false);
             }else{
                 $('.rs-rujukan').removeClass('d-none');
                 $('#rs_rujukan').removeClass('d-none');
+                $('.idn-data').addClass('mb-5px');
+                $('.idn-data').removeClass('d-none');
+                $('.data-angka').removeClass('d-block');
+                $('.increase-val-data').removeClass('top-0');
                 $('.slider-for').slick("slickSetOption", "accessibility", true);
                 $('.slider-for').slick("slickSetOption", "draggable", true);
                 $('.slider-for').slick("slickSetOption", "swipe", true);
                 $('.slider-for').slick("slickSetOption", "touchMove", true);
+                // $('.slider-for').find(".slick-list").height("auto");
+                // $('.slider-for').slick("slickSetOption", null, null, false);
             };
 
-            // $('.slider-for').find("slick-list").height("auto");
-            // $('.slider-for').slick(null, null, true);
+            persentaseOfTotalPosi = finalResultData.positive/dataCorona["Indonesia"].positive*100;
+            persentaseOfTotalCured = finalResultData.cured/dataCorona["Indonesia"].cured*100;
+            persentaseOfTotalDeath = finalResultData.death/dataCorona["Indonesia"].death*100;
+
+            dataPosiNow = finalResultData.positive - finalResultOldData.positive;
+            dataCuredNow = finalResultData.cured - finalResultOldData.cured;
+            dataDeathNow = finalResultData.death - finalResultOldData.death;
+
+            if (dataPosiNow == 0) {
+                dataPosiNow = "-";
+            }
+            if(dataCuredNow == 0) {
+                dataCuredNow = "-";
+            }
+            if(dataDeathNow == 0) {
+                dataDeathNow = "-";
+            }
+
             // console.log(dataCorona)
             $("#table_hospital").html(tableHospital);
             $("#card_hospital").html(cardHospital);
@@ -935,9 +1042,12 @@
             $("#txt_confirm").text(finalResultData.positive);
             $("#txt_cured").text(finalResultData.cured);
             $("#txt_death").text(finalResultData.death);
-            $("#txt_confirm_increase").text(finalResultData.positive - finalResultOldData.positive);
-            $("#txt_death_increase").text(finalResultData.death - finalResultOldData.death);
-            $("#txt_cured_increase").text(finalResultData.cured - finalResultOldData.cured);
+            $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
+            $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+            $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
 
             counterAnimation();
         });
@@ -978,7 +1088,7 @@
 
         // precision is 10 for 10ths, 100 for 100ths, etc.
         function roundUp(num, precision) {
-        return Math.ceil(num * precision) / precision
+            return Math.ceil(num * precision) / precision
         }
 
         let h = document.getElementById('data_kasus');
@@ -1019,6 +1129,12 @@
 
     });
 
+    function toastMessage() {
+        var toast = document.getElementById("snackbar");
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+    }
+
     function counterAnimation() {
         $('.count').each(function () {
             $(this).prop('Counter',0).animate({
@@ -1027,7 +1143,13 @@
                 duration: 375,
                 easing: 'swing',
                 step: function (now) {
-                    $(this).text(Math.ceil(now));
+                    var count = Math.ceil(now).toString();
+                    if(Number(count) > 999){
+                        while (/(\d+)(\d{3})/.test(count)) {
+                            count = count.replace(/(\d+)(\d{3})/, '$1' + '.' + '$2');
+                        }
+                    }
+                    $(this).text(count);
                 }
             });
         });
@@ -1067,110 +1189,383 @@
     }
 
     function provinceFinder(e) {
-            if (e.keyCode == 13){
-                var searchResult = "";
-                var oldData = "";
-                var c = 0;
-                var tableHospital = '';
-                cardHospital = '';
+        if (e.keyCode == 13) {
+            let tempArrayData = [];
+            var searchResult = "";
+            var oldData = "";
+            var c = 0;
+            var tableHospital = '';
+            cardHospital = '';
 
-                axios.get('{{ url("search-province") }}/' + $('#province_finder').val()).then((res) => {
-                    
-                    if (res.data == 0) {
-                        
-                        $( "#input_search" )
-                            .animate({ "left": "+=10px" }, 70 )
-                            .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
-                            .animate({ "left": "-=10px" }, 70 );
-                        $('.search-not-found').addClass('d-none');
-                        $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
-                        $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
-                        $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
+            axios
+            .get('{{ url("data-spread") }}'+`?query=${$('#province_finder').val()}`)
+            .then((res) => {
+                
+                var i = {!! json_encode($locations) !!};
+                    $.each(i, (k,v) => { 
+                    tempArrayData[v.name] = [];
+                });
 
-                    }else{
+                if (res.data.dataFinder == 0) {
+                
+                    $( "#input_search" )
+                        .animate({ "left": "+=10px" }, 70 )
+                        .animate({ "left": "-=15px" }, 70 ).animate({ "left": "+=15px" }, 70 )
+                        .animate({ "left": "-=10px" }, 70 );
+                    $('.search-not-found').addClass('d-none');
+                    $('#alert_search').addClass('alert alert-danger content-sm mt-3 row');
+                    $('#icon-alert-search').html('<i class="fa fa-exclamation-triangle" aria-hidden="true"></i>');
+                    $('#alert-search-not-found').html('Provinsi gak ditemukan, coba cari lagi.');
 
-                        $.each(res.data.dataSpread,(k, v) => {
+                } else {
+
+                    $.each(res.data.dataFinder.dataSpread,(k, v) => {
+
+                        if (v.name == "Indonesia") {
+                            $('.rs-rujukan').addClass('d-none');
+                            $('#alert_search').removeAttr('class');
+                            $('#icon-alert-search').html('');
+                            $('#alert-search-not-found').html('');
+                            $('.search-not-found').removeClass('d-none');
+                            $('.slider-for').slick("slickSetOption", "accessibility", false);
+                            $('.slider-for').slick("slickSetOption", "draggable", false);
+                            $('.slider-for').slick("slickSetOption", "swipe", false);
+                            $('.slider-for').slick("slickSetOption", "touchMove", false);
+                            $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
+                            $('.slider-for').find(".slick-list").height("auto");
+                            // $('.slider-for').slick("slickSetOption", null, null, false);
+                            searchResult = v;
                             
-                            if (v.name == "Indonesia") {
-                                $('.rs-rujukan').addClass('d-none');
-                                $('#alert_search').removeAttr('class');
-                                $('#icon-alert-search').html('');
-                                $('#alert-search-not-found').html('');
-                                $('.search-not-found').removeClass('d-none');
-                                searchResult = v;
-                                
-                            } else {
-                                $('.rs-rujukan').removeClass('d-none');
-                                $('#alert_search').removeAttr('class');
-                                $('#icon-alert-search').html('');
-                                $('#alert-search-not-found').html('');
-                                $('.search-not-found').removeClass('d-none');
-                                searchResult = v;
-                                
-                            }
-                        });
+                        } else {
+                            $('.rs-rujukan').removeClass('d-none');
+                            $('#alert_search').removeAttr('class');
+                            $('#icon-alert-search').html('');
+                            $('#alert-search-not-found').html('');
+                            $('.search-not-found').removeClass('d-none');
+                            $('.slider-for').slick("slickSetOption", "accessibility", true);
+                            $('.slider-for').slick("slickSetOption", "draggable", true);
+                            $('.slider-for').slick("slickSetOption", "swipe", true);
+                            $('.slider-for').slick("slickSetOption", "touchMove", true);
+                            $('.slider-for').find(".slick-list").height("auto");
+                            // $('.slider-for').slick("slickSetOption", null, null, false);
+                            searchResult = v;
+                            
+                        }
+
+
+                    // console.log(provinceName);
+                    });
+
+                    $.each(res.data.dataFinder.oldDataSpread,(k, v) => {
+                        oldData = v
+                    });
+                    
+                    $.each(res.data.dataSpread,(k, v) => {
+                        tempArrayData[v.name].push(v);
+                    });
+
+                    $.each(tempArrayData["Indonesia"], (k, v) => {
+                        totalCase = v;
+                    });
+                }
+
+                $.each($('.provinceSelector'), (k, v) => {
+                    if (searchResult.name == "Indonesia") {
+                        $('.idn-data').addClass('d-none');
+                        $('.data-angka').addClass('d-block');
+                        $('.increase-val-data').addClass('top-0');
+                    } else {
+                        $('.idn-data').addClass('mb-5px');
+                        $('.idn-data').removeClass('d-none');
+                        $('.data-angka').removeClass('d-block');
+                        $('.increase-val-data').removeClass('top-0');
                     }
 
-                    $.each($('.provinceSelector'), (k, v) => {
-                        if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
-                            $(v).parent().addClass('card-active'); 
-                            last_selected = v;
-                            swiper_province.slideTo(k, 500); 
-                        } else {
-                            $(v).parent().removeClass('card-active');       
-                        }
-                    });
-
-                    // console.log(searchResult);
-                    $.each(res.data.hospitalData,(k, v) => {
-                        if(v.loc_name == searchResult.name){
-                        
-                            c++;
-
-                            tableHospital +=`<tr>
-                                        <td>`+ c+`</td>
-                                        <td>`+ v.name_hospital +`</td>
-                                        <td>`+ v.address +`</td>
-                                        <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
-                                    </tr>`
-                            // hospitalCollection[c] = v;
-                            cardHospital +=`<div class="col-md-12 p-0 mb-15">
-                                        <div class="card card-data m-0">
-                                            <div class="card-body">
-                                                <div class ="col-md-12 p-0 my-15 mt-0">
-                                                    <h5 class="card-title">`+ v.name_hospital +`</h5>
-                                                    <p class="card-text sub-color">`+ v.address +`</p>
-                                                </div>
-                                                <a href="`+ v.link_map +`" class="btn btn-purple w-100 mt-0" target="_blank">Lihat Peta</a>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                        }
-                    });
-
-                    $("#table_hospital").html(tableHospital);
-                    $("#card_hospital").html(cardHospital);
-                    $("#call_center_name").html(searchResult.call_center_name);
-                    $("#hotline_name").html(searchResult.hotline_name);
-                    $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
-                    $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
-
-                    $("#txt_confirm").text(searchResult.positive);
-                    $("#txt_death").text(searchResult.cured);
-                    $("#txt_cured").text(searchResult.death);
-                    $("#txt_confirm_increase").text(res.data.dataSpread[0].positive - res.data.oldDataSpread[0].positive);
-                    $("#txt_death_increase").text(res.data.dataSpread[0].death - res.data.oldDataSpread[0].death);
-                    $("#txt_cured_increase").text(res.data.dataSpread[0].cured - res.data.oldDataSpread[0].cured);
-
-                    // last_selected = searchResult.name;
-
-                    counterAnimation();
-                    
+                    if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
+                        $(v).parent().addClass('card-active'); 
+                        last_selected = v;
+                        swiper_province.slideTo(k, 500); 
+                    } else {
+                        $(v).parent().removeClass('card-active');       
+                    }
                 });
-            }
+
+                $.each(res.data.dataFinder.hospitalData,(k, v) => {
+                    if(v.loc_name == searchResult.name) {
+                    
+                        c++;
+
+                        tableHospital +=`<tr>
+                                    <td>`+ c+`</td>
+                                    <td>`+ v.name_hospital +`</td>
+                                    <td>`+ v.address +`</td>
+                                    <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
+                                </tr>`;
+                        // hospitalCollection[c] = v;
+                        cardHospital +=`<div class="col-md-12 p-0 mb-15">
+                                    <div class="card card-data m-0">
+                                        <div class="card-body">
+                                            <div class ="col-md-12 p-0 my-15 mt-0">
+                                                <h5 class="card-title">`+ v.name_hospital +`</h5>
+                                                <p class="card-text sub-color">`+ v.address +`</p>
+                                            </div>
+                                            <a href="`+ v.link_map +`" class="btn btn-purple w-100 mt-0" target="_blank">Lihat Peta</a>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    }
+                });
+
+                persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
+                persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
+                persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
+                dataPosiNow = searchResult.positive - oldData.positive;
+                dataCuredNow = searchResult.cured - oldData.cured;
+                dataDeathNow = searchResult.death - oldData.death;
+
+                if (dataPosiNow == 0) {
+                    dataPosiNow = "-";
+                }
+                if(dataCuredNow == 0) {
+                    dataCuredNow = "-";
+                }
+                if(dataDeathNow == 0) {
+                    dataDeathNow = "-";
+                }
+
+                $("#table_hospital").html(tableHospital);
+                $("#card_hospital").html(cardHospital);
+                $("#call_center_name").html(searchResult.call_center_name);
+                $("#hotline_name").html(searchResult.hotline_name);
+                $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
+                $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
+
+                $("#txt_confirm").text(searchResult.positive);
+                $("#txt_death").text(searchResult.death);
+                $("#txt_cured").text(searchResult.cured);
+                $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+                $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+                $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
+                $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                last_selected = searchResult.name;
+
+                clearSuggest();
+                counterAnimation();
+            })
+            .catch(err => {
+                console.log(err);
+            });
         }
+    }
+
+    function suggestionFinder() {
+
+            axios
+            .get('{{ url("data-spread") }}'+`?query=${$('#province_finder').val()}`)
+            .then((res) => {
+
+                // console.log(res.data);
+                const countries = res.data.dataFinder.provinceLoc;
+
+                const searchInput = document.querySelector('.search-input');
+                const suggestionsPanel = document.querySelector('.province-suggest');
+
+                searchInput.addEventListener('keyup', () => {
+                    const input = searchInput.value;
+                    suggestionsPanel.innerHTML = '';
+                    const suggestions = countries.filter((country) => {
+                        return country.name.toLowerCase().startsWith(input) || country.name.toUpperCase().startsWith(input) || country.name.startsWith(input);
+                    });
+                    suggestions.forEach((suggested) => {
+                        const div = document.createElement('div');
+                        div.innerHTML = "<strong>" + suggested.name.substr(0, input.length) + "</strong>";
+                        div.innerHTML += suggested.name.substr(input.length);
+                        div.setAttribute("class", "suggest-finder");
+                        div.setAttribute('onclick', `suggestionClick('${suggested.name}')`);
+                        suggestionsPanel.appendChild(div);
+                    });
+
+                    document.querySelector("#input_search").style.borderBottomLeftRadius = "0px";
+                    document.querySelector("#input_search").style.borderBottomRightRadius = "0px";
+                    
+                    if (input === '' || suggestions < 1) {
+                        suggestionsPanel.innerHTML = ''; 
+                        document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+                        document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+                    }
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            });
+            
+    }
+
+    function clearSuggest() {
+        $(".province-suggest").empty();
+        document.querySelector("#input_search").style.borderBottomLeftRadius = "10px";
+        document.querySelector("#input_search").style.borderBottomRightRadius = "10px";
+    }
+
+    const suggestionClick = (param) => {
+        var tempArrayData = [];
+        var searchResult = "";
+        var oldData = "";
+        var c = 0;
+        var tableHospital = '';
+        cardHospital = '';
+
+        axios
+        .get('{{ url("data-spread") }}'+`?query=`+ param)
+        .then((res) => {
+
+            var i = {!! json_encode($locations) !!};
+                    $.each(i, (k,v) => { 
+                    tempArrayData[v.name] = [];
+                });
+
+            $.each(res.data.dataFinder.dataSpread,(k, v) => {
+
+                if (v.name == "Indonesia") {
+                    $('.rs-rujukan').addClass('d-none');
+                    $('#alert_search').removeAttr('class');
+                    $('#icon-alert-search').html('');
+                    $('#alert-search-not-found').html('');
+                    $('.search-not-found').removeClass('d-none');
+                    $('.slider-for').slick("slickSetOption", "accessibility", false);
+                    $('.slider-for').slick("slickSetOption", "draggable", false);
+                    $('.slider-for').slick("slickSetOption", "swipe", false);
+                    $('.slider-for').slick("slickSetOption", "touchMove", false);
+                    $('.slider-for').slick("slickSetOption", "adaptiveHeight", false);
+                    $('.slider-for').find(".slick-list").height("auto");
+                    // $('.slider-for').slick("slickSetOption", null, null, false);
+                    searchResult = v;
+                    
+                } else {
+                    $('.rs-rujukan').removeClass('d-none');
+                    $('#alert_search').removeAttr('class');
+                    $('#icon-alert-search').html('');
+                    $('#alert-search-not-found').html('');
+                    $('.search-not-found').removeClass('d-none');
+                    $('.slider-for').slick("slickSetOption", "accessibility", true);
+                    $('.slider-for').slick("slickSetOption", "draggable", true);
+                    $('.slider-for').slick("slickSetOption", "swipe", true);
+                    $('.slider-for').slick("slickSetOption", "touchMove", true);
+                    $('.slider-for').find(".slick-list").height("auto");
+                    // $('.slider-for').slick("slickSetOption", null, null, false);
+                    searchResult = v;
+                    
+                }
 
 
+            // console.log(provinceName);
+            });
+
+            $.each(res.data.dataFinder.oldDataSpread,(k, v) => {
+                oldData = v
+            });
+            
+            $.each(res.data.dataSpread,(k, v) => {
+                tempArrayData[v.name].push(v);
+            });
+
+            $.each(tempArrayData["Indonesia"], (k, v) => {
+                totalCase = v;
+            });
+
+            $.each($('.provinceSelector'), (k, v) => {
+                    if (searchResult.name == "Indonesia") {
+                        $('.idn-data').addClass('d-none');
+                        $('.data-angka').addClass('d-block');
+                        $('.increase-val-data').addClass('top-0');
+                    } else {
+                        $('.idn-data').addClass('mb-5px');
+                        $('.idn-data').removeClass('d-none');
+                        $('.data-angka').removeClass('d-block');
+                        $('.increase-val-data').removeClass('top-0');
+                    }
+
+                    if ($(v).html() == searchResult.name || $(v).data("real") == searchResult.name) {
+                        $(v).parent().addClass('card-active'); 
+                        last_selected = v;
+                        swiper_province.slideTo(k, 500); 
+                    } else {
+                        $(v).parent().removeClass('card-active');       
+                    }
+            });
+
+            $.each(res.data.dataFinder.hospitalData,(k, v) => {
+                    if(v.loc_name == searchResult.name) {
+                    
+                        c++;
+
+                        tableHospital +=`<tr>
+                                    <td>`+ c+`</td>
+                                    <td>`+ v.name_hospital +`</td>
+                                    <td>`+ v.address +`</td>
+                                    <td><a href="`+ v.link_map +`" class="btn btn-outline-purple mt-0" target="_blank">Lihat Peta</a></td>
+                                </tr>`;
+                        // hospitalCollection[c] = v;
+                        cardHospital +=`<div class="col-md-12 p-0 mb-15">
+                                    <div class="card card-data m-0">
+                                        <div class="card-body">
+                                            <div class ="col-md-12 p-0 my-15 mt-0">
+                                                <h5 class="card-title">`+ v.name_hospital +`</h5>
+                                                <p class="card-text sub-color">`+ v.address +`</p>
+                                            </div>
+                                            <a href="`+ v.link_map +`" class="btn btn-purple w-100 mt-0" target="_blank">Lihat Peta</a>
+                                        </div>
+                                    </div>
+                                </div>`;
+                    }
+                });
+
+                persentaseOfTotalPosi = searchResult.positive/totalCase.positive*100;
+                persentaseOfTotalCured = searchResult.cured/totalCase.cured*100;
+                persentaseOfTotalDeath = searchResult.death/totalCase.death*100;
+                dataPosiNow = searchResult.positive - oldData.positive;
+                dataCuredNow = searchResult.cured - oldData.cured;
+                dataDeathNow = searchResult.death - oldData.death;
+
+                if (dataPosiNow == 0) {
+                    dataPosiNow = "-";
+                }
+                if(dataCuredNow == 0) {
+                    dataCuredNow = "-";
+                }
+                if(dataDeathNow == 0) {
+                    dataDeathNow = "-";
+                }
+
+                $("#table_hospital").html(tableHospital);
+                $("#card_hospital").html(cardHospital);
+                $("#call_center_name").html(searchResult.call_center_name);
+                $("#hotline_name").html(searchResult.hotline_name);
+                $("#call_center_number").html(searchResult.call_center_number.replace(/\-/g, ' '));
+                $("#hot_line_number").html(searchResult.hotline_number.replace(/\-/g, ' '));
+
+                $("#txt_confirm").text(searchResult.positive);
+                $("#txt_death").text(searchResult.death);
+                $("#txt_cured").text(searchResult.cured);
+                $("#txt_confirm_idn").html(persentaseOfTotalPosi.toFixed(2).toString().replace(/\./g, ",")+"%");
+                $("#txt_cured_idn").html(persentaseOfTotalCured.toFixed(2).toString().replace(/\./g, ",")+"%");
+                $("#txt_death_idn").html(persentaseOfTotalDeath.toFixed(2).toString().replace(/\./g, ",")+"%");
+                $("#txt_confirm_increase").text(dataPosiNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_death_increase").text(dataDeathNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+                $("#txt_cured_increase").text(dataCuredNow.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."));
+
+                last_selected = searchResult.name;
+                counterAnimation();
+
+                $("#province_finder").val(param);
+                clearSuggest();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    }
 
 </script>
 @endsection

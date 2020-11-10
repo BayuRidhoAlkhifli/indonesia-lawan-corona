@@ -16,27 +16,46 @@ class HomeController extends Controller
 
     public function index() 
     {
-        $data = \DB::table('locations as a')
+        // $locations = \DB::table('locations as a')
+        // ->select(
+        //     'a.*',
+        //     'b.name_hotline_primary as call_center_name',
+        //     'b.hotline_number_primary as call_center_number',
+        //     'b.name_hotline_secondary as hotline_name',
+        //     'b.hotline_number_secondary as hotline_number',
+        //     'c.positive',
+        //     'c.updatedAt'
+        // )
+        // ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
+        // ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
+        // ->orderBy('c.updatedAt', 'desc')
+        // ->orderBy('c.positive', 'desc')
+        // // ->orderBy('a.name', 'asc')
+        // ->limit(35)
+        // ->get();
+        $locations = \DB::table('locations as a')
         ->select(
             'a.*',
             'b.name_hotline_primary as call_center_name',
             'b.hotline_number_primary as call_center_number',
             'b.name_hotline_secondary as hotline_name',
             'b.hotline_number_secondary as hotline_number',
-            'c.positive',
-            'c.updatedAt'
+            // 'c.positive',
+            // 'c.updatedAt'
         )
         ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
-        ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
-        ->orderBy('c.updatedAt', 'desc')
-        ->orderBy('c.positive', 'desc')
+        // ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
+        ->distinct('a.name')
+        ->orderBy('a.name', 'asc')
+        // ->orderBy('c.updatedAt', 'desc')
         // ->orderBy('a.name', 'asc')
         ->limit(35)
         ->get();
 
+
         // dd($data);
         return view('pages.home', [
-            'data'          => $data
+            'locations'          => $locations
         ]);
     }
 
@@ -45,7 +64,7 @@ class HomeController extends Controller
         return view('pages.news');
     }
 
-    public function getDataSpread()
+    public function getDataSpread(Request $req)
     {
         $dataSpread = \DB::table('locations as a')
         ->select(
@@ -66,6 +85,8 @@ class HomeController extends Controller
         ->limit(35)
         ->get();
 
+
+
         $oldDataSpread = \DB::table('daily_data as a')
         ->select(
                 'a.positive',
@@ -75,7 +96,7 @@ class HomeController extends Controller
                 'b.name as loc_name'
         )
         ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-        ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime( '-7 day' )),date("Y-m-d", strtotime( 'now' ))])
+        ->where('a.updatedAt', '<', date("Y-m-d", strtotime( '-1 day' )))
         ->orderBy('a.updatedAt', 'desc')
         ->limit(35)
         ->get();
@@ -92,12 +113,17 @@ class HomeController extends Controller
         return $data = [
             'dataSpread'    => $dataSpread,
             'oldDataSpread' => $oldDataSpread,
-            'hospitalData'  => $hospitalData
+            'hospitalData'  => $hospitalData,
+            'dataFinder' => ($req->filled('query') ? $this->searchProvince($req->get('query')) : [])
         ];
     }
 
     public function searchProvince($province_name) 
     {   
+        $provinceLoc = \DB::table('locations')
+            ->where('name', 'like', '%'.$province_name.'%')
+            ->get();
+            
         $dataSpread = \DB::table('locations as a')
             ->select(
                 'a.name',
@@ -109,9 +135,9 @@ class HomeController extends Controller
             )
             ->leftJoin('hotline_number as b', 'a.hotline_id', '=', 'b.id')
             ->leftJoin('daily_data as c', 'a.id', '=', 'c.provinceCode')
+            ->distinct()
             ->where('a.name', 'like', '%'.$province_name.'%')
-            ->orderBy('c.updatedAt', 'desc')
-            ->limit(1);
+            ->orderBy('c.updatedAt', 'asc');
 
         $oldDataSpread = \DB::table('daily_data as a')
             ->select(
@@ -122,10 +148,9 @@ class HomeController extends Controller
                 'b.name as loc_name'
             )
             ->leftJoin('locations as b', 'a.provinceCode', '=', 'b.id')
-            ->whereBetween('a.updatedAt', [date("Y-m-d", strtotime('-7 day')),date("Y-m-d", strtotime('now'))])
+            ->where('a.updatedAt', '<', date("Y-m-d", strtotime( '-1 day' )))
             ->where('b.name', 'like', '%'.$province_name.'%')
-            ->orderBy('a.updatedAt', 'desc')
-            ->limit(1)
+            ->orderBy('a.updatedAt', 'asc')
             ->get();
 
 
@@ -147,6 +172,7 @@ class HomeController extends Controller
 
         // dd($hospitalData);
         return $data = [
+            'provinceLoc'    => $provinceLoc,
             'dataSpread'    => $dataSpread,
             'oldDataSpread' => $oldDataSpread,
             'hospitalData'  => $hospitalData
